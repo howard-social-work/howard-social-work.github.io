@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Howard Chang｜知識・實踐・助人</title>
+  <meta name="description" content="社會工作與諦商心理的實務科學家，知識型創作者。">
+  <meta name="author" content="Howard Chang">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!--
+    字體設定：
+    Cormorant Garamond → 英文標題字體（優雅學術感）
+    Manrope            → 英文無襯綫字體（知識版圖標簽 / 小標签用）
+    DM Mono            → 等寬字體（導航 / 標記文字）
+    中文字體    → Microsoft JhengHei (Windows) / PingFang TC (Mac/iOS) / Heiti TC (備用)
+  -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #F8F6F1;
+      --ink:      #1A1916;
+      --ink-mid:  #4A4843;
+      --ink-lite: #8C8982;
+      --accent:   #6B4F3A;
+      --border:   #DEDAD3;
+      /* 英文字體 */
+      --serif-en: 'Cormorant Garamond', Georgia, serif;
+      --sans-en:  'Manrope', 'Helvetica Neue', sans-serif;
+      --mono:     'DM Mono', 'Courier New', monospace;
+      /* 中文字體：微軟正黑體 (Win) → PingFang TC (Mac) → Heiti TC (備用) */
+      --zh:       'Microsoft JhengHei', '微軟正黑體', 'PingFang TC', 'Heiti TC', sans-serif;
+      --max-w:    720px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 17px; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--zh); font-weight: 400; line-height: 1.8; }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 2rem; }
+
+    /* --- Nav --- */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(248,246,241,.92); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .container { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-name { font-family: var(--serif-en); font-size: 1.05rem; font-weight: 400; letter-spacing: .04em; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-family: var(--mono); font-size: .72rem; font-weight: 300; letter-spacing: .08em; color: var(--ink-mid); text-decoration: none; text-transform: uppercase; transition: color .2s; }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* --- Hero --- */
+    #hero { padding-top: calc(56px + 7rem); padding-bottom: 7rem; border-bottom: 1px solid var(--border); }
+    .eyebrow { font-family: var(--mono); font-size: .7rem; letter-spacing: .16em; color: var(--accent); text-transform: uppercase; margin-bottom: 2rem; }
+    .name-en { font-family: var(--serif-en); font-size: clamp(2.8rem,6vw,4.5rem); font-weight: 300; line-height: 1.1; letter-spacing: -.01em; margin-bottom: .15em; }
+    .name-zh { font-family: var(--zh); font-size: clamp(1.1rem,2.5vw,1.4rem); font-weight: 300; color: var(--ink-mid); letter-spacing: .12em; margin-bottom: 4rem; }
+    .statement { max-width: 560px; font-size: 1.05rem; font-weight: 300; line-height: 1.9; color: var(--ink-mid); }
+    .statement em { font-family: var(--serif-en); font-style: italic; font-size: 1rem; color: var(--ink); }
+    .tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 2rem; }
+    .tag { font-family: var(--mono); font-size: .65rem; letter-spacing: .1em; color: var(--ink-lite); border: 1px solid var(--border); padding: .25rem .65rem; border-radius: 2px; text-transform: uppercase; }
+
+    /* --- Section shared --- */
+    section { padding: 7rem 0; border-bottom: 1px solid var(--border); }
+    section:last-of-type { border-bottom: none; }
+    .sec-label { font-family: var(--mono); font-size: .68rem; letter-spacing: .18em; color: var(--accent); text-transform: uppercase; margin-bottom: 2rem; }
+    .sec-title { font-family: var(--serif-en); font-size: clamp(1.6rem,3.5vw,2.2rem); font-weight: 400; line-height: 1.25; margin-bottom: 1rem; }
+    .sec-sub { font-family: var(--zh); font-size: .9rem; color: var(--ink-mid); letter-spacing: .06em; margin-bottom: 4rem; }
+
+    /* --- About --- */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .about-text p { font-family: var(--zh); font-size: .96rem; line-height: 1.95; color: var(--ink-mid); margin-bottom: 1rem; }
+    .about-text strong { font-weight: 600; color: var(--ink); }
+    .sidebar { border-left: 2px solid var(--border); padding-left: 2rem; }
+    .sitem { margin-bottom: 2rem; }
+    .sitem-label { font-family: var(--mono); font-size: .62rem; letter-spacing: .14em; color: var(--ink-lite); text-transform: uppercase; margin-bottom: .3rem; }
+    .sitem-val { font-family: var(--zh); font-size: .88rem; color: var(--ink); line-height: 1.6; }
+
+    /* --- Works --- */
+    .work-item { display: grid; grid-template-columns: 80px 1fr; gap: 2rem; padding: 2rem 0; border-top: 1px solid var(--border); text-decoration: none; color: inherit; transition: opacity .2s; }
+    .work-item:first-child { border-top: none; }
+    .work-item:hover { opacity: .6; }
+    .work-meta { display: flex; flex-direction: column; align-items: flex-end; padding-top: .15rem; }
+    .work-date { font-family: var(--mono); font-size: .62rem; color: var(--ink-lite); }
+    .work-cat { font-family: var(--mono); font-size: .58rem; color: var(--accent); text-transform: uppercase; margin-top: .4rem; }
+    .work-title { font-family: var(--zh); font-size: 1rem; font-weight: 500; line-height: 1.4; margin-bottom: .4rem; }
+    .work-exc { font-family: var(--zh); font-size: .83rem; color: var(--ink-mid); line-height: 1.7; }
+
+    /* --- Domains (grouped) --- */
+    .dgroup { margin-bottom: 3rem; }
+    .dgroup:last-child { margin-bottom: 0; }
+    .dgroup-hdr { display: flex; align-items: baseline; gap: 1rem; padding-bottom: .6rem; border-bottom: 1px solid var(--border); margin-bottom: .75rem; }
+    .dgroup-num { font-family: var(--mono); font-size: .6rem; color: var(--ink-lite); }
+    .dgroup-zh { font-family: var(--zh); font-size: .88rem; font-weight: 500; color: var(--ink); }
+    /* ★ Manrope 不用斜體 */
+    .dgroup-en { font-family: var(--sans-en); font-size: .75rem; font-weight: 300; font-style: normal; color: var(--ink-lite); }
+    .dtiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+    .dtile { padding: .75rem 1rem; border: 1px solid var(--border); position: relative; transition: border-color .2s, background .15s; }
+    .dtile:hover { border-color: var(--ink-lite); background: rgba(107,79,58,.03); }
+    .dtile::before { content: ''; position: absolute; left: -1px; top: 0; bottom: 0; width: 2px; background: var(--accent); opacity: 0; transition: opacity .2s; }
+    .dtile:hover::before { opacity: 1; }
+    .dtile-zh { font-family: var(--zh); font-size: .85rem; font-weight: 500; margin-bottom: .2rem; }
+    /* ★ Manrope 不用斜體 */
+    .dtile-en { font-family: var(--sans-en); font-size: .7rem; font-weight: 300; font-style: normal; color: var(--ink-lite); }
+
+    /* --- Contact --- */
+    .contact-stmt { font-family: var(--serif-en); font-size: clamp(1.2rem,3vw,1.6rem); font-weight: 300; font-style: italic; line-height: 1.5; color: var(--ink-mid); max-width: 480px; margin-bottom: 4rem; }
+    .clinks { display: flex; flex-direction: column; gap: 1rem; }
+    .clink { display: flex; align-items: center; gap: 1rem; text-decoration: none; color: var(--ink); transition: color .2s; width: fit-content; }
+    .clink:hover { color: var(--accent); }
+    .clink-label { font-family: var(--mono); font-size: .65rem; letter-spacing: .12em; color: var(--ink-lite); text-transform: uppercase; min-width: 80px; }
+    .clink-val { font-family: var(--zh); font-size: .9rem; }
+
+    /* --- Footer --- */
+    footer { padding: 2rem 0; border-top: 1px solid var(--border); }
+    footer .container { display: flex; align-items: center; justify-content: space-between; }
+    .ft { font-family: var(--mono); font-size: .62rem; color: var(--ink-lite); letter-spacing: .08em; }
+
+    /* --- Back to top --- */
+    .btt { position: fixed; bottom: 2rem; right: 2rem; width: 38px; height: 38px; border: 1px solid var(--border); background: var(--bg); color: var(--ink-mid); font-size: 1rem; display: flex; align-items: center; justify-content: center; text-decoration: none; opacity: 0; pointer-events: none; transition: opacity .3s, color .2s, border-color .2s; }
+    .btt.visible { opacity: 1; pointer-events: auto; }
+    .btt:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* --- Fade-in --- */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:none; } }
+    .fi { animation: fadeUp .7s ease forwards; opacity: 0; }
+    .fi:nth-child(1){animation-delay:.10s} .fi:nth-child(2){animation-delay:.22s}
+    .fi:nth-child(3){animation-delay:.34s} .fi:nth-child(4){animation-delay:.46s}
+
+    /* --- Responsive --- */
+    @media(max-width:600px){
+      .about-grid{grid-template-columns:1fr}
+      .sidebar{border-left:none;border-top:1px solid var(--border);padding-left:0;padding-top:2rem}
+      .dtiles{grid-template-columns:1fr 1fr}
+      .nav-links{display:none}
+      footer .container{flex-direction:column;gap:.5rem;align-items:flex-start}
+    }
+    @media(max-width:420px){ .dtiles{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <a href="#hero" class="nav-name">Howard Chang</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#works">Writing</a></li>
+      <li><a href="#domains">Domains</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ====== Hero ====== -->
+<section id="hero">
+  <div class="container">
+    <p class="eyebrow fi">Social Worker &middot; Knowledge Creator &middot; Researcher</p>
+    <!-- ★ 請替換成你的英文名 -->
+    <h1 class="name-en fi">Howard Chang</h1>
+    <!-- ★ 請替換成你的中文全名 -->
+    <p class="name-zh fi">張×× &vert; 知識&middot;實踐&middot;助人</p>
+    <p class="statement fi">
+      深耕<em>social work</em>與<em>counselling psychology</em>的雙軌實踐者。
+      關注心理衛生、社區助人與知識生產，
+      致力將所學、所思、所歷，轉化為可被閱讀、可被傳遞的文字與作品。
+    </p>
+    <div class="tags fi">
+      <span class="tag">Social Work</span>
+      <span class="tag">Counselling Psychology</span>
+      <span class="tag">Mental Health</span>
+      <span class="tag">Community Practice</span>
+      <span class="tag">Knowledge Creation</span>
+    </div>
+  </div>
+</section>
+
+<!-- ====== About ====== -->
+<section id="about">
+  <div class="container">
+    <p class="sec-label">About</p>
+    <h2 class="sec-title">關於我</h2>
+    <p class="sec-sub">Background &amp; Vision</p>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>我是<strong>東海大學社會工作學系</strong>的學士，同時也是一個在存在性困境中重新找到方向的人。在大學中途，我曾選擇休學兩年，在孤獨與自學中思索生命的方向。那段經歷，讓我確認了自己深深屬於助人的領域。</p>
+        <p>我的核心關注涵蓋<strong>心理衛生社會工作</strong>、<strong>諦商心理學</strong>，以及精神疾患、物質濫用、司法矯治、自殺防治等交織性議題。我相信實務與學術不是對立的兩端，而是互為滋養的雙螺旋。</p>
+        <p>除了助人實踐，我也是個嘗試用文字建構意義的<strong>知識型創作者</strong>，受 Naval Ravikant 的思想啟發，致力將 <em>specific knowledge</em> 轉化為可被他人閱讀和使用的形式。</p>
+      </div>
+      <div class="sidebar">
+        <div class="sitem">
+          <p class="sitem-label">Currently</p>
+          <p class="sitem-val">東海大學社工系四年級<br>實習實務工作者<br>知識型自媒體建構中</p>
+        </div>
+        <div class="sitem">
+          <p class="sitem-label">Location</p>
+          <p class="sitem-val">臺灣&middot;臺中市</p>
+        </div>
+        <div class="sitem">
+          <p class="sitem-label">Interests</p>
+          <p class="sitem-val">Mental Health SW<br>Philosophy of Existence<br>Knowledge Creation<br>Personal Finance</p>
+        </div>
+        <div class="sitem">
+          <p class="sitem-label">Language</p>
+          <p class="sitem-val">中文 &middot; English</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Works ====== -->
+<section id="works">
+  <div class="container">
+    <p class="sec-label">Writing &amp; Works</p>
+    <h2 class="sec-title">文章&middot;作品</h2>
+    <p class="sec-sub">Essays, Notes &amp; Knowledge Outputs</p>
+
+    <!--
+      ★ 新增文章：復製下面的 work-item 區塊，修改標題和摘要。
+      將 href 改為實際的 .html 檔案路徑，例： href="articles/檔名.html"
+      尚未發佈的文章先用 href="#" 占位
+    -->
+
+    <!-- ★ 第一篇文章：修改此模板後將 href 指向實際檔案 -->
+    <a href="articles/why-helpers-need-to-build.html" class="work-item">
+      <div class="work-meta">
+        <span class="work-date">2026</span>
+        <span class="work-cat">Essay</span>
+      </div>
+      <div>
+        <p class="work-title">為什麼助人工作者也需要「建造」的能力？</p>
+        <p class="work-exc">從 Naval Ravikant 的財富自由哲學，重新理解助人者的知識生產使命。</p>
+      </div>
+    </a>
+
+    <a href="#" class="work-item">
+      <div class="work-meta">
+        <span class="work-date">2026</span>
+        <span class="work-cat">Practice Note</span>
+      </div>
+      <div>
+        <p class="work-title">社區心理衛生社工的第一線觀察</p>
+        <p class="work-exc">實習期間的田野筆記：精神疾患、物質濫用與脆弱家庭的交織現場。</p>
+      </div>
+    </a>
+
+    <a href="#" class="work-item">
+      <div class="work-meta">
+        <span class="work-date">2025</span>
+        <span class="work-cat">Reflection</span>
+      </div>
+      <div>
+        <p class="work-title">休學兩年，我學到了什麼？</p>
+        <p class="work-exc">存在性焦慮、生命無意義感，與重新找到使命的漫長過程。</p>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ====== Domains ====== -->
+<section id="domains">
+  <div class="container">
+    <p class="sec-label">Intellectual Map</p>
+    <h2 class="sec-title">知識版圖</h2>
+    <p class="sec-sub">四層同心圓架構：實務核心 &rarr; 議題交織 &rarr; 學術涵養 &rarr; 創造與生活</p>
+
+    <!--
+      ★★ 分組訪明：
+      - 新增方塊：在對應的 dtiles 內複製一個 .dtile 區塊
+      - 新增分組：複製整個 .dgroup 區塊
+      - 刪除方塊：對應的 .dtile 區塊直接刪除
+    -->
+
+    <!-- 01 實務核心專業 -->
+    <div class="dgroup">
+      <div class="dgroup-hdr">
+        <span class="dgroup-num">01</span>
+        <span class="dgroup-zh">實務核心專業</span>
+        <span class="dgroup-en">Core Practice Disciplines</span>
+      </div>
+      <div class="dtiles">
+        <div class="dtile"><p class="dtile-zh">社會工作學</p><p class="dtile-en">Social Work</p></div>
+        <div class="dtile"><p class="dtile-zh">諦商心理學</p><p class="dtile-en">Counselling Psychology</p></div>
+        <div class="dtile"><p class="dtile-zh">心理衛生社會工作</p><p class="dtile-en">Mental Health Social Work</p></div>
+      </div>
+    </div>
+
+    <!-- 02 議題交織領域 -->
+    <div class="dgroup">
+      <div class="dgroup-hdr">
+        <span class="dgroup-num">02</span>
+        <span class="dgroup-zh">議題交織領域</span>
+        <span class="dgroup-en">Intersecting Issue Domains</span>
+      </div>
+      <div class="dtiles">
+        <div class="dtile"><p class="dtile-zh">精神疾患與物質濫用</p><p class="dtile-en">Psychiatry &amp; Substance Use</p></div>
+        <div class="dtile"><p class="dtile-zh">自殺防治</p><p class="dtile-en">Suicide Prevention</p></div>
+        <div class="dtile"><p class="dtile-zh">司法矯治</p><p class="dtile-en">Forensic Social Work</p></div>
+        <div class="dtile"><p class="dtile-zh">暴力保護與社安網</p><p class="dtile-en">Protection &amp; Safety Net</p></div>
+        <div class="dtile"><p class="dtile-zh">身心障磙與脆弱家庭</p><p class="dtile-en">Disability &amp; Vulnerable Families</p></div>
+      </div>
+    </div>
+
+    <!-- 03 學術思想涵養 -->
+    <div class="dgroup">
+      <div class="dgroup-hdr">
+        <span class="dgroup-num">03</span>
+        <span class="dgroup-zh">學術思想涵養</span>
+        <span class="dgroup-en">Academic &amp; Intellectual Foundations</span>
+      </div>
+      <div class="dtiles">
+        <div class="dtile"><p class="dtile-zh">哲學・存在主義</p><p class="dtile-en">Philosophy &amp; Existentialism</p></div>
+        <div class="dtile"><p class="dtile-zh">社會學・人類學</p><p class="dtile-en">Sociology &amp; Anthropology</p></div>
+        <div class="dtile"><p class="dtile-zh">心理學・神經科學</p><p class="dtile-en">Psychology &amp; Neuroscience</p></div>
+        <div class="dtile"><p class="dtile-zh">法律學・歷史學</p><p class="dtile-en">Law &amp; History</p></div>
+        <div class="dtile"><p class="dtile-zh">經濟學・社會福利</p><p class="dtile-en">Economics &amp; Social Welfare</p></div>
+      </div>
+    </div>
+
+    <!-- 04 創造與生活實踐 -->
+    <div class="dgroup">
+      <div class="dgroup-hdr">
+        <span class="dgroup-num">04</span>
+        <span class="dgroup-zh">創造與生活實踐</span>
+        <span class="dgroup-en">Creation &amp; Life Practice</span>
+      </div>
+      <div class="dtiles">
+        <div class="dtile"><p class="dtile-zh">知識生產・自媒體</p><p class="dtile-en">Knowledge Creation &amp; Media</p></div>
+        <div class="dtile"><p class="dtile-zh">個人財務・財富自由</p><p class="dtile-en">Personal Finance &amp; Independence</p></div>
+        <div class="dtile"><p class="dtile-zh">創新與創投思維</p><p class="dtile-en">Innovation &amp; Venture Thinking</p></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====== Contact ====== -->
+<section id="contact">
+  <div class="container">
+    <p class="sec-label">Contact</p>
+    <p class="contact-stmt">
+      &ldquo;If you have a question, a collaboration idea,<br>
+      or simply want to think together &mdash;<br>
+      I&rsquo;m here.&rdquo;
+    </p>
+    <div class="clinks">
+      <!-- ★ 請替換成你真實的联絡方式，沒有的平台就削除對應 <a> 區塊 -->
+      <a href="mailto:your@email.com" class="clink"><span class="clink-label">Email</span><span class="clink-val">your@email.com</span></a>
+      <a href="https://threads.net/@yourhandle" target="_blank" rel="noopener" class="clink"><span class="clink-label">Threads</span><span class="clink-val">@yourhandle</span></a>
+      <a href="https://instagram.com/yourhandle" target="_blank" rel="noopener" class="clink"><span class="clink-label">Instagram</span><span class="clink-val">@yourhandle</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p class="ft">&copy; 2026 Howard Chang. All rights reserved.</p>
+    <p class="ft">Built with care &middot; Hosted on GitHub Pages</p>
+  </div>
+</footer>
+
+<a href="#hero" class="btt" id="btt">&uarr;</a>
+<script>
+  const b = document.getElementById('btt');
+  window.addEventListener('scroll', () => b.classList.toggle('visible', scrollY > 300));
+</script>
+</body>
+</html>
