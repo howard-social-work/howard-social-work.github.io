@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--
+    ★★★ 文章頁面模板——使用說明 ★★★
+    =========================================================
+    每次要發佈新文章，請按以下步驟操作：
+
+    1. 在 GitHub Repository 裡建一個名為 "articles" 的資料夾（如果還沒有）
+    2. 複製這個檔案，依文章主題命名新檔案
+       例：articles/why-helpers-need-to-build.html
+    3. 修改下方標記 ★ 的所有區域
+    4. 在 index.html 的 work-item 中，將 href="#" 改為對應的檔案路徑
+    =========================================================
+  -->
+
+  <!-- ★ 修改主選項目的標題：「文章標題 | Howard Chang」 -->
+  <title>文章標題 | Howard Chang</title>
+  <!-- ★ 修改 description 為這篇文章的摘要（對 Google 搜尋收錄非常重要） -->
+  <meta name="description" content="這裡填入文章摘要，100–2 160 字元為佳。">
+  <meta name="author" content="Howard Chang">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Manrope:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:       #F8F6F1;
+      --ink:      #1A1916;
+      --ink-mid:  #4A4843;
+      --ink-lite: #8C8982;
+      --accent:   #6B4F3A;
+      --border:   #DEDAD3;
+      --serif-en: 'Cormorant Garamond', Georgia, serif;
+      --sans-en:  'Manrope', 'Helvetica Neue', sans-serif;
+      --mono:     'DM Mono', 'Courier New', monospace;
+      --zh:       'Microsoft JhengHei', '微軟正黑體', 'PingFang TC', 'Heiti TC', sans-serif;
+      --max-w:    680px;   /* 文章頁面的最大寬度比首頁稍窄，提升閱讀流暢感 */
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 17px; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--zh); font-weight: 400; line-height: 1.8; }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 2rem; }
+
+    /* ---- Nav (和首頁一致) ---- */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(248,246,241,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+    nav .inner { max-width: 720px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-name { font-family: var(--serif-en); font-size: 1.05rem; font-weight: 400; letter-spacing: .04em; color: var(--ink); text-decoration: none; }
+    .nav-back { font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; color: var(--ink-mid); text-decoration: none; text-transform: uppercase; transition: color .2s; }
+    .nav-back:hover { color: var(--accent); }
+
+    /* ---- 文章標頭區 ---- */
+    .article-header {
+      padding-top: calc(56px + 5rem);
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* 文章分類標簽 */
+    .article-cat {
+      font-family: var(--mono);
+      font-size: .68rem;
+      letter-spacing: .18em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    /* 文章主標題 */
+    .article-title {
+      font-family: var(--serif-en);
+      font-size: clamp(1.9rem, 5vw, 2.8rem);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -.01em;
+      margin-bottom: 1rem;
+    }
+
+    /* 中文副標題（可選） */
+    .article-subtitle {
+      font-family: var(--zh);
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--ink-mid);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    /* 時間與適讀時間列 */
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      font-family: var(--mono);
+      font-size: .65rem;
+      color: var(--ink-lite);
+      letter-spacing: .08em;
+    }
+
+    .article-meta span::before { content: ''; }
+
+    /* ---- 文章正文區 ---- */
+    .article-body {
+      padding: 4rem 0;
+    }
+
+    /* 正文段落 */
+    .article-body p {
+      font-family: var(--zh);
+      font-size: 1rem;
+      line-height: 2.0;
+      color: var(--ink-mid);
+      margin-bottom: 1.8rem;
+    }
+
+    /* 文章內的 h2 小標題 */
+    .article-body h2 {
+      font-family: var(--serif-en);
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-top: 3.5rem;
+      margin-bottom: 1.2rem;
+      padding-bottom: .5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* 文章內的 h3 小小標題 */
+    .article-body h3 {
+      font-family: var(--zh);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-top: 2.5rem;
+      margin-bottom: .8rem;
+    }
+
+    /* 引用區塊樣式 */
+    .article-body blockquote {
+      border-left: 3px solid var(--accent);
+      margin: 2.5rem 0;
+      padding: 1rem 1.5rem;
+      font-family: var(--serif-en);
+      font-size: 1.15rem;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--ink-mid);
+      line-height: 1.7;
+    }
+
+    /* 文章內的超連結 */
+    .article-body a {
+      color: var(--ink);
+      text-decoration: underline;
+      text-decoration-color: var(--border);
+      text-underline-offset: 3px;
+      transition: text-decoration-color .2s;
+    }
+
+    .article-body a:hover { text-decoration-color: var(--accent); }
+
+    /* 文章內的圖片 */
+    .article-body img {
+      width: 100%;
+      margin: 2.5rem 0 .75rem;
+      display: block;
+    }
+
+    /* 圖片說明文字 */
+    .article-body figcaption {
+      font-family: var(--mono);
+      font-size: .65rem;
+      color: var(--ink-lite);
+      letter-spacing: .06em;
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+
+    /* 強調文字 */
+    .article-body strong { font-weight: 600; color: var(--ink); }
+
+    /* 英文斜體 */
+    .article-body em { font-family: var(--serif-en); font-style: italic; font-size: .98rem; color: var(--ink); }
+
+    /* ---- 文章尾聲（作者卡） ---- */
+    .article-footer {
+      padding: 3rem 0;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .author-info-name {
+      font-family: var(--zh);
+      font-size: .95rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .author-info-bio {
+      font-family: var(--zh);
+      font-size: .82rem;
+      color: var(--ink-mid);
+      line-height: 1.6;
+      margin-top: .2rem;
+    }
+
+    .author-home {
+      font-family: var(--mono);
+      font-size: .65rem;
+      letter-spacing: .1em;
+      color: var(--accent);
+      text-decoration: none;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-top: .5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1px;
+    }
+
+    .author-home:hover { border-color: var(--accent); }
+
+    /* ---- Site footer ---- */
+    .site-footer { padding: 2rem 0; border-top: 1px solid var(--border); }
+    .site-footer .inner { max-width: 720px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; }
+    .ft { font-family: var(--mono); font-size: .62rem; color: var(--ink-lite); }
+
+    @media(max-width:600px){
+      .article-footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ---- 導覽列 ---- -->
+<nav>
+  <div class="inner">
+    <a href="../index.html" class="nav-name">Howard Chang</a>
+    <a href="../index.html#works" class="nav-back">&larr; All Writing</a>
+  </div>
+</nav>
+
+<!-- ================================================================
+     文章標頭區
+     ★ 請修改以下四個區域：分類、主標題、副標題、年份
+     ================================================================ -->
+<header class="article-header">
+  <div class="container">
+    <!-- ★ 分類標簽（例：Essay / Practice Note / Reflection / Research Note） -->
+    <p class="article-cat">Essay</p>
+
+    <!-- ★ 文章英文主標題 -->
+    <h1 class="article-title">Why Helpers Also Need to Build</h1>
+
+    <!-- ★ 中文副標題（可選，不需要就削除這行） -->
+    <p class="article-subtitle">從 Naval Ravikant 的財富自由哲學，重新理解助人者的知識生產使命</p>
+
+    <!-- ★ 發佈日期與適讀時間 -->
+    <div class="article-meta">
+      <span>2026 &middot; March</span>
+      <span>8 min read</span>
+    </div>
+  </div>
+</header>
+
+<!-- ================================================================
+     文章正文區
+     ★★ 這裡是你時時書寫的地方。
+     可以自由使用以下標簽：
+       <p>         → 一般段落
+       <h2>        → 主要小標（會出現分隔線）
+       <h3>        → 次要小標
+       <blockquote>→ 引用區塊（英文斜體，左側有色強調線）
+       <figure>    → 圖片 + 說明文字
+       <strong>    → 加粗強調
+       <em>        → 英文斜體強調
+       <a href="">→ 超連結
+     ================================================================ -->
+<main>
+  <article class="article-body">
+    <div class="container">
+
+      <!-- === 段落範例開始：請從這裡開始實際書寫你的文章 === -->
+
+      <p>
+        我在實習期間曾經問一位纓深資歷的社工督導：「我們對案主做了這麼多，為什麼社會不將我們的工作看在眼山？」這個問題那時沒有給我任何答案。但它从此不曾離開我。
+      </p>
+
+      <p>
+        後來，我在 Naval Ravikant 的訪談諠和 <em>The Almanack of Naval Ravikant</em> 裡發現了一個讓我重新思考這個問題的框架：<strong>財富和影響力，來自「特定知識」與「建造能力」的交叉點。</strong>
+      </p>
+
+      <h2>What Is Specific Knowledge?</h2>
+
+      <p>
+        Naval 對 <em>specific knowledge</em> 的定義是：一種無法被訓練、只能被累積的知識。它往往與你獨特的人生經歷緊密總繞。
+      </p>
+
+      <blockquote>
+        "Specific knowledge is found by pursuing your genuine curiosity and passion rather than whatever is hot right now."
+      </blockquote>
+
+      <p>
+        對於一個學社工的我而言，特定知識不是「瓦确斯山（Maslow）需求層次分析」這種可以被訓練的東西，而是我在兩年閃關自學中真實筋璐過存在焦慮的角度、重返助人實務的內在驅動、以及用文字整理思維的工作方式。
+      </p>
+
+      <h2>建造能力與助人實踐，並不矛盾</h2>
+
+      <p>
+        說到這裡，也許你會和當年的我一樣，感到一種認知上的碰撞感：「我是助人的，我不是要㹐連系人㹑的。」但正是這種思維，讓導致社會工作專業的知識常常個人死、影響力消進。
+      </p>
+
+      <!-- 圖片範例（用時再開啟）
+      <figure>
+        <img src="../images/檔名.jpg" alt="圖片說明文字">
+        <figcaption>圖片說明文字放這裡</figcaption>
+      </figure>
+      -->
+
+      <!-- === 繼續屬於你的文章內容 === -->
+
+    </div>
+  </article>
+</main>
+
+<!-- ---- 文章尾聲（作者卡） ---- -->
+<section class="article-footer">
+  <div class="container" style="display:flex;align-items:center;gap:1.5rem;">
+    <div>
+      <!-- ★ 替換成你的名字和對外一句話的自我介紹 -->
+      <p class="author-info-name">Howard Chang ｜ 張××</p>
+      <p class="author-info-bio">社會工作與諦商心理的實務科學家・知識型創作者。致力將助人實踐與學術思考轉化為可被傳遞的知識。</p>
+      <a href="../index.html" class="author-home">Back to homepage &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="inner">
+    <p class="ft">&copy; 2026 Howard Chang.</p>
+    <p class="ft">Hosted on GitHub Pages</p>
+  </div>
+</footer>
+
+</body>
+</html>
