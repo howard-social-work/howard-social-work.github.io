@@ -75,8 +75,8 @@
     /* --- Hero --- */
     #hero { padding-top: 2rem;   /* banner already handles nav offset */ padding-bottom: 7rem; border-bottom: 1px solid var(--border); }
     .eyebrow { font-family: var(--mono); font-size: .7rem; letter-spacing: .16em; color: var(--accent); text-transform: uppercase; margin-bottom: 2rem; }
-    .name-en { font-family: var(--serif-en); font-size: clamp(2.8rem,6vw,4.5rem); font-weight: 300; line-height: 1.1; letter-spacing: -.01em; margin-bottom: .15em; }
-    .name-zh { font-family: var(--zh); font-size: clamp(1.1rem,2.5vw,1.4rem); font-weight: 300; color: var(--ink-mid); letter-spacing: .12em; margin-bottom: 1.6rem; }
+    .name-en { font-family: var(--serif-en); font-size: clamp(1.9rem,4vw,2.8rem); font-weight: 300; line-height: 1.1; letter-spacing: -.01em; margin-bottom: .15em; }
+    .name-zh { font-family: var(--zh); font-size: clamp(.95rem,1.8vw,1.12rem); font-weight: 300; color: var(--ink-mid); letter-spacing: .10em; margin-bottom: 1.4rem; }
     .statement { max-width: 560px; font-size: 1.05rem; font-weight: 300; line-height: 1.9; color: var(--ink-mid); }
     .statement em { font-family: var(--sans-en); font-style: normal; font-size: .97rem; font-weight: 500; color: var(--ink); letter-spacing: .01em; }
     .tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 2rem; }
@@ -97,8 +97,8 @@
     section { padding: 7rem 0; border-bottom: 1px solid var(--border); }
     section:last-of-type { border-bottom: none; }
     .sec-label { font-family: var(--mono); font-size: .68rem; letter-spacing: .18em; color: var(--accent); text-transform: uppercase; margin-bottom: 2rem; }
-    .sec-title { font-family: var(--serif-en); font-size: clamp(1.6rem,3.5vw,2.2rem); font-weight: 600; line-height: 1.25; margin-bottom: 1rem; }
-    .sec-sub { font-family: var(--zh); font-size: .9rem; color: var(--ink-mid); letter-spacing: .06em; margin-bottom: 4rem; }
+    .sec-title { font-family: var(--serif-en); font-size: clamp(1.35rem,2.6vw,1.85rem); font-weight: 600; line-height: 1.3; margin-bottom: .8rem; }
+    .sec-sub { font-family: var(--zh); font-size: .8rem; color: var(--ink-mid); letter-spacing: .06em; margin-bottom: 3rem; }
 
     /* --- About --- */
     .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
@@ -128,8 +128,26 @@
     /* ★ Manrope 不用斜體 */
     .dgroup-en { font-family: var(--sans-en); font-size: .75rem; font-weight: 300; font-style: normal; color: var(--ink-lite); }
     .dtiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
-    .dtile { padding: .75rem 1rem; border: 1px solid var(--border); position: relative; transition: border-color .2s, background .15s; }
-    .dtile:hover { border-color: var(--ink-lite); background: rgba(107,79,58,.03); }
+    .dtile {
+      padding: .75rem 1rem;
+      border: 1px solid var(--border);     /* 保留邊框作為清晰邊界 */
+      border-radius: 6px;
+      position: relative;
+      background: var(--bg);
+      /* 柔和單向陰影：和 grid-card、toggle 相同視覺語言 */
+      box-shadow:
+        0 2px 8px  rgba(0, 0, 0, 0.055),
+        0 1px 2px  rgba(0, 0, 0, 0.040);
+      transition: border-color .2s, background .15s, box-shadow .25s ease, transform .2s ease;
+    }
+    .dtile:hover {
+      border-color: rgba(107,79,58,.35);
+      background: rgba(107,79,58,.025);
+      box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.08),
+        0 1px 4px  rgba(0, 0, 0, 0.05);
+      transform: translateY(-2px);
+    }
     .dtile::before { content: ''; position: absolute; left: -1px; top: 0; bottom: 0; width: 2px; background: var(--accent); opacity: 0; transition: opacity .2s; }
     .dtile:hover::before { opacity: 1; }
     .dtile-zh { font-family: var(--zh); font-size: .85rem; font-weight: 500; margin-bottom: .2rem; }
@@ -240,6 +258,72 @@
       white-space: nowrap;
     }
 
+
+    /* ============================================================
+       首頁浮動導覽（Homepage Section TOC）
+       ============================================================
+       和文章頁目錄相同的 Neumorphism-lite 風格：
+         - 貼齊右側（right: 0），垂直置中（top: 50% + translateY）
+         - 左側圓弧，右側直角（border-radius: 10px 0 0 10px）
+         - 保留左/上/下邊框，右側無邊框
+         - 微弱雙向陰影（氣氛用，不是主要視覺定義者）
+       桌機（>1100px）顯示，手機隱藏。
+
+       ★ 和文章 TOC 的差別：
+         - 文章 TOC 是 JS 動態生成，隨閱讀進度高亮
+         - 首頁 TOC 是靜態連結，IntersectionObserver 觀察 section 切換
+    ============================================================ */
+    #hp-toc {
+      position: fixed;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      z-index: 100;
+      width: 130px;
+
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+
+      border: 1px solid var(--border);
+      border-right: none;
+      border-radius: 10px 0 0 10px;
+
+      padding: .9rem 1rem;
+
+      box-shadow:
+        -5px 5px 20px rgba(0, 0, 0, 0.07),
+        -3px -3px 10px rgba(255,255,255,.65);
+
+      scrollbar-width: none;
+    }
+    @media(max-width: 1100px) { #hp-toc { display: none; } }
+
+    #hp-toc-title {
+      font-family: var(--mono); font-size: .55rem;
+      letter-spacing: .14em; color: var(--ink-lite);
+      text-transform: uppercase;
+      margin-bottom: .6rem; padding-bottom: .45rem;
+      border-bottom: 1px solid var(--border);
+    }
+    #hp-toc-list { list-style: none; }
+    #hp-toc-list li a {
+      display: block;
+      font-family: var(--zh); font-size: .7rem;
+      color: var(--ink-lite); text-decoration: none;
+      padding: .22rem 0 .22rem .45rem;
+      border-left: 2px solid transparent;
+      margin-left: -.45rem;
+      line-height: 1.4;
+      transition: color .15s, border-color .15s;
+    }
+    #hp-toc-list li a:hover { color: var(--ink-mid); }
+    #hp-toc-list li a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      font-weight: 500;
+    }
+
   </style>
 </head>
 <body>
@@ -301,22 +385,24 @@
 <!-- ====== Hero ====== -->
 <section id="hero">
   <div class="container">
-    <p class="eyebrow fi">Social Worker &middot; Knowledge Creator &middot; Researcher</p>
+    <p class="eyebrow fi">Quasi-Social Worker &middot; Knowledge Archaeologist &middot; Research Learner</p>
     <!-- ★ 請替換成你的英文名 -->
     <h1 class="name-en fi">Howard</h1>
     <!-- ★ 請替換成你的中文全名 -->
-    <p class="name-zh fi">豪 &vert; 知識&middot;實踐&middot;助人</p>
+    <p class="name-zh fi">豪｜知識 &middot; 實踐 &middot; 助人</p>
     <p class="statement fi">
-      深耕<em>social work</em>與<em>counselling psychology</em>的雙軌實踐者。
+      深耕<em> 社會工作學 </em>與<em> 心理治療學 </em>的雙軌實踐者。
       關注心理衛生、社區助人與知識生產，
-      致力將所學、所思、所歷，轉化為可被閱讀、可被傳遞的文字與作品。
+      致力將所學、所思、所歷，轉化為可被閱聽、可被傳遞及延展的思想與實踐智慧。
     </p>
     <div class="tags fi">
       <span class="tag">Social Work</span>
-      <span class="tag">Counselling Psychology</span>
+      <span class="tag">Applied Psychology</span>
       <span class="tag">Mental Health</span>
       <span class="tag">Community Practice</span>
-      <span class="tag">Knowledge Creation</span>
+      <span class="tag">Knowledge Constructor</span>
+      <span class="tag">Human & Social Science</span>
+      <span class="tag">Neuroscience</span>
     </div>
   </div>
 </section>
@@ -329,22 +415,22 @@
     <p class="sec-sub">Background &amp; Vision</p>
     <div class="about-grid">
       <div class="about-text">
-        <p>我是<strong>東海大學社會工作學系</strong>的學士，同時也是一個在存在性困境中重新找到方向的人。在大學中途，我曾選擇休學兩年，在孤獨與自學中思索生命的方向。那段經歷，讓我確認了自己深深屬於助人的領域。</p>
-        <p>我的核心關注涵蓋<strong>心理衛生社會工作</strong>、<strong>諦商心理學</strong>，以及精神疾患、物質濫用、司法矯治、自殺防治等交織性議題。我相信實務與學術不是對立的兩端，而是互為滋養的雙螺旋。</p>
-        <p>除了助人實踐，我也是個嘗試用文字建構意義的<strong>知識型創作者</strong>，受 Naval Ravikant 的思想啟發，致力將 <em>specific knowledge</em> 轉化為可被他人閱讀和使用的形式。</p>
+        <p>我目前<strong>就讀臺灣的社會工作學系</strong>，同時也是一個在存在性困境中重新找到方向的人。大學中途，我曾選擇休學兩年，在孤獨與自學中思索生命的方向。那段經歷，讓我確認了自己深深屬於助人的領域。</p>
+        <p>以<strong>諮商心理學</strong>與<strong>社會工作學</strong>為核心，重點關注涵蓋<strong>心理衛生領域</strong>，亦即精神復元、暴力保護、物質成癮、司法矯治、自殺防治、脆弱生態、邊緣權益等交織性議題。我相信實務與學術不是對立的兩端，而是互為滋養的雙螺旋。</p>
+        <p>除了助人實踐外，也嘗試用「文字、符號、圖像」以建構意義，互助學習的同時，也引起社群公眾交流討論；作者深受 Naval Ravikant 的思想啟發，致力將 specific knowledge 轉化為可被它者所覺察、理解和應用的形式。</p>
       </div>
       <div class="sidebar">
         <div class="sitem">
           <p class="sitem-label">Currently</p>
-          <p class="sitem-val">東海大學社工系四年級<br>實習實務工作者<br>知識型自媒體建構中</p>
+          <p class="sitem-val">社會工作學・學士四年級<br>助人實習階段・實務工作<br>
         </div>
         <div class="sitem">
           <p class="sitem-label">Location</p>
-          <p class="sitem-val">臺灣&middot;臺中市</p>
+          <p class="sitem-val">臺灣 &middot; 臺中市－高雄市</p>
         </div>
         <div class="sitem">
           <p class="sitem-label">Interests</p>
-          <p class="sitem-val">Mental Health SW<br>Philosophy of Existence<br>Knowledge Creation<br>Personal Finance</p>
+          <p class="sitem-val">Mental Health S.W.<br>Philosophy of Existence<br>Knowledge Constructor<br>Finance & Investment</p>
         </div>
         <div class="sitem">
           <p class="sitem-label">Language</p>
@@ -359,7 +445,7 @@
 <section id="writing">
   <div class="container">
     <p class="sec-label">Writing &amp; Works</p>
-    <h2 class="sec-title">文章&middot;作品</h2>
+    <h2 class="sec-title">專論文本</h2>
     <p class="sec-sub">Essays, Notes &amp; Knowledge Outputs</p>
 
     <!--
@@ -372,7 +458,7 @@
     <a href="articles/why-helpers-need-to-build.html" class="work-item">
       <div class="work-meta">
         <span class="work-date">2026</span>
-        <span class="gesture-tag advocate">唱</span>
+        <span class="gesture-tag advocate">倡</span>
       </div>
       <div>
         <p class="work-title">為什麼助人工作者也需要「建造」的能力？</p>
@@ -431,7 +517,7 @@
       </div>
       <div class="dtiles">
         <div class="dtile"><p class="dtile-zh">社會工作學</p><p class="dtile-en">Social Work</p></div>
-        <div class="dtile"><p class="dtile-zh">諦商心理學</p><p class="dtile-en">Counselling Psychology</p></div>
+        <div class="dtile"><p class="dtile-zh">心理治療學</p><p class="dtile-en">Psychotherapy</p></div>
         <div class="dtile"><p class="dtile-zh">心理衛生社會工作</p><p class="dtile-en">Mental Health Social Work</p></div>
       </div>
     </div>
@@ -476,8 +562,8 @@
         <span class="dgroup-en">Creation &amp; Life Practice</span>
       </div>
       <div class="dtiles">
-        <div class="dtile"><p class="dtile-zh">知識生產・自媒體</p><p class="dtile-en">Knowledge Creation &amp; Media</p></div>
-        <div class="dtile"><p class="dtile-zh">個人財務・財富自由</p><p class="dtile-en">Personal Finance &amp; Independence</p></div>
+        <div class="dtile"><p class="dtile-zh">知識建構與公論</p><p class="dtile-en">Knowledge Construction &amp; Media</p></div>
+        <div class="dtile"><p class="dtile-zh">理財與投資學習</p><p class="dtile-en">Personal Finance &amp; Investment</p></div>
         <div class="dtile"><p class="dtile-zh">創新與創投思維</p><p class="dtile-en">Innovation &amp; Venture Thinking</p></div>
       </div>
     </div>
@@ -520,5 +606,27 @@
   const navEl = document.querySelector('nav');
   if (navEl) window.addEventListener('scroll', () => navEl.classList.toggle('nav-scrolled', scrollY > 60), { passive: true });
 </script>
+<script>
+/* 首頁浮動導覽：IntersectionObserver 偵測當前可見 section */
+(function() {
+  var sections = document.querySelectorAll('section[id], #hero');
+  var links    = document.querySelectorAll('#hp-toc-list a');
+  if (!links.length) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var id = entry.target.id;
+        links.forEach(function(a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -40% 0px' });  /* 觸發點在視窗垂直中間 40% 範圍 */
+
+  sections.forEach(function(s) { observer.observe(s); });
+})();
+</script>
+
 </body>
 </html>
