@@ -3,348 +3,1413 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!--
-    ★★★ 文章頁面模板——使用說明 ★★★
-    =========================================================
-    每次要發佈新文章，請按以下步驟操作：
-
-    1. 在 GitHub Repository 裡建一個名為 "articles" 的資料夾（如果還沒有）
-    2. 複製這個檔案，依文章主題命名新檔案
-       例：articles/why-helpers-need-to-build.html
-    3. 修改下方標記 ★ 的所有區域
-    4. 在 index.html 的 work-item 中，將 href="#" 改為對應的檔案路徑
-    =========================================================
-  -->
-
-  <!-- ★ 修改主選項目的標題：「文章標題 | Howard Chang」 -->
-  <title>文章標題 | Howard Chang</title>
-  <!-- ★ 修改 description 為這篇文章的摘要（對 Google 搜尋收錄非常重要） -->
-  <meta name="description" content="這裡填入文章摘要，100–2 160 字元為佳。">
-  <meta name="author" content="Howard Chang">
-
+  <title>為什麼助人工作者也需要「建造」的能力？| Howard</title>
+  <meta name="description" content="從 Naval Ravikant 的財富自由哲學，重新理解助人者的知識生產使命。">
+  <meta name="author" content="Howard">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Manrope:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Manrope:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 
   <style>
+    /* ============================================================
+       設計變數
+       ============================================================ */
     :root {
-      --bg:       #F8F6F1;
-      --ink:      #1A1916;
-      --ink-mid:  #4A4843;
-      --ink-lite: #8C8982;
-      --accent:   #6B4F3A;
-      --border:   #DEDAD3;
-      --serif-en: 'Cormorant Garamond', Georgia, serif;
-      --sans-en:  'Manrope', 'Helvetica Neue', sans-serif;
-      --mono:     'DM Mono', 'Courier New', monospace;
-      --zh:       'Microsoft JhengHei', '微軟正黑體', 'PingFang TC', 'Heiti TC', sans-serif;
-      --max-w:    680px;   /* 文章頁面的最大寬度比首頁稍窄，提升閱讀流暢感 */
+      --bg:         #F8F6F1;
+      --ink:        #1A1916;
+      --ink-mid:    #4A4843;
+      --ink-lite:   #8C8982;
+      --accent:     #6B4F3A;
+      --border:     #DEDAD3;
+      --serif-en:   'Cormorant Garamond', Georgia, serif;
+      --sans-en:    'Manrope', 'Helvetica Neue', sans-serif;
+      --mono:       'DM Mono', 'Courier New', monospace;
+      --zh:         'Microsoft JhengHei', '微軟正黑體', 'PingFang TC', 'Heiti TC', sans-serif;
+      --max-article: 680px;
+      --toc-width:   192px;
     }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { font-size: 17px; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
     body { background: var(--bg); color: var(--ink); font-family: var(--zh); font-weight: 400; line-height: 1.8; }
-    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 2rem; }
+    .container { max-width: var(--max-article); margin: 0 auto; padding: 0 2rem; }
 
-    /* ---- Nav (和首頁一致) ---- */
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(248,246,241,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
-    nav .inner { max-width: 720px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
-    .nav-name { font-family: var(--serif-en); font-size: 1.05rem; font-weight: 400; letter-spacing: .04em; color: var(--ink); text-decoration: none; }
-    .nav-back { font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; color: var(--ink-mid); text-decoration: none; text-transform: uppercase; transition: color .2s; }
+    /* ============================================================
+       ★ 文章橫幅圖片（Banner / Cover）
+       ============================================================
+       這個區塊會出現在頁面最頂端，導覽列之前，
+       形成一個全寬的視覺橫幅。
+
+       替換圖片方式（兩種方法任選一種）：
+
+       方法一（推薦）：修改 .article-banner 的 CSS
+         把下面 background-image 裡的 URL 換成你的圖片路徑，例如：
+         background-image: url('../images/my-banner.jpg');
+         圖片建議尺寸：1400 × 400px 以上，橫向長條形
+
+       方法二：直接在 HTML 的 .article-banner div 加 style
+         <div class="article-banner" style="background-image: url('../images/my-banner.jpg');">
+
+       讓橫幅「每篇文章不同」：
+         把每篇文章的 .article-banner 的 style 屬性設定不同的圖片路徑
+
+       讓「所有文章共用同一個品牌橫幅」：
+         把你的個人品牌橫幅圖片路徑設定在這裡的 CSS 裡，
+         所有文章都會自動套用，不需要逐篇修改。
+
+       調整橫幅高度：修改 height 值
+         height: 240px  → 較矮，適合當背景裝飾
+         height: 320px  → 標準（目前設定）
+         height: 420px  → 較高，適合主視覺橫幅
+
+       調整圖片位置：修改 background-position
+         center center → 置中（預設）
+         center top    → 顯示圖片上半部
+         center bottom → 顯示圖片下半部
+    */
+    .article-banner {
+      width: 100%;
+      height: 320px;
+
+      /* ★ 把這裡的 URL 換成你的橫幅圖片路徑 */
+      background-image: url('../images/banner.jpg');
+
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+
+      /* 如果圖片還沒有準備好，顯示一個漸層佔位背景
+         等圖片上傳後，background-image 會自動覆蓋這個漸層 */
+      background-color: #E8E4DC;
+
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 橫幅底部的漸層遮罩，讓圖片和頁面底色柔和過渡
+       這樣即使圖片色調和米白背景差異很大，也不會顯得突兀 */
+    .article-banner::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 80px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+    }
+
+    /* 圖片還沒上傳時的佔位文字 */
+    .banner-placeholder {
+      position: absolute;
+      bottom: 50%; left: 50%;
+      transform: translate(-50%, 50%);
+      font-family: var(--mono);
+      font-size: .65rem;
+      letter-spacing: .14em;
+      color: rgba(107,79,58,.4);
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       導覽列
+       ============================================================ */
+    /* ★ .site-nav：只有主導覽列才固定在頂端。
+       過去寫成 nav {} 會讓所有 <nav> 都 position:fixed，導致 post-nav 等
+       也浮在畫面頂端。改用 class 選擇器後問題消除。 */
+    .site-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(248,246,241,.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .site-nav .inner {
+      max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;    /* 導覽列稍微加體，讓 Logo 有足夠的呼吸空間 */
+    }
+
+    /* ====================================================
+       Logo 區塊：左側幾何符號 + 右側文字
+       
+       目前是用 CSS 製作的展示型 Logo（wordmark）。
+       日後若要換成自己設計的圖形 Logo，按以下步驟：
+         1. 把圖形 Logo 檔案（.svg 或 .png）上傳到 /images/ 資料夾
+         2. 在 HTML 內將：
+            <span class="nav-logo-mark"></span>
+            替換為：
+            <img src="../images/logo.svg" class="nav-logo-img" alt="Howard">
+         3. 在下方 CSS 加上：
+            .nav-logo-img { width: 28px; height: 28px; }
+       ==================================================== */
+
+    /* Logo 整體容器：居中對齊幾何符號和文字 */
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: .65rem;            /* 圖標與文字間距 */
+      text-decoration: none;
+    }
+
+    /* CSS 製作的幾何符號（樰形旋轃45度）
+       視覺意義：「交叉點」——實務與知識的交叉，助人與創造的交叉 */
+    .nav-logo-mark {
+      width: 22px;
+      height: 22px;
+      background: var(--accent);    /* 強調棕色 */
+      border-radius: 4px;           /* 微圓弧正方形 */
+      transform: rotate(45deg);     /* 旋轅45度，變成菱形 */
+      flex-shrink: 0;
+      opacity: .88;
+    }
+
+    /* Logo 文字部分 */
+    .nav-name {
+      font-family: var(--serif-en);
+      font-size: 1.15rem;           /* 導覽列加體後，字體微微放大 */
+      font-weight: 400;
+      letter-spacing: .04em;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .nav-back {
+      font-family: var(--mono); font-size: .7rem; letter-spacing: .1em;
+      color: var(--ink-mid); text-decoration: none; text-transform: uppercase;
+      transition: color .2s;
+    }
     .nav-back:hover { color: var(--accent); }
 
-    /* ---- 文章標頭區 ---- */
+    /* ============================================================
+       ★★★ 捲動感知導覽列（Scroll-aware Nav）
+       ============================================================
+       設計邏輯：
+         預設狀態（頁面頂端）：nav height = 64px，Logo 和文字正常尺寸
+         捲動後（>60px）：nav height 縮至 52px，視覺上「退場」讓讀者專注內文
+         所有變化用 transition 平滑過渡，不是突然跳動
+
+       class="nav-scrolled" 由 JavaScript 動態加到 <nav> 上
+       ============================================================ */
+    .site-nav .inner { transition: height .3s ease; }
+
+    /* 捲動後的收縮狀態 */
+    nav.nav-scrolled {
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);  /* 捲動後加深陰影，強化「浮在內文上方」感 */
+    }
+    .site-nav.nav-scrolled .inner { height: 52px; }
+
+    /* Logo 符號在捲動後微縮 */
+    .site-nav.nav-scrolled .nav-logo-mark {
+      width: 18px; height: 18px;
+      transition: width .3s ease, height .3s ease;
+    }
+    .nav-logo-mark { transition: width .3s ease, height .3s ease; }
+
+    /* Logo 文字在捲動後微縮 */
+    .site-nav.nav-scrolled .nav-name {
+      font-size: 1.0rem;
+      transition: font-size .3s ease;
+    }
+
+    /* ============================================================
+       文章標頭
+       注意：因為有橫幅圖片，padding-top 不需要預留導覽列高度，
+       因為橫幅本身已經在導覽列下方（橫幅是非 fixed 的正常流元素，
+       導覽列是 fixed 覆蓋在頁面最上方）。
+       ============================================================ */
     .article-header {
-      padding-top: calc(56px + 5rem);
+      padding-top: 3rem;
       padding-bottom: 3rem;
       border-bottom: 1px solid var(--border);
     }
-
-    /* 文章分類標簽 */
     .article-cat {
-      font-family: var(--mono);
-      font-size: .68rem;
-      letter-spacing: .18em;
-      color: var(--accent);
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
+      font-family: var(--mono); font-size: .68rem; letter-spacing: .18em;
+      color: var(--accent); text-transform: uppercase; margin-bottom: 1.5rem;
     }
-
-    /* 文章主標題 */
     .article-title {
       font-family: var(--serif-en);
       font-size: clamp(1.9rem, 5vw, 2.8rem);
-      font-weight: 400;
-      line-height: 1.2;
-      letter-spacing: -.01em;
-      margin-bottom: 1rem;
+      font-weight: 400; line-height: 1.2; letter-spacing: -.01em; margin-bottom: 1rem;
     }
-
-    /* 中文副標題（可選） */
     .article-subtitle {
-      font-family: var(--zh);
-      font-size: 1.05rem;
-      font-weight: 300;
-      color: var(--ink-mid);
-      line-height: 1.6;
-      margin-bottom: 2rem;
+      font-family: var(--zh); font-size: 1.05rem; font-weight: 300;
+      color: var(--ink-mid); line-height: 1.6; margin-bottom: 2rem;
     }
-
-    /* 時間與適讀時間列 */
     .article-meta {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      font-family: var(--mono);
-      font-size: .65rem;
-      color: var(--ink-lite);
-      letter-spacing: .08em;
+      display: flex; align-items: center; gap: 1.5rem;
+      font-family: var(--mono); font-size: .65rem;
+      color: var(--ink-lite); letter-spacing: .08em;
     }
 
-    .article-meta span::before { content: ''; }
+    /* ============================================================
+       正文基礎
+       ============================================================ */
+    .article-body { padding: 4rem 0 2rem; }
 
-    /* ---- 文章正文區 ---- */
-    .article-body {
-      padding: 4rem 0;
-    }
-
-    /* 正文段落 */
     .article-body p {
       font-family: var(--zh);
-      font-size: 1rem;
-      line-height: 2.0;
-      color: var(--ink-mid);
-      margin-bottom: 1.8rem;
+      font-size: 1rem; line-height: 2.0; color: var(--ink-mid); margin-bottom: 1.8rem;
+    }
+    .article-body p.en-text, .article-body .en-text {
+      font-family: var(--sans-en); font-size: .97rem; line-height: 1.85;
+    }
+    /* h1: 文章大標題 — Cormorant 字體維持優雅學術感，font-weight 提升到 500 */
+    .article-title { font-weight: 500 !important; }
+
+    /* h2: 英文保留 Cormorant，加粗；中文換成微軟正黑體 */
+    /* ★ h2 字體邏輯：
+       英文字元 → Cormorant Garamond（優雅學術感）
+       中文字元 → 瀏覽器自動從堆疊中找下一個能顯示中文的字體
+                  即 var(--zh) = 微軟正黑體 / PingFang TC
+       做法：把 var(--zh) 加進 font-family 堆疊的後面即可 */
+    .article-body h2 {
+      font-family: var(--serif-en), var(--zh);
+      font-size: 1.45rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-top: 3.5rem; margin-bottom: 1.2rem; padding-bottom: .5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    /* 若 h2 文字是純中文，瀏覽器會回退到中文黑體，加粗效果更明顯 */
+
+    /* h3: 中文黑體加粗 */
+    .article-body h3 {
+      font-family: var(--zh);
+      font-size: 1.02rem;
+      font-weight: 700;          /* ★ 加粗（黑體粗體效果最佳） */
+      color: var(--ink);
+      margin-top: 2.5rem; margin-bottom: .8rem;
     }
 
-    /* 文章內的 h2 小標題 */
-    .article-body h2 {
-      font-family: var(--serif-en);
-      font-size: 1.5rem;
-      font-weight: 400;
+    /* h4: 比 h3 小一階，同樣中文黑體加粗 */
+    .article-body h4 {
+      font-family: var(--zh);
+      font-size: .95rem;
+      font-weight: 700;
       color: var(--ink);
-      margin-top: 3.5rem;
-      margin-bottom: 1.2rem;
-      padding-bottom: .5rem;
+      margin-top: 1.8rem; margin-bottom: .6rem;
+    }
+
+    /* ============================================================
+       文字格式工具（Inline Utilities）
+       ============================================================ */
+    mark { background: none; color: inherit; border-radius: 2px; padding: 0 .15em; }
+    .hl-yellow { background: rgba(250,199,117,.45); }
+    .hl-green  { background: rgba(151,196,89,.35); }
+    .hl-blue   { background: rgba(55,138,221,.20); }
+    .hl-coral  { background: rgba(216,90,48,.20); }
+    .c-accent  { color: var(--accent); }
+    .c-muted   { color: var(--ink-lite); }
+    .c-blue    { color: #2563EB; }
+    .c-green   { color: #16A34A; }
+    strong, b  { font-weight: 600; color: var(--ink); }
+    em         { font-style: italic; }
+    u          { text-underline-offset: 3px; }
+    s, del     { opacity: .65; }
+
+    .article-body a, .link-ext, .link-int {
+      color: var(--ink); text-decoration: underline;
+      text-decoration-color: var(--border); text-underline-offset: 3px;
+      transition: text-decoration-color .2s, color .2s;
+    }
+    .article-body a:hover, .link-ext:hover, .link-int:hover {
+      color: var(--accent); text-decoration-color: var(--accent);
+    }
+    .link-ext::after { content: ' ↗'; font-size: .75em; opacity: .6; }
+
+    /* ============================================================
+       Neumorphism 引用區塊
+       ============================================================ */
+    .article-body blockquote {
+      background: var(--bg); border-radius: 12px; border: none;
+      padding: 1.6rem 2rem; margin: 2.5rem 0;
+      box-shadow:
+        7px 7px 18px rgba(0,0,0,.10),
+        -7px -7px 18px rgba(255,255,255,.82);
+    }
+    .article-body blockquote p {
+      font-family: var(--serif-en); font-style: italic; font-size: 1.1rem;
+      color: var(--ink-mid); line-height: 1.75; margin-bottom: 0;
+    }
+    .article-body blockquote cite {
+      display: block; margin-top: .8rem; font-family: var(--mono);
+      font-size: .65rem; font-style: normal; color: var(--ink-lite); letter-spacing: .08em;
+    }
+
+    /* ============================================================
+       分隔線
+       ============================================================ */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+    .divider-dot  { border-top-style: dashed; }
+    .divider-bold { border-top-width: 2px; border-top-color: var(--ink-lite); }
+
+    /* ============================================================
+       清單（列點 / 編號）
+       ============================================================ */
+    .article-list {
+      font-family: var(--zh); font-size: 1rem; line-height: 1.9;
+      color: var(--ink-mid); padding-left: 1.6rem; margin-bottom: 1.8rem;
+    }
+    .article-list li { margin-bottom: .45rem; }
+    .article-list li::marker { color: var(--accent); }
+    .article-list .article-list { margin-top: .4rem; margin-bottom: .2rem; font-size: .93rem; }
+
+    /* ============================================================
+       Toggle 折疊區塊
+       ============================================================ */
+    /* Toggle: border + soft shadow (same visual family as grid-card) */
+    .toggle {
+      border: 1px solid var(--border);
+      border-radius: 12px;           /* 圓弧和 grid-card 一致 */
+      margin-bottom: 1rem;
+      overflow: hidden;
+      /* 柔和嗸影：和 grid-card 相同的兩層結構 */
+      box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.06),   /* 主嗸影：懸浮感 */
+        0 1px 3px  rgba(0, 0, 0, 0.04);    /* 環境光：接觸感 */
+      transition: box-shadow .25s ease;
+    }
+    .toggle-title {
+      font-family: var(--zh); font-size: .95rem; font-weight: 500;
+      padding: .9rem 1.2rem; cursor: pointer; list-style: none;
+      display: flex; align-items: center; justify-content: space-between;
+      user-select: none; transition: background .15s;
+    }
+    .toggle-title:hover { background: rgba(107,79,58,.04); }
+    .toggle-title::after { content: '+'; font-family: var(--mono); font-size: 1rem; color: var(--ink-lite); }
+    details[open] .toggle-title::after { content: '−'; }
+    .toggle-body { padding: .2rem 1.2rem 1.2rem; border-top: 1px solid var(--border); }
+    .toggle-body p { margin-bottom: .8rem; }
+    .toggle-body p:last-child { margin-bottom: 0; }
+
+    /* ============================================================
+       ★ CSS Grid 多欄排版（更新：加入柔和陰影）
+
+       設計邏輯說明：
+         舊版：只有邊框，沒有陰影
+         新版：邊框保留（提供明確的邊界感）
+               + 柔和的向下單向陰影（製造「懸浮在頁面上」的輕盈立體感）
+               + 一個極淡的環境光陰影（增加整體的「空氣感」）
+
+         這和 Neumorphism 的差別：
+           Neumorphism  = 雙向陰影（右下深 + 左上亮），感覺像「從頁面凸起」
+           柔和陰影     = 單向陰影（只有向下），感覺像「懸浮在頁面上方」
+         兩種視覺語言都有立體感，但情緒不同：
+           Neumorphism → 沉穩、踏實、「貼地」的立體感
+           柔和陰影    → 輕盈、現代、「飄浮」的立體感
+       ============================================================ */
+    .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0; }
+    .grid-3col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin: 2rem 0; }
+    .grid-1-2  { display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; margin: 2rem 0; }
+    @media(max-width: 768px) {
+      .grid-2col, .grid-3col, .grid-1-2 { grid-template-columns: 1fr; }
+    }
+
+    .grid-card {
+      background: var(--bg);
+      border: 1px solid var(--border);        /* 邊框：提供清晰的視覺邊界 */
+      border-radius: 12px;
+
+      /* ★ 柔和陰影：兩層疊加
+           第一層：主陰影，向右下方偏移，模糊半徑較大，製造主要的「懸浮感」
+           第二層：環境光陰影，無偏移，極小模糊，製造「接觸面」的微妙質感
+         調整陰影強度：修改 rgba(0,0,0, X) 裡的 X 值（建議範圍 0.05~0.15）*/
+      box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.07),      /* 主陰影：懸浮感 */
+        0 1px 3px  rgba(0, 0, 0, 0.05);       /* 環境光：接觸感 */
+
+      padding: 1.4rem 1.6rem;
+      transition: box-shadow .25s ease, transform .25s ease;   /* 懸停動畫 */
+    }
+
+    /* 滑鼠懸停：陰影加深 + 微微上移，強化「可互動」的感覺 */
+    .grid-card:hover {
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.10),
+        0 2px 6px  rgba(0, 0, 0, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .grid-card-title { font-family: var(--zh); font-size: .88rem; font-weight: 500; margin-bottom: .5rem; color: var(--ink); }
+    .grid-card-body  { font-family: var(--zh); font-size: .82rem; color: var(--ink-mid); line-height: 1.7; }
+
+    /* Callout 提示框 */
+    .callout {
+      border-left: 3px solid var(--accent); background: rgba(107,79,58,.06);
+      border-radius: 0 8px 8px 0; padding: 1rem 1.4rem; margin: 2rem 0;
+    }
+    .callout p { margin-bottom: 0 !important; font-size: .92rem !important; }
+
+    /* ============================================================
+       表格
+       ============================================================ */
+    .article-table-wrap { overflow-x: auto; margin: 2rem 0; border-radius: 8px; border: 1px solid var(--border); }
+    .article-table { width: 100%; border-collapse: collapse; font-family: var(--zh); font-size: .88rem; min-width: 400px; }
+    .article-table th { background: rgba(107,79,58,.08); font-weight: 600; color: var(--ink); padding: .7rem 1rem; border-bottom: 2px solid var(--border); text-align: left; vertical-align: middle; }
+    .article-table td { padding: .65rem 1rem; border-bottom: 1px solid var(--border); color: var(--ink-mid); vertical-align: middle; }
+    .article-table tr:last-child td { border-bottom: none; }
+    .article-table.striped tbody tr:nth-child(even) td { background: rgba(0,0,0,.025); }
+    .t-left { text-align: left; } .t-center { text-align: center; } .t-right { text-align: right; }
+    .v-top { vertical-align: top; } .v-middle { vertical-align: middle; } .v-bottom { vertical-align: bottom; }
+    .cell-accent { background: rgba(107,79,58,.08) !important; }
+    .cell-yellow { background: rgba(250,199,117,.25) !important; }
+    .cell-green  { background: rgba(151,196,89,.18) !important; }
+    .cell-blue   { background: rgba(55,138,221,.12) !important; }
+    .cell-header { background: rgba(26,25,22,.07) !important; font-weight: 500; color: var(--ink) !important; }
+
+    /* ============================================================
+       附件下載卡片
+       ============================================================ */
+    /* ★ 附件卡片：緊湊單列，圖示＋文字＋按鈕水平對齊
+       設計參考：圖示用網站強調棕色，不用各格式的品牌色，
+       這樣和整體米棕色系視覺語言保持一致。 */
+    .file-card {
+      display: flex;
+      align-items: center;        /* ★ 關鍵：確保圖示和文字垂直置中對齊 */
+      gap: .85rem;
+      padding: .75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin: .75rem 0;
+      background: var(--bg);
+      box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.06),
+        0 1px 3px rgba(0, 0, 0, 0.04);
+      transition: box-shadow .25s ease, transform .2s ease;
+    }
+    .file-card:hover {
+      box-shadow: 0 4px 14px rgba(0,0,0,.09), 0 1px 4px rgba(0,0,0,.05);
+      transform: translateY(-1px);
+    }
+    .file-icon {
+      width: 38px; height: 38px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--mono); font-size: .6rem; font-weight: 600;
+      color: rgba(255,255,255,.95);
+      letter-spacing: .03em;
+    }
+    /* ★ 所有格式圖示統一用網站強調棕色，而非各平台品牌色，
+       維持整體視覺語言的一致性。 */
+    .file-pdf, .file-word, .file-excel { background: var(--accent); opacity: .88; }
+    .file-other { background: var(--ink-lite); }
+    .file-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;    /* 垂直置中檔名和 meta */
+      gap: .2rem;
+    }
+    .file-name { font-family: var(--zh); font-size: .84rem; font-weight: 500; color: var(--ink); line-height: 1.3; margin: 0; }
+    .file-meta { font-family: var(--mono); font-size: .60rem; color: var(--ink-lite); line-height: 1.3; margin: 0; }
+    .file-btn { font-family: var(--mono); font-size: .60rem; letter-spacing: .08em; color: var(--accent); text-decoration: none; text-transform: uppercase; border: 1px solid var(--accent); padding: .3rem .7rem; border-radius: 4px; white-space: nowrap; transition: background .15s, color .15s; }
+    .file-btn:hover { background: var(--accent); color: var(--bg); }
+
+    /* ============================================================
+       影音嵌入
+       ============================================================ */
+    /* ★ 影片嵌入：border + 柔和陰影 */
+    .video-embed {
+      position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+      border-radius: 12px; margin: 2.5rem 0;
+      background: #2C2C2A;  /* 深色佔位背景，符合影片播放器慣例 */
+      border: 1px solid var(--border);
+      box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.08),
+        0 1px 4px  rgba(0, 0, 0, 0.05);
+    }
+    .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 11px; }
+
+    /* ★ Podcast 嵌入：border + 柔和陰影 */
+    .podcast-embed {
+      margin: 2.5rem 0; border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.06),
+        0 1px 3px  rgba(0, 0, 0, 0.04);
+    }
+    .podcast-embed iframe { width: 100%; border: none; display: block; }
+
+    /* ============================================================
+       ★★★ 浮動目錄（TOC）——重新設計版
+
+       設計邏輯說明：
+         位置：貼齊右側（right: 0），垂直置中（top: 50% + translateY(-50%)）
+         形狀：左側有圓弧，右側緊貼頁面邊緣（border-radius: 12px 0 0 12px）
+               → 視覺上「從頁面右側生長出來」，而非懸浮在頁面上
+
+         風格：Neumorphism-lite（輕量版 Neumorphism）
+           與完整 Neumorphism 的差別：
+             完整版：雙向強陰影，完全靠陰影定義形狀，不需要邊框
+             輕量版：保留左側和上下邊框（提供清晰的可見邊界）
+                     + 微弱的雙向陰影（只做氣氛，不做主要形狀）
+                     + 磨砂玻璃背景（backdrop-filter: blur，增加半透明質感）
+           結果：有立體感但不疲眼，邊框讓讀者一眼就看到這個元素的存在
+
+         顏色：背景比頁面底色稍微偏白（rgba(255,255,255,.85)），
+               這樣在視覺上「比頁面高一層」，強化懸浮感
+
+       調整位置：
+         修改 top: 50% → 往上（小於 50%）或往下（大於 50%）
+         修改 right: 0 → 讓它離右側有一點距離（例如 right: 1rem）
+
+       調整寬度：修改 --toc-width 變數（在 :root 裡）
+       ============================================================ */
+    #toc-container {
+      position: fixed;
+      top: 50%;
+      right: 0;                                /* ★ 貼齊右側 */
+      transform: translateY(-50%);             /* ★ 垂直置中 */
+      width: var(--toc-width);
+      max-height: 60vh;                        /* 最高不超過視窗高度的 60% */
+      overflow-y: auto;
+      z-index: 100;
+
+      /* ★ Neumorphism-lite 背景：比頁面底色稍亮，強化「高一層」的感覺 */
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+
+      /* ★ 邊框：左側 + 上下，右側無邊框（貼齊頁面邊緣）
+         保留邊框是關鍵設計決策——它讓目錄「可辨識」，不依賴陰影才能被看到 */
+      border: 1px solid var(--border);
+      border-right: none;
+
+      /* ★ 圓弧：左側有圓弧，右側直角（緊貼頁面邊緣） */
+      border-radius: 12px 0 0 12px;
+
+      padding: 1rem 1.1rem;
+
+      /* ★ Neumorphism-lite 雙向陰影（故意調得很輕）
+         右下：深色陰影（因為右側沒有邊框，需要陰影輔助定義邊界感）
+         左上：亮色高光（非常輕，只做氣氛）
+         整體視覺效果：「從右側頁面邊緣微微浮起」 */
+      box-shadow:
+        -5px 5px 20px rgba(0, 0, 0, 0.08),    /* 左下：主要懸浮感 */
+        -3px -3px 10px rgba(255,255,255,.70);  /* 左上：高光（很淡） */
+
+      scrollbar-width: none;
+      transition: opacity .3s ease;
+    }
+    #toc-container::-webkit-scrollbar { display: none; }
+
+    /* 桌機（>1100px）才顯示，手機和平板隱藏 */
+    @media(max-width: 1100px) { #toc-container { display: none; } }
+
+    #toc-title {
+      font-family: var(--mono); font-size: .58rem; letter-spacing: .14em;
+      color: var(--ink-lite); text-transform: uppercase;
+      margin-bottom: .7rem; padding-bottom: .5rem;
       border-bottom: 1px solid var(--border);
     }
 
-    /* 文章內的 h3 小小標題 */
-    .article-body h3 {
-      font-family: var(--zh);
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--ink);
-      margin-top: 2.5rem;
-      margin-bottom: .8rem;
+    #toc-list { list-style: none; }
+
+    #toc-list li a {
+      display: block;
+      font-family: var(--zh); font-size: .72rem;
+      color: var(--ink-lite); text-decoration: none;
+      padding: .25rem 0 .25rem .5rem;
+      line-height: 1.45;
+      transition: color .15s, border-color .15s;
+      border-left: 2px solid transparent;
+      margin-left: -.5rem;
+    }
+    #toc-list li a:hover { color: var(--ink-mid); }
+
+    /* ★ 當前閱讀位置：強調棕色高亮 */
+    #toc-list li a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      font-weight: 500;
     }
 
-    /* 引用區塊樣式 */
-    .article-body blockquote {
-      border-left: 3px solid var(--accent);
-      margin: 2.5rem 0;
-      padding: 1rem 1.5rem;
-      font-family: var(--serif-en);
-      font-size: 1.15rem;
-      font-style: italic;
-      font-weight: 300;
-      color: var(--ink-mid);
-      line-height: 1.7;
-    }
+    /* h3 縮排 */
+    #toc-list li.toc-h3 a { padding-left: 1.2rem; font-size: .67rem; }
 
-    /* 文章內的超連結 */
-    .article-body a {
-      color: var(--ink);
-      text-decoration: underline;
-      text-decoration-color: var(--border);
-      text-underline-offset: 3px;
-      transition: text-decoration-color .2s;
-    }
 
-    .article-body a:hover { text-decoration-color: var(--accent); }
+    /* ============================================================
+       圖片與程式碼區塊：柔和陰影 + 邊框
+       ============================================================
+       設計邏輯：和 grid-card 相同的陰影語言
+         - 保留邊框（提供清晰邊界）
+         - 單向向下陰影（輕盈懸浮感，非 Neumorphism）
 
-    /* 文章內的圖片 */
+       圖片：自動套用，只要在 .article-body 裡放 <img> 就會生效
+       程式碼區塊：
+         行內程式碼：<code>function()</code>
+         獨立程式碼塊：<pre><code>多行程式碼</code></pre>
+         Mermaid 圖解：<div class="mermaid-wrap"><pre class="mermaid">...</pre></div>
+    */
+
+    /* 圖片：邊框 + 柔和陰影 */
     .article-body img {
       width: 100%;
-      margin: 2.5rem 0 .75rem;
       display: block;
+      margin: 2.5rem 0 .5rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.07),
+        0 1px 3px  rgba(0, 0, 0, 0.05);
     }
 
     /* 圖片說明文字 */
     .article-body figcaption {
-      font-family: var(--mono);
-      font-size: .65rem;
-      color: var(--ink-lite);
-      letter-spacing: .06em;
-      margin-bottom: 2.5rem;
-      text-align: center;
+      font-family: var(--mono); font-size: .65rem; color: var(--ink-lite);
+      text-align: center; margin-bottom: 2.5rem; letter-spacing: .05em;
     }
 
-    /* 強調文字 */
-    .article-body strong { font-weight: 600; color: var(--ink); }
+    /* 行內程式碼 */
+    .article-body code {
+      font-family: var(--mono);
+      font-size: .88em;
+      color: var(--accent);
+      background: rgba(107,79,58,.08);
+      border: 1px solid rgba(107,79,58,.15);
+      border-radius: 4px;
+      padding: .1em .4em;
+    }
 
-    /* 英文斜體 */
-    .article-body em { font-family: var(--serif-en); font-style: italic; font-size: .98rem; color: var(--ink); }
+    /* 獨立程式碼區塊（<pre><code>） */
+    .article-body pre {
+      background: #1E1C1A;           /* 深色底，程式碼區慣例 */
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px;
+      padding: 1.4rem 1.6rem;
+      overflow-x: auto;
+      margin: 2rem 0;
+      box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.14),
+        0 1px 4px  rgba(0, 0, 0, 0.10);
+    }
+    .article-body pre code {
+      font-family: var(--mono);
+      font-size: .85rem;
+      color: #D4C9BC;               /* 暖白色文字，和整站米白色系呼應 */
+      background: none;
+      border: none;
+      padding: 0;
+      line-height: 1.7;
+    }
 
-    /* ---- 文章尾聲（作者卡） ---- */
-    .article-footer {
-      padding: 3rem 0;
+    /* Mermaid / SVG 圖解包裹容器 */
+    .mermaid-wrap {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      overflow: auto;
+      box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.07),
+        0 1px 3px  rgba(0, 0, 0, 0.05);
+    }
+
+    /* ============================================================
+       橫向滑動相關文章 Gallery
+       ============================================================
+       使用方式：
+         <section class="related-articles">
+           <h2 class="related-title">相關文章</h2>
+           <div class="related-track-wrap">
+             <div class="related-track">
+               <a href="..." class="related-card">
+                 <div class="related-card-img" style="background-image: url('...')"></div>
+                 <div class="related-card-body">
+                   <span class="related-card-cat">析</span>
+                   <p class="related-card-title">文章標題</p>
+                   <p class="related-card-date">2026 · March</p>
+                 </div>
+               </a>
+               ... 更多卡片
+             </div>
+           </div>
+         </section>
+
+       ★ 圖片設定：把 style="background-image: url('你的圖片路徑')" 加到
+         .related-card-img 的 style 屬性裡。
+         若暫時沒有圖片，留空即可（顯示純色佔位背景）。
+
+       ★ scroll-snap-type：讓每次滾動對齊到卡片邊緣，不停在模糊中間。
+       ★ scrollbar-width: none：隱藏捲軸，讓介面更乾淨。
+    */
+    .related-articles {
+      padding: 3.5rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .related-title {
+      font-family: var(--serif-en);
+      font-size: 1.1rem; font-weight: 500;
+      color: var(--ink-mid);
+      letter-spacing: .06em;
+      margin-bottom: 1.5rem;
+      padding: 0 2rem;
+      max-width: var(--max-article);
+      margin-left: auto; margin-right: auto;
+    }
+
+    /* 外層：遮罩左右邊緣，製造「內容延伸出去」的視覺感 */
+    .related-track-wrap {
+      overflow: hidden;
+      padding-bottom: .5rem;         /* 給陰影留底部空間 */
+    }
+
+    /* 捲動軌道 */
+    .related-track {
+      display: flex;
+      gap: 1.25rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;   /* 滾動對齊 */
+      scroll-padding: 0 2rem;
+      padding: .5rem 2rem 1rem;        /* 上方給陰影空間，左右對齊正文 */
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .related-track::-webkit-scrollbar { display: none; }
+
+    /* 單張相關文章卡片 */
+    .related-card {
+      flex: 0 0 240px;                 /* 固定寬度，不自動縮放 */
+      scroll-snap-align: start;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg);
+      box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.06),
+        0 1px 3px  rgba(0, 0, 0, 0.04);
+      transition: box-shadow .25s ease, transform .25s ease;
+    }
+    .related-card:hover {
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.10),
+        0 2px 6px  rgba(0, 0, 0, 0.06);
+      transform: translateY(-3px);
+    }
+
+    /* 卡片上方圖片區 */
+    .related-card-img {
+      width: 100%; height: 135px;
+      background-color: #E8E4DC;       /* 圖片載入前的佔位背景色 */
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* 卡片下方文字區 */
+    .related-card-body {
+      padding: .9rem 1rem;
+    }
+    .related-card-cat {
+      font-family: var(--zh);
+      font-size: .65rem; font-weight: 500;
+      color: #fff;
+      background: var(--accent);
+      border-radius: 3px;
+      padding: .1rem .45rem;
+      margin-bottom: .5rem;
+      display: inline-block;
+    }
+    .related-card-title {
+      font-family: var(--zh);
+      font-size: .85rem; font-weight: 500;
+      color: var(--ink); line-height: 1.45;
+      margin-bottom: .5rem;
+      /* 最多顯示兩行，超出截斷 */
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .related-card-date {
+      font-family: var(--mono); font-size: .6rem;
+      color: var(--ink-lite); letter-spacing: .06em;
+    }
+
+    /* ============================================================
+       分享按鈕列
+       ============================================================
+       使用 Web Share API（手機）或備用按鈕（桌機）。
+       手機上會呼叫系統原生的分享介面；桌機上顯示各平台連結。
+    */
+    .share-section {
+      padding: 2rem 0;
       border-top: 1px solid var(--border);
       display: flex;
       align-items: center;
-      gap: 1.5rem;
+      gap: 1.2rem;
+      flex-wrap: wrap;
     }
-
-    .author-info-name {
-      font-family: var(--zh);
-      font-size: .95rem;
-      font-weight: 500;
-      color: var(--ink);
-    }
-
-    .author-info-bio {
-      font-family: var(--zh);
-      font-size: .82rem;
-      color: var(--ink-mid);
-      line-height: 1.6;
-      margin-top: .2rem;
-    }
-
-    .author-home {
-      font-family: var(--mono);
-      font-size: .65rem;
-      letter-spacing: .1em;
-      color: var(--accent);
-      text-decoration: none;
+    .share-label {
+      font-family: var(--mono); font-size: .65rem;
+      letter-spacing: .12em; color: var(--ink-lite);
       text-transform: uppercase;
-      display: inline-block;
-      margin-top: .5rem;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1px;
+    }
+    .share-btn {
+      font-family: var(--mono); font-size: .63rem;
+      letter-spacing: .07em; text-transform: uppercase;
+      color: var(--ink-mid);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      border-radius: 8px;
+      padding: .45rem 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: .5rem;
+      transition: border-color .2s, color .2s, background .2s;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+      line-height: 1;
+    }
+    /* 懸停：邊框和文字都變棕色，SVG 圖示因為用 currentColor 也會跟著變色 */
+    .share-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(107,79,58,.05);
+    }
+    /* 「已複製」狀態 */
+    .share-btn.copied {
+      border-color: #16A34A;
+      color: #16A34A;
     }
 
+    /* post-nav removed */
+    .post-nav-label {
+      font-family: var(--mono); font-size: .6rem;
+      letter-spacing: .12em; color: var(--ink-lite);
+      text-transform: uppercase; margin-bottom: .5rem;
+    }
+    .post-nav-title {
+      font-family: var(--zh); font-size: .9rem; font-weight: 500;
+      color: var(--ink); line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .next-article { text-align: right; }
+
+    /* ============================================================
+       留言區（Giscus）
+       ============================================================
+       設定步驟（只需做一次）：
+         1. 前往 https://giscus.app/zh-TW
+         2. 在 Repository 欄位輸入：你的帳號名稱/你的帳號名稱.github.io
+         3. Discussion Category 選 「General」或建立一個叫 「Comments」的 category
+         4. 其餘設定保持預設
+         5. 網頁底部會生成一段 <script> 程式碼
+         6. 複製那段程式碼，貼到下方 .giscus-wrap 裡，
+            替換掉現有的佔位說明
+
+       ★ Giscus 特點：
+         - 留言儲存在你的 GitHub Discussions，完全你控制
+         - 讀者需要 GitHub 帳號才能留言（過濾了大部分垃圾留言）
+         - 沒有廣告，完全免費
+         - 沒有按讚數量的競爭機制（只有 emoji 反應，且你可以關閉）
+    */
+    .comments-section {
+      padding: 3rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .comments-title {
+      font-family: var(--serif-en);
+      font-size: 1.1rem; font-weight: 500;
+      color: var(--ink-mid); letter-spacing: .06em;
+      margin-bottom: 1.5rem;
+    }
+    .giscus-placeholder {
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+    }
+    .giscus-placeholder p {
+      font-family: var(--mono); font-size: .7rem;
+      color: var(--ink-lite); letter-spacing: .08em;
+      line-height: 1.8; margin-bottom: 0 !important;
+    }
+
+    /* ============================================================
+       文章尾聲
+       ============================================================ */
+    .article-footer { padding: 3rem 0; border-top: 1px solid var(--border); }
+    .author-wrap { display: flex; align-items: center; gap: 1.5rem; }
+    .author-name { font-family: var(--zh); font-size: .95rem; font-weight: 500; }
+    .author-bio  { font-family: var(--zh); font-size: .82rem; color: var(--ink-mid); line-height: 1.6; margin-top: .2rem; }
+    .author-home { font-family: var(--mono); font-size: .65rem; letter-spacing: .1em; color: var(--accent); text-decoration: none; text-transform: uppercase; display: inline-block; margin-top: .5rem; border-bottom: 1px solid var(--border); padding-bottom: 1px; }
     .author-home:hover { border-color: var(--accent); }
-
-    /* ---- Site footer ---- */
     .site-footer { padding: 2rem 0; border-top: 1px solid var(--border); }
-    .site-footer .inner { max-width: 720px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; }
+    .site-footer .inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; }
     .ft { font-family: var(--mono); font-size: .62rem; color: var(--ink-lite); }
+    @media(max-width: 600px) { .author-wrap { flex-direction: column; align-items: flex-start; } }
 
-    @media(max-width:600px){
-      .article-footer { flex-direction: column; }
+    /* ============================================================
+       圖片
+       ============================================================ */
+    .article-body img { width: 100%; margin: 2.5rem 0 .75rem; display: block; border-radius: 6px; }
+    .article-body figcaption { font-family: var(--mono); font-size: .65rem; color: var(--ink-lite); text-align: center; margin-bottom: 2.5rem; }
+
+    /* ============================================================
+       文章標籤系統（三維度）
+       與首頁 domain-tag 同一視覺語言：邊框 + 極淡陰影
+    ============================================================ */
+    .article-tags {
+      display: flex; flex-wrap: wrap; gap: .5rem;
+      margin-top: 1.4rem;
     }
+    .atag {
+      font-family: var(--mono); font-size: .62rem; letter-spacing: .08em;
+      border-radius: 4px; padding: .22rem .7rem;
+      white-space: nowrap; background: var(--bg);
+      box-shadow: 0 1px 4px rgba(0,0,0,.07);
+      transition: box-shadow .2s ease;
+    }
+    .atag:hover { box-shadow: 0 2px 8px rgba(0,0,0,.10); }
+    /* 維度二：知識領域 → 深棕邊框，棕色字 */
+    .atag-domain { border: 1.5px solid rgba(107,79,58,.45); color: var(--accent); }
+    /* 維度三：讀者適用性 → 標準邊框，中灰字 */
+    .atag-reader  { border: 1px solid var(--border); color: var(--ink-mid); }
+    /* 維度四：形式特徵 → 淡邊框，淡灰字 */
+    .atag-format  { border: 1px solid var(--border); color: var(--ink-lite); opacity: .8; }
+
   </style>
 </head>
 <body>
 
-<!-- ---- 導覽列 ---- -->
-<nav>
+<!-- ============================================================
+     ★★★ 文章橫幅（Banner）
+     ============================================================
+     這個橫幅出現在頁面最頂端，導覽列下方。
+
+     替換橫幅圖片的兩種方式：
+
+     方式一：修改上方 CSS 的 .article-banner { background-image: url(...) }
+             適合「所有文章共用同一張品牌橫幅」
+
+     方式二：在這個 div 上加 style 屬性覆蓋 CSS，
+             適合「每篇文章各自有不同的橫幅圖片」，例如：
+             <div class="article-banner" style="background-image: url('../images/article1-banner.jpg');">
+
+     圖片上傳位置：在 GitHub Repository 建立 /images/ 資料夾，
+                   把你的橫幅圖片上傳進去，
+                   路徑就是 ../images/你的圖片檔名.jpg
+
+     圖片準備好後，把下面 .banner-placeholder 那整行刪掉即可。
+     ============================================================ -->
+<div class="article-banner">
+  <!-- ★ 圖片上傳後把這行刪掉 -->
+  <span class="banner-placeholder">Upload your banner image to /images/banner.jpg</span>
+</div>
+
+<!-- 導覽列（fixed，覆蓋在橫幅上方） -->
+<nav class="site-nav">
   <div class="inner">
-    <a href="../index.html" class="nav-name">Howard Chang</a>
-    <a href="../index.html#works" class="nav-back">&larr; All Writing</a>
+    <!-- ★ Logo 區塊：左側幾何符號 + 右側文字
+         日後要換成自己設計的圖形 Logo：
+         把 <span class="nav-logo-mark"></span> 改成：
+         <img src="../images/logo.svg" class="nav-logo-img" alt="Howard"> -->
+    <a href="../index.html" class="nav-brand">
+      <span class="nav-logo-mark"></span>
+      <span class="nav-name">Howard</span>
+    </a>
+    <a href="../index.html#writing" class="nav-back">&larr; All Writing</a>
   </div>
 </nav>
 
-<!-- ================================================================
-     文章標頭區
-     ★ 請修改以下四個區域：分類、主標題、副標題、年份
-     ================================================================ -->
+<!-- ★★★ 浮動目錄（貼齊右側，垂直置中） -->
+<div id="toc-container">
+  <p id="toc-title">目錄 Contents</p>
+  <ul id="toc-list"></ul>
+</div>
+
+<!-- 文章標頭 -->
 <header class="article-header">
   <div class="container">
-    <!-- ★ 分類標簽（例：Essay / Practice Note / Reflection / Research Note） -->
-    <p class="article-cat">Essay</p>
-
-    <!-- ★ 文章英文主標題 -->
+    <p class="article-cat">倡 &middot; Advocacy</p>
     <h1 class="article-title">Why Helpers Also Need to Build</h1>
-
-    <!-- ★ 中文副標題（可選，不需要就削除這行） -->
     <p class="article-subtitle">從 Naval Ravikant 的財富自由哲學，重新理解助人者的知識生產使命</p>
-
-    <!-- ★ 發佈日期與適讀時間 -->
     <div class="article-meta">
       <span>2026 &middot; March</span>
-      <span>8 min read</span>
+      <span>約 8 分鐘閱讀</span>
+    </div>
+
+    <!--
+      ★★★ 文章標簽系統（三維度）
+      組合說明：
+        維度二「知識領域」：class="atag atag-domain"（深棕實心小片）
+        維度三「讀者適用性」：class="atag atag-reader"（空心棕色邊框）
+        維度四「形式特徵」：class="atag atag-format"（極淡灰底，可不加）
+      每篇文章的標簽在這裡直接修改文字即可。
+    -->
+    <div class="article-tags">
+      <!-- 維度二：知識領域（強調棕色實心）-->
+      <span class="atag atag-domain">知識創作</span>
+      <span class="atag atag-domain">創投思維</span>
+      <!-- 維度三：讀者適用性（空心邊框）-->
+      <span class="atag atag-reader">入門引介</span>
+      <!-- 維度四：形式特徵（可選，活用時再加）-->
+      <!-- <span class="atag atag-format">含圖解</span> -->
     </div>
   </div>
 </header>
 
-<!-- ================================================================
-     文章正文區
-     ★★ 這裡是你時時書寫的地方。
-     可以自由使用以下標簽：
-       <p>         → 一般段落
-       <h2>        → 主要小標（會出現分隔線）
-       <h3>        → 次要小標
-       <blockquote>→ 引用區塊（英文斜體，左側有色強調線）
-       <figure>    → 圖片 + 說明文字
-       <strong>    → 加粗強調
-       <em>        → 英文斜體強調
-       <a href="">→ 超連結
-     ================================================================ -->
+<!-- ============================================================
+     文章正文
+     ============================================================ -->
 <main>
   <article class="article-body">
     <div class="container">
 
-      <!-- === 段落範例開始：請從這裡開始實際書寫你的文章 === -->
+      <h2 id="intro">一個沒有答案的問題</h2>
 
       <p>
-        我在實習期間曾經問一位纓深資歷的社工督導：「我們對案主做了這麼多，為什麼社會不將我們的工作看在眼山？」這個問題那時沒有給我任何答案。但它从此不曾離開我。
+        我在實習期間曾經問過一位資深的社工督導：「<mark class="hl-yellow">我們對案主做了這麼多，為什麼社會還是看不見我們的工作？</mark>」那時候她沒有給我答案。但這個問題從此沒有離開過我。
       </p>
 
       <p>
-        後來，我在 Naval Ravikant 的訪談諠和 <em>The Almanack of Naval Ravikant</em> 裡發現了一個讓我重新思考這個問題的框架：<strong>財富和影響力，來自「特定知識」與「建造能力」的交叉點。</strong>
-      </p>
-
-      <h2>What Is Specific Knowledge?</h2>
-
-      <p>
-        Naval 對 <em>specific knowledge</em> 的定義是：一種無法被訓練、只能被累積的知識。它往往與你獨特的人生經歷緊密總繞。
+        後來，我在 Naval Ravikant 的訪談錄裡發現了一個框架：<strong>財富和影響力，來自「特定知識」與「建造能力」的交叉點。</strong>這讓我開始懷疑——助人工作者長期不被看見的根本原因，或許不是社會不公平，而是我們從來沒有學過「建造」。
       </p>
 
       <blockquote>
-        "Specific knowledge is found by pursuing your genuine curiosity and passion rather than whatever is hot right now."
+        <p>"Specific knowledge is found by pursuing your genuine curiosity and passion rather than whatever is hot right now."</p>
+        <cite>— Naval Ravikant, The Almanack of Naval Ravikant</cite>
       </blockquote>
 
+      <hr class="divider">
+
+      <h2 id="what-is-building">「建造」在助人領域意味著什麼？</h2>
+
+      <p>建造不是寫程式的專利。對助人工作者而言，以下這些都是建造的形式：</p>
+
+      <ul class="article-list">
+        <li>把實務觀察轉化為一篇可以被分享的文章</li>
+        <li>把學術理論翻譯成一般民眾能讀懂的語言</li>
+        <li>設計一個可以被同事或後進重複使用的評估框架
+          <ul class="article-list">
+            <li>例如：自殺風險評估的田野速查表</li>
+            <li>例如：家庭暴力案件的資源盤點流程</li>
+          </ul>
+        </li>
+        <li>用 Podcast 或 YouTube 讓你的思考能夠到達閱讀障礙的受眾群體</li>
+      </ul>
+
+      <h3 id="how-to-start">如何從零開始建造？三個步驟</h3>
+
+      <ol class="article-list">
+        <li><strong>先記錄，不評判</strong>——把你今天在現場看到的、感到困惑的東西，用最原始的語言寫下來。</li>
+        <li><strong>找到讓你有感覺的問題</strong>——在你的觀察裡，有沒有哪一個現象讓你反覆想到？那個問題就是你的起點。</li>
+        <li><strong>把它寫成一篇給讀者看的東西</strong>——強迫自己把思考整理成別人能讀懂的文字，這個過程本身就會讓你的理解更深一層。</li>
+      </ol>
+
+      <hr class="divider">
+
+      <h2 id="objections">常見的疑慮與我的回應</h2>
+
+      <details class="toggle">
+        <summary class="toggle-title">「我沒有時間，我的案量已經很重了。」</summary>
+        <div class="toggle-body">
+          <p>這是最真實也最合理的困境。重點不是頻率，是<mark class="hl-yellow">持續性</mark>。一週寫一段三百字的觀察筆記，一年後就是 52 篇有價值的文字。</p>
+        </div>
+      </details>
+
+      <details class="toggle">
+        <summary class="toggle-title">「我還不夠格，怕寫出來的東西不夠專業。」</summary>
+        <div class="toggle-body">
+          <p>你現在的大四視角、實習現場的第一線觀察，正是<mark class="hl-green">任何「夠格的專家」都無法複製的東西</mark>。那才是你的特定知識。誠實地標明「這是我目前的思考，可能有侷限」，反而比裝作無所不知更有公信力。</p>
+        </div>
+      </details>
+
+      <hr class="divider">
+
+      <h2 id="two-tracks">雙軌並行：助人與建造不相矛盾</h2>
+
+      <!-- ★ 更新版卡片：帶柔和陰影，懸停時微微上移 -->
+      <div class="grid-2col">
+        <div class="grid-card">
+          <p class="grid-card-title">實務軌道（Practice Track）</p>
+          <p class="grid-card-body">
+            直接服務案主、累積田野觀察、學習評估與介入技術、接受督導與回饋。
+            這是你的<mark class="hl-yellow">直接影響力</mark>，範圍有限但深度極高。
+          </p>
+        </div>
+        <div class="grid-card">
+          <p class="grid-card-title">建造軌道（Builder Track）</p>
+          <p class="grid-card-body">
+            把實務觀察轉化為文字、圖解和論述，讓它能夠被複製、傳遞、被更多人讀到。
+            這是你的<mark class="hl-blue">槓桿影響力</mark>，初期微小但指數成長。
+          </p>
+        </div>
+      </div>
+
       <p>
-        對於一個學社工的我而言，特定知識不是「瓦确斯山（Maslow）需求層次分析」這種可以被訓練的東西，而是我在兩年閃關自學中真實筋璐過存在焦慮的角度、重返助人實務的內在驅動、以及用文字整理思維的工作方式。
+        這兩個軌道的關係，就像是<u>「採礦」和「鑄幣」</u>的關係。實務是採礦——你在現場挖出珍貴的原礦；建造是鑄幣——你把原礦製成可以流通的貨幣。
       </p>
 
-      <h2>建造能力與助人實踐，並不矛盾</h2>
+      <hr class="divider">
 
-      <p>
-        說到這裡，也許你會和當年的我一樣，感到一種認知上的碰撞感：「我是助人的，我不是要㹐連系人㹑的。」但正是這種思維，讓導致社會工作專業的知識常常個人死、影響力消進。
-      </p>
+      <h2 id="resources">延伸資源</h2>
 
-      <!-- 圖片範例（用時再開啟）
-      <figure>
-        <img src="../images/檔名.jpg" alt="圖片說明文字">
-        <figcaption>圖片說明文字放這裡</figcaption>
-      </figure>
-      -->
+      <div class="file-card">
+        <div class="file-icon file-pdf">PDF</div>
+        <div class="file-info">
+          <p class="file-name">助人工作者知識生產指南.pdf</p>
+          <p class="file-meta">PDF &middot; 1.2 MB &middot; 2026</p>
+        </div>
+        <a href="../files/helper-builder-guide.pdf" download class="file-btn">下載</a>
+      </div>
 
-      <!-- === 繼續屬於你的文章內容 === -->
+      <hr class="divider">
+
+      <h2 id="video">影音版本</h2>
+
+      <div class="video-embed">
+        <iframe
+          <!-- ★ 示範影片：Naval Ravikant × Lex Fridman Podcast #441
+             「財富、幸福與創造力」——本文核心思想的完整影音版本
+             你自己的影片上線後，把 3qHkcs3kG44 換成你自己的影片 ID -->
+          src="https://www.youtube.com/embed/3qHkcs3kG44"
+          title="Naval Ravikant — Wealth, Happiness & Creativity | Lex Fridman Podcast #441"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <hr class="divider">
+
+      <h2 id="podcast">播客版本</h2>
+
+      <div class="podcast-embed">
+        <iframe
+          <!-- ★ 示範播客：The Tim Ferriss Show Ep.365 — Naval Ravikant
+             「如何不靠運氣致富」——Naval 最著名的長篇播客訪談
+             你自己的 Podcast 上線後，把下方 episode ID 換成你的 -->
+        src="https://open.spotify.com/embed/episode/3Fqrxvz0BzKJxJTgxePJ2o"
+          height="152"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy">
+        </iframe>
+      </div>
 
     </div>
   </article>
 </main>
 
-<!-- ---- 文章尾聲（作者卡） ---- -->
+
+<!-- ============================================================
+     分享按鈕列（不設計按讚功能）
+     分享才是真正讓文章觸及更多人的機制
+     ============================================================ -->
+<section class="share-section container">
+  <span class="share-label">分享這篇文章</span>
+  <button class="share-btn" id="copy-link-btn" onclick="copyLink(this)">
+    <!-- 複製圖示 -->
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style="flex-shrink:0">
+      <rect x="5" y="5" width="9" height="9" rx="2" stroke="currentColor" stroke-width="1.4" fill="none"/>
+      <path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    </svg>
+    複製連結
+  </button>
+  <a class="share-btn" id="share-line" href="#" target="_blank" rel="noopener">
+    <!-- LINE 圖示（棕色系，符合網站主視覺） -->
+    <svg width="14" height="14" viewBox="0 0 36 36" style="flex-shrink:0">
+      <rect width="36" height="36" rx="8" fill="currentColor" opacity=".15"/>
+      <path d="M18 7C11.373 7 6 11.477 6 17c0 4.01 2.627 7.502 6.518 9.297-.254.949-.81 3.03-.93 3.499-.145.574.21.567.442.413.18-.12 2.9-1.917 4.073-2.69.615.089 1.248.135 1.897.135 6.627 0 12-4.477 12-10S24.627 7 18 7z" fill="currentColor"/>
+    </svg>
+    LINE
+  </a>
+  <a class="share-btn" id="share-fb" href="#" target="_blank" rel="noopener">
+    <!-- Facebook 圖示（棕色系） -->
+    <svg width="13" height="13" viewBox="0 0 24 24" style="flex-shrink:0">
+      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="currentColor"/>
+    </svg>
+    Facebook
+  </a>
+  <a class="share-btn" id="share-x" href="#" target="_blank" rel="noopener">
+    <!-- X (Twitter) 圖示 -->
+    <svg width="13" height="13" viewBox="0 0 24 24" style="flex-shrink:0">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="currentColor"/>
+    </svg>
+    X
+  </a>
+</section>
+
+<!-- ============================================================
+     延伸閱讀橫向滑動 Gallery
+     安插圖片：把 style="background-image: url('../images/...')" 加到 .related-card-img
+     ============================================================ -->
+<section class="related-articles">
+  <h2 class="related-title">延伸閱讀</h2>
+  <div class="related-track-wrap">
+    <div class="related-track">
+      <a href="#" class="related-card">
+        <div class="related-card-img"></div>
+        <div class="related-card-body">
+          <span class="related-card-cat">記</span>
+          <p class="related-card-title">社區心理衛生社工的第一線觀察</p>
+          <p class="related-card-date">2026 &middot; March</p>
+        </div>
+      </a>
+      <a href="#" class="related-card">
+        <div class="related-card-img"></div>
+        <div class="related-card-body">
+          <span class="related-card-cat">問</span>
+          <p class="related-card-title">休學兩年，我學到了什麼？</p>
+          <p class="related-card-date">2025 &middot; Year</p>
+        </div>
+      </a>
+      <a href="#" class="related-card">
+        <div class="related-card-img"></div>
+        <div class="related-card-body">
+          <span class="related-card-cat">析</span>
+          <p class="related-card-title">下一篇文章標題（尚未發佈）</p>
+          <p class="related-card-date">即將發佈</p>
+        </div>
+      </a>
+      <a href="#" class="related-card">
+        <div class="related-card-img"></div>
+        <div class="related-card-body">
+          <span class="related-card-cat">倡</span>
+          <p class="related-card-title">另一篇未來作品的標題</p>
+          <p class="related-card-date">即將發佈</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     留言區（Giscus）
+     啟用步驟：
+       1. GitHub Repository Settings → Discussions 已啟用
+       2. 前往 https://giscus.app/zh-TW
+       3. Repository 填入：howard-social-work/howard-social-work.github.io
+       4. Discussion Category 選 "General"
+       5. 複製生成的 <script> 標簽，貼到下方 .giscus-wrap 裡
+     ============================================================ -->
+<section class="comments-section container">
+  <h2 class="comments-title">留言與討論</h2>
+  <div class="giscus-wrap">
+    <div class="giscus-placeholder">
+      <p>留言功能由 Giscus 提供（需 GitHub 帳號）<br>
+      前往 giscus.app 取得設定碼後貼入此處即可啟用</p>
+    </div>
+    <!--
+      Giscus 設定碼貼這裡（实際數値需從 giscus.app 取得）：
+      <script src="https://giscus.app/client.js"
+        data-repo="你的帳號/你的帳號.github.io"
+        data-repo-id="填入 repo-id"
+        data-category="General"
+        data-category-id="填入 category-id"
+        data-mapping="pathname"
+        data-reactions-enabled="0"
+        data-theme="light"
+        data-lang="zh-TW"
+        crossorigin="anonymous"
+        async>
+      </script>
+    -->
+  </div>
+</section>
+
 <section class="article-footer">
-  <div class="container" style="display:flex;align-items:center;gap:1.5rem;">
-    <div>
-      <!-- ★ 替換成你的名字和對外一句話的自我介紹 -->
-      <p class="author-info-name">Howard Chang ｜ 張××</p>
-      <p class="author-info-bio">社會工作與諦商心理的實務科學家・知識型創作者。致力將助人實踐與學術思考轉化為可被傳遞的知識。</p>
-      <a href="../index.html" class="author-home">Back to homepage &rarr;</a>
+  <div class="container">
+    <div class="author-wrap">
+      <div>
+        <p class="author-name">Howard &vert; 豪</p>
+        <p class="author-bio">社會工作與諮商心理的實務實踐者・知識型創作者。致力將助人實踐與學術思考轉化為可被傳遞的知識。</p>
+        <a href="../index.html" class="author-home">Back to homepage &rarr;</a>
+      </div>
     </div>
   </div>
 </section>
 
 <footer class="site-footer">
   <div class="inner">
-    <p class="ft">&copy; 2026 Howard Chang.</p>
+    <p class="ft">&copy; 2026 Howard.</p>
     <p class="ft">Hosted on GitHub Pages</p>
   </div>
 </footer>
 
-</body>
-</html>
+<script>
+/* 捲動感知導覽列 */
+(function(){
+  var nav = document.querySelector('.site-nav');
+  if(!nav) return;
+  window.addEventListener('scroll', function(){
+    nav.classList.toggle('nav-scrolled', window.scrollY > 60);
+  }, {passive:true});
+})();
+
+/* 分享功能 */
+(function(){
+  var u = encodeURIComponent(window.location.href);
+  var t = encodeURIComponent(document.title);
+  var l = document.getElementById('share-line');
+  var f = document.getElementById('share-fb');
+  var x = document.getElementById('share-x');
+  if(l) l.href='https://social-plugins.line.me/lineit/share?url='+u;
+  if(f) f.href='https://www.facebook.com/sharer/sharer.php?u='+u;
+  if(x) x.href='https://twitter.com/intent/tweet?url='+u+'&text='+t;
+})();
+
+function copyLink(btn){
+  var original = btn.innerHTML;
+  navigator.clipboard.writeText(window.location.href).then(function(){
+    btn.innerHTML = '&#10003; 已複製';
+    btn.classList.add('copied');
+    setTimeout(function(){ btn.innerHTML = original; btn.classList.remove('copied'); }, 2000);
+  }).catch(function(){
+    var ta = document.createElement('textarea');
+    ta.value = window.location.href;
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.innerHTML = '&#10003; 已複製';
+    btn.classList.add('copied');
+    setTimeout(function(){ btn.innerHTML = original; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+
+<!-- 浮動目錄自動生成腳本 -->
+<script>
+/* TOC: 使用 DOMContentLoaded 確保在任何環境下都能正確執行 */
+document.addEventListener('DOMContentLoaded', function() {
+  /* 只抓 .article-body 裡的 h2 和 h3，排除 related-title 等其他標題 */
+  var article = document.querySelector('.article-body');
+  if (!article) return;
+  var headings = article.querySelectorAll('h2[id], h3[id]');
+  var tocList  = document.getElementById('toc-list');
+  if (!tocList || headings.length === 0) return;
+
+  headings.forEach(function(h) {
+    var li = document.createElement('li');
+    li.className = h.tagName === 'H3' ? 'toc-h3' : 'toc-h2';
+    var a = document.createElement('a');
+    a.href = '#' + h.id;
+    /* 取純文字，去除多餘空白 */
+    a.textContent = h.textContent.trim();
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = document.getElementById(h.id);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+    li.appendChild(a);
+    tocList.appendChild(li);
+  });
+
+  /* IntersectionObserver：偵測當前閱讀位置，高亮對應目錄項目 */
+  var tocLinks = tocList.querySelectorAll('a');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var id = entry.target.id;
+        tocLinks.forEach(function(a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-56px 0px -75% 0px' });
+
+  headings.forEach(function(h) { observer.observe(h); });
+});
+</script>
