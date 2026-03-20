@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>知識地圖：這個網站的分類邏輯體系｜Howard</title>
+  <meta name="description" content="一份完整的分類架構說明——四個維度如何交織運作，幫助你找到最相關的文本。">
+  <meta name="author" content="Howard">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Design Tokens ────────────────────────────────────── */
+    :root {
+      --bg:        #F8F6F1;
+      --bg-card:   #FDFCF9;
+      --ink:       #1A1916;
+      --ink-mid:   #4A4843;
+      --ink-lite:  #8C8982;
+      --accent:    #6B4F3A;
+      --border:    #DEDAD3;
+      --border-dk: rgba(107,79,58,.25);
+      --serif-en:  'Cormorant Garamond', Georgia, serif;
+      --sans-en:   'Manrope', 'Helvetica Neue', sans-serif;
+      --mono:      'DM Mono', 'Courier New', monospace;
+      --zh:        'Microsoft JhengHei', '微軟正黑體', 'PingFang TC', sans-serif;
+      --max-w:     700px;
+      --toc-w:     188px;
+      /* Gesture colours */
+      --ask:   #7C6A5B;
+      --ana:   #5B7080;
+      --rec:   #5B7065;
+      --adv:   #7A5B78;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 17px; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--zh); line-height: 1.8; }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 2rem; }
+
+    /* ── Banner ──────────────────────────────────────────── */
+    .article-banner {
+      width: 100%; height: 260px;
+      background-color: #F2EEE7;
+      /* 同首頁和第一篇文章相同的 Banner SVG（data URI 內嵌，無需外部檔案） */
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNDAwIDMyMCIgd2lkdGg9IjE0MDAiIGhlaWdodD0iMzIwIj4KICA8ZGVmcz4KICAgIDwhLS0g5pW06auU6IOM5pmv5ry45bGk77ya5bem5YG056iN5rex77yM5Y+z5YG05ry45Lqu77yM5ZG85oeJ5YWJ57ea5b6e5Y+z5pa554Wn5YWlIC0tPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJiZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiAgIHN0b3AtY29sb3I9IiNFREU5RTIiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI0NSUiICBzdG9wLWNvbG9yPSIjRjJFRUU3Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0Y4RjZGMSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDwhLS0g5qi55b2i5YWD57Sg55qE5Z6C55u05ry45bGk77ya5qC56YOo6LyD5rex77yM5p6d56uv5ry45reh77yM6LGh5b6155Sf6ZW35ZCR5YWJIC0tPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJ0cmVlR3JhZCIgeDE9IjAlIiB5MT0iMTAwJSIgeDI9IjAlIiB5Mj0iMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiAgIHN0b3AtY29sb3I9IiM2QjRGM0EiIHN0b3Atb3BhY2l0eT0iMC41NSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjYwJSIgIHN0b3AtY29sb3I9IiM2QjRGM0EiIHN0b3Atb3BhY2l0eT0iMC4zNSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM2QjRGM0EiIHN0b3Atb3BhY2l0eT0iMC4xMCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDwhLS0g5Y+z5YG05reh5Ye66YGu572p77yM6K6T5qeL5ZyW5ZCR5Y+z5YG05raI5pWjIC0tPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJmYWRlUmlnaHQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgICBzdG9wLWNvbG9yPSJ3aGl0ZSIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iNzAlIiAgc3RvcC1jb2xvcj0id2hpdGUiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IndoaXRlIiBzdG9wLW9wYWNpdHk9IjAuNiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CgogIDwhLS0g6IOM5pmv5bqV6ImyIC0tPgogIDxyZWN0IHdpZHRoPSIxNDAwIiBoZWlnaHQ9IjMyMCIgZmlsbD0idXJsKCNiZykiLz4KCiAgPCEtLSDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKICAgICAgIOW3puWBtOS4u+aoueW9ou+8iOaguOW/g+imluimuuWFg+e0oO+8iQogICAgICAg5qeL5ZyW5Y6f5YmH77ya5Li75qi55YGP5bem572u77yM5p6d5bm55ZCR5Y+z5bu25bGV77yMCiAgICAgICDlnKjnlavpnaLlj7PlgbToh6rnhLbmtojmlaPvvIzlvaLmiJDjgIznlJ/plbfkuK3jgI3nmoTli5XmhYvmhJ8KICDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAgLS0+CgogIDwhLS0g5Li75bm5IC0tPgogIDxsaW5lIHgxPSIxNTUiIHkxPSIzMTAiIHgyPSIxNTUiIHkyPSIxODUiIHN0cm9rZT0idXJsKCN0cmVlR3JhZCkiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KCiAgPCEtLSDmoLnpg6jmk7TmlaMgLS0+CiAgPGxpbmUgeDE9IjE1NSIgeTE9IjMwMCIgeDI9IjEyMCIgeTI9IjMxOCIgc3Ryb2tlPSIjNkI0RjNBIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIwLjMiLz4KICA8bGluZSB4MT0iMTU1IiB5MT0iMzAwIiB4Mj0iMTkwIiB5Mj0iMzE4IiBzdHJva2U9IiM2QjRGM0EiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9IjAuMyIvPgogIDxsaW5lIHgxPSIxNTAiIHkxPSIzMDUiIHgyPSIxMDgiIHkyPSIzMTYiIHN0cm9rZT0iIzZCNEYzQSIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9IjAuMTgiLz4KICA8bGluZSB4MT0iMTYwIiB5MT0iMzA1IiB4Mj0iMjA1IiB5Mj0iMzE1IiBzdHJva2U9IiM2QjRGM0EiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIwLjE4Ii8+CgogIDwhLS0g5bem5Li75p6d77ya5b6A5bem5LiK5bu25Ly4IC0tPgogIDxwYXRoIGQ9Ik0xNTUgMjIwIFExMzAgMjAwIDk4IDE3OCIgc3Ryb2tlPSIjNkI0RjNBIiBzdHJva2Utd2lkdGg9IjIuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIiBvcGFjaXR5PSIwLjU1Ii8+CiAgPCEtLSDlt6bkuLvmnp3nmoTntLDmnp0gLS0+CiAgPGxpbmUgeDE9Ijk4IiB5MT0iMTc4IiB4Mj0iNzIiIHkyPSIxNTUiIHN0cm9rZT0iIzZCNEYzQSIgc3Ryb2tlLXdpZHRoPSIxLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC40Ii8+CiAgPGxpbmUgeDE9Ijk4IiB5MT0iMTc4IiB4Mj0iOTAiIHkyPSIxNDgiIHN0cm9rZT0iIzZCNEYzQSIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC4zNSIvPgogIDxsaW5lIHgxPSI5OCIgeTE9IjE3OCIgeDI9IjExOCIgeTI9IjE1OCIgc3Ryb2tlPSIjNkI0RjNBIiBzdHJva2Utd2lkdGg9IjEuMSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIwLjMwIi8+CiAgPCEtLSDmnKvmoqIgLS0+CiAgPGxpbmUgeDE9IjcyIiB5MT0iMTU1IiB4Mj0iNTgiIHkyPSIxMzgiIHN0cm9rZT0iIzZCNEYzQSIgc3Ryb2tlLXdpZHRoPSIuOSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIwLjI1Ii8+CiAgPGxpbmUgeDE9IjcyIiB5MT0iMTU1IiB4Mj0iNjgiIHkyPSIxMzIiIHN0cm9rZT0iIzZCNEYzQSIgc3Ryb2tlLXdpZHRoPSIuOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIwLjIwIi8+CiAgPGxpbmUgeDE9IjkwIiB5MT0iMTQ4IiB4Mj0iNzgiIHkyPSIxMjgiIHN0cm9rZT0iIzZCNEYzQSIgc3Ryb2tlLXdpZHRoPSIuOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIwLjE4Ii8+CiAgPGxpbmUgeDE9IjkwIiB5MT0iMTQ4IiB4Mj0iMTAwIiB5Mj0iMTI2IiBzdHJva2U9IiM2QjRGM0EiIHN0cm9rZS13aWR0aD0iLjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC4xOCIvPgoKICA8IS0tIOWPs+S4u+aene+8muW+gOWPs+S4iuW7tuS8uO+8iOWQkeWPs+WBtOeVq+mdouepuumWk+WRvOaHie+8iSAtLT4KICA8cGF0aCBkPSJNMTU1IDIwNSBRMTk1IDE4MiAyNDAgMTYyIiBzdHJva2U9IiM2QjRGM0EiIHN0cm9rZS13aWR0aD0iMi4wIiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiIG9wYWNpdHk9IjAuNTAiLz4KICA8IS0tIOWPs+S4u+aenee0sOaenSAtLT4KICA8bGluZSB4MT0iMjQwIiB5MT0iMTYyIiB4Mj0iMjcwIiB5Mj0iMTQyIiBzdHJva2U9IiM2QjRGM0EiIHN0cm9rZS13aWR0aD0iMS4zIiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9IjAuMzgiLz4KICA8bGluZSB4MT0iMjQwIiB5MT0iMTYyIiB4Mj0iMjU1IiB5Mj0iMTM1IiBzdHJva2U9IiM2QjRGM0EiIHN0cm9rZS13aWR0aD0iMS4xIiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9IjAuMzIiLz4KICA8bGluZSB4MT0iMjQwIiB5MT0iMTYyIiB4Mj0iMjI4IiB5Mj0iMTM4IiBzdHJva2U9IiM2QjRGM0EiIHN0cm9rZS13aWR0aD0iMS4wIiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9IjAuMjgiLz4KICA8IS0tIOabtOmVt+eahOaene+8jOe5vOe6jOWPs+W7tiAtLT4KICA8cGF0aCBkPSJNMjQwIDE2MiBRMzEwIDE0MCAzNjggMTE4IiBzdHJva2U9IiM2QjRGM0EiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiIG9wYWNpdHk9IjAuMzIiLz4KICA8bGluZSB4MT0iMzY4IiB5MT0iMTE4IiB4Mj0iMzk4IiB5Mj0iMTAyIiBzdHJva2U9IiM2QjRGM0EiIHN0cm9rZS13aWR0aD0iMS4wIiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9IjAuMjIiLz4KICA8bGluZSB4MT0iMzY4IiB5MT0iMTE4IiB4Mj0iMzg1IiB5Mj0iOTUiIHN0cm9rZT0iIzZCNEYzQSIgc3Ryb2tlLXdpZHRoPSIuOSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIwLjE4Ii8+CiAgPGxpbmUgeDE9IjM2OCIgeTE9IjExOCIgeDI9IjM1NSIgeTI9Ijk2IiBzdHJva2U9IiM2QjRGM0EiIHN0cm9rZS13aWR0aD0iLjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC4xNSIvPgoKICA8IS0tIOmgguerr+ebtOaenSAtLT4KICA8bGluZSB4MT0iMTU1IiB5MT0iMTg1IiB4Mj0iMTU1IiB5Mj0iMTQ4IiBzdHJva2U9IiM2QjRGM0EiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9IjAuNDUiLz4KICA8bGluZSB4MT0iMTU1IiB5MT0iMTQ4IiB4Mj0iMTQyIiB5Mj0iMTIyIiBzdHJva2U9IiM2QjRGM0EiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9IjAuMzIiLz4KICA8bGluZSB4MT0iMTU1IiB5MT0iMTQ4IiB4Mj0iMTY4IiB5Mj0iMTIwIiBzdHJva2U9IiM2QjRGM0EiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9IjAuMzIiLz4KICA8bGluZSB4MT0iMTQyIiB5MT0iMTIyIiB4Mj0iMTM0IiB5Mj0iMTAwIiBzdHJva2U9IiM2QjRGM0EiIHN0cm9rZS13aWR0aD0iLjkiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC4yMiIvPgogIDxsaW5lIHgxPSIxNDIiIHkxPSIxMjIiIHgyPSIxNDgiIHkyPSI5OCIgc3Ryb2tlPSIjNkI0RjNBIiBzdHJva2Utd2lkdGg9Ii44IiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9IjAuMTgiLz4KICA8bGluZSB4MT0iMTY4IiB5MT0iMTIwIiB4Mj0iMTYyIiB5Mj0iOTgiIHN0cm9rZT0iIzZCNEYzQSIgc3Ryb2tlLXdpZHRoPSIuOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIwLjE4Ii8+CiAgPGxpbmUgeDE9IjE2OCIgeTE9IjEyMCIgeDI9IjE3OCIgeTI9Ijk3IiBzdHJva2U9IiM2QjRGM0EiIHN0cm9rZS13aWR0aD0iLjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC4xOCIvPgoKICA8IS0tIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAogICAgICAg5bu25Ly45ZCR5Y+z5YG055qE44CM5pWj5p6d44CN4oCU4oCU6LGh5b6155+l6K2Y5YKz5pKtCiAgICAgICDpgJnkupvnt5rmop3lvp7kuK3plpPlu7bkvLjliLDlj7PlgbTvvIzmvLjmvLjmtojmlaMKICDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAgLS0+CiAgPHBhdGggZD0iTTQyMCAxMDggUTUyMCA4OCA2NDAgNzIiIHN0cm9rZT0iIzZCNEYzQSIgc3Ryb2tlLXdpZHRoPSIxLjAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iMC4xOCIvPgogIDxwYXRoIGQ9Ik00MzAgMTE1IFE1NTAgMTAwIDY5MCA5MCIgc3Ryb2tlPSIjNkI0RjNBIiBzdHJva2Utd2lkdGg9Ii44IiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiIG9wYWNpdHk9IjAuMTIiLz4KICA8cGF0aCBkPSJNNDEwIDEyMiBRNTMwIDExNSA2ODAgMTEyIiBzdHJva2U9IiM2QjRGM0EiIHN0cm9rZS13aWR0aD0iLjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iMC4xMCIvPgogIDxsaW5lIHgxPSI2NDAiIHkxPSI3MiIgeDI9IjcwMCIgeTI9IjYyIiBzdHJva2U9IiM2QjRGM0EiIHN0cm9rZS13aWR0aD0iLjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC4xMiIvPgogIDxsaW5lIHgxPSI2NDAiIHkxPSI3MiIgeDI9IjY1NSIgeTI9IjU4IiBzdHJva2U9IiM2QjRGM0EiIHN0cm9rZS13aWR0aD0iLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC4xMCIvPgoKICA8IS0tIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAogICAgICAg57Sw56+A77ya6Zu25pWj55qE5bCP5ZyT6bue77yI56+A6bue77yJ77yM5ZG85oeJ5Y6f5aeLIExvZ28g55qE6aKo5qC8CiAg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSAIC0tPgogIDxjaXJjbGUgY3g9IjU4IiAgY3k9IjEzNiIgcj0iMi4wIiBmaWxsPSIjNkI0RjNBIiBvcGFjaXR5PSIwLjI4Ii8+CiAgPGNpcmNsZSBjeD0iNzgiICBjeT0iMTI2IiByPSIxLjgiIGZpbGw9IiM2QjRGM0EiIG9wYWNpdHk9IjAuMjIiLz4KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMjUiIHI9IjEuOCIgZmlsbD0iIzZCNEYzQSIgb3BhY2l0eT0iMC4yMCIvPgogIDxjaXJjbGUgY3g9IjEzNCIgY3k9Ijk5IiAgcj0iMS42IiBmaWxsPSIjNkI0RjNBIiBvcGFjaXR5PSIwLjIwIi8+CiAgPGNpcmNsZSBjeD0iMTc5IiBjeT0iOTYiICByPSIxLjYiIGZpbGw9IiM2QjRGM0EiIG9wYWNpdHk9IjAuMTgiLz4KICA8Y2lyY2xlIGN4PSIyNzAiIGN5PSIxNDAiIHI9IjEuNSIgZmlsbD0iIzZCNEYzQSIgb3BhY2l0eT0iMC4yMiIvPgogIDxjaXJjbGUgY3g9IjM5OCIgY3k9IjEwMSIgcj0iMS40IiBmaWxsPSIjNkI0RjNBIiBvcGFjaXR5PSIwLjE2Ii8+CiAgPGNpcmNsZSBjeD0iNjU1IiBjeT0iNTciICByPSIxLjIiIGZpbGw9IiM2QjRGM0EiIG9wYWNpdHk9IjAuMTAiLz4KICA8Y2lyY2xlIGN4PSI3MDIiIGN5PSI2MSIgIHI9IjEuMCIgZmlsbD0iIzZCNEYzQSIgb3BhY2l0eT0iMC4wOCIvPgoKICA8IS0tIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAogICAgICAg5Y+z5YG05reh5Ye66YGu572p77yM6K6T5ZyW5qGI6Ieq54S26J6N5YWl6IOM5pmvCiAg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSAIC0tPgogIDxyZWN0IHdpZHRoPSIxNDAwIiBoZWlnaHQ9IjMyMCIgZmlsbD0idXJsKCNmYWRlUmlnaHQpIi8+CgogIDwhLS0g5bqV6YOo5reh5Ye677ya5ZKM6aCB6Z2i5YWn5a655p+U5ZKM6YGO5rihIC0tPgogIDxsaW5lYXJHcmFkaWVudCBpZD0iZmFkZUJvdHRvbSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgICBzdG9wLWNvbG9yPSIjRjhGNkYxIiBzdG9wLW9wYWNpdHk9IjAiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0Y4RjZGMSIgc3RvcC1vcGFjaXR5PSIwLjkiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxyZWN0IHk9IjIwMCIgd2lkdGg9IjE0MDAiIGhlaWdodD0iMTIwIiBmaWxsPSJ1cmwoI2ZhZGVCb3R0b20pIi8+Cjwvc3ZnPg==');
+      background-size: cover; background-position: center;
+      position: relative; overflow: hidden;
+    }
+    .article-banner::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 0; right: 0; height: 80px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+    }
+
+    /* ── Nav ─────────────────────────────────────────────── */
+    .site-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(248,246,241,.92); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow .3s ease;
+    }
+    .site-nav.nav-scrolled { box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+    .site-nav .inner {
+      max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; transition: height .3s ease;
+    }
+    .site-nav.nav-scrolled .inner { height: 52px; }
+    .nav-brand { display: flex; align-items: center; gap: .65rem; text-decoration: none; }
+    .nav-svg-logo { flex-shrink: 0; transition: opacity .2s, width .3s, height .3s; }
+    .nav-brand:hover .nav-svg-logo { opacity: .7; }
+    .site-nav.nav-scrolled .nav-svg-logo { width: 26px; height: 26px; }
+    .nav-name {
+      font-family: var(--serif-en); font-size: 1.15rem; font-weight: 400;
+      letter-spacing: .04em; color: var(--ink); line-height: 1;
+      transition: font-size .3s;
+    }
+    .site-nav.nav-scrolled .nav-name { font-size: 1.0rem; }
+    .nav-back {
+      font-family: var(--mono); font-size: .7rem; letter-spacing: .1em;
+      color: var(--ink-mid); text-decoration: none; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+
+    /* ── Floating TOC ────────────────────────────────────── */
+    #toc-container {
+      position: fixed; top: 50%; right: 0;
+      transform: translateY(-50%);
+      width: var(--toc-w); max-height: 62vh;
+      overflow-y: auto; z-index: 100;
+      background: rgba(255,255,255,.86);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border); border-right: none;
+      border-radius: 12px 0 0 12px;
+      padding: 1rem 1.1rem;
+      box-shadow: -5px 5px 20px rgba(0,0,0,.08), -3px -3px 10px rgba(255,255,255,.7);
+      scrollbar-width: none;
+      transition: opacity .3s;
+    }
+    #toc-container::-webkit-scrollbar { display: none; }
+    @media(max-width: 1100px) { #toc-container { display: none; } }
+    #toc-title {
+      font-family: var(--mono); font-size: .58rem; letter-spacing: .14em;
+      color: var(--ink-lite); text-transform: uppercase;
+      margin-bottom: .7rem; padding-bottom: .5rem; border-bottom: 1px solid var(--border);
+    }
+    #toc-list { list-style: none; }
+    #toc-list li a {
+      display: block; font-family: var(--zh); font-size: .72rem;
+      color: var(--ink-lite); text-decoration: none;
+      padding: .25rem 0 .25rem .5rem; line-height: 1.45;
+      border-left: 2px solid transparent; margin-left: -.5rem;
+      transition: color .15s, border-color .15s;
+    }
+    #toc-list li a:hover { color: var(--ink-mid); }
+    #toc-list li a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
+    #toc-list li.toc-h3 a { padding-left: 1.2rem; font-size: .67rem; }
+
+    /* ── Article Header ──────────────────────────────────── */
+    .article-header { padding: 3rem 0 2.5rem; border-bottom: 1px solid var(--border); }
+    .article-cat {
+      font-family: var(--mono); font-size: .68rem; letter-spacing: .18em;
+      color: var(--accent); text-transform: uppercase; margin-bottom: 1.5rem;
+    }
+    .article-title {
+      font-family: var(--serif-en), var(--zh);
+      font-size: clamp(1.35rem, 3vw, 1.9rem);
+      font-weight: 500; line-height: 1.2; letter-spacing: -.01em; margin-bottom: 1rem;
+    }
+    .article-subtitle {
+      font-family: var(--zh); font-size: 1rem; font-weight: 300;
+      color: var(--ink-mid); line-height: 1.6; margin-bottom: 2rem;
+    }
+    .article-meta {
+      display: flex; align-items: center; gap: 1.5rem;
+      font-family: var(--mono); font-size: .65rem; color: var(--ink-lite); letter-spacing: .08em;
+      margin-bottom: 1.2rem;
+    }
+    .article-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .4rem; }
+    .atag {
+      font-family: var(--mono); font-size: .62rem; letter-spacing: .08em;
+      border-radius: 4px; padding: .22rem .7rem; white-space: nowrap;
+      background: var(--bg); box-shadow: 0 1px 4px rgba(0,0,0,.07);
+      transition: box-shadow .2s;
+    }
+    .atag-domain { border: 1.5px solid rgba(107,79,58,.45); color: var(--accent); }
+    .atag-reader  { border: 1px solid var(--border); color: var(--ink-mid); }
+
+    /* ── Abstract ────────────────────────────────────────── */
+    .article-abstract { margin: .4rem 0 2rem; }
+    .article-abstract p {
+      font-family: var(--zh); font-size: 1rem !important;
+      line-height: 2.0 !important; color: var(--ink-mid) !important;
+      margin-bottom: 0 !important;
+    }
+
+    /* ── Body prose ──────────────────────────────────────── */
+    .article-body { padding: 3.5rem 0 2rem; }
+    .article-body p {
+      font-size: 1rem; line-height: 2.0; color: var(--ink-mid); margin-bottom: 1.8rem;
+      text-align: justify; text-justify: inter-character;
+    }
+    .article-body h2 {
+      font-family: var(--serif-en), var(--zh); font-size: 1.4rem; font-weight: 600;
+      color: var(--ink); margin-top: 3.5rem; margin-bottom: 1.2rem;
+      padding-bottom: .5rem; border-bottom: 1px solid var(--border);
+    }
+    .article-body h3 {
+      font-family: var(--zh); font-size: 1rem; font-weight: 700;
+      color: var(--ink); margin-top: 2.5rem; margin-bottom: .8rem;
+    }
+    strong { font-weight: 600; color: var(--ink); }
+    em { font-style: italic; }
+    mark { background: none; border-radius: 2px; padding: 0 .15em; }
+    .hl-yellow { background: rgba(250,199,117,.40); }
+    .hl-green  { background: rgba(151,196,89,.30); }
+    .hl-blue   { background: rgba(55,138,221,.18); }
+    .c-accent  { color: var(--accent); }
+    .c-muted   { color: var(--ink-lite); }
+    .article-body a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 3px; transition: color .2s, text-decoration-color .2s; }
+    .article-body a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+
+    /* ── Callout ─────────────────────────────────────────── */
+    .callout {
+      border-left: 3px solid var(--accent); background: rgba(107,79,58,.05);
+      border-radius: 0 8px 8px 0; padding: 1rem 1.4rem; margin: 2rem 0;
+    }
+    .callout p { margin-bottom: 0 !important; font-size: .92rem !important; }
+
+    /* ── Lists ───────────────────────────────────────────── */
+    .article-list {
+      font-size: 1rem; line-height: 1.9; color: var(--ink-mid);
+      padding-left: 1.6rem; margin-bottom: 1.8rem;
+    }
+    .article-list li { margin-bottom: .45rem; }
+    .article-list li::marker { color: var(--accent); }
+
+    /* ═══════════════════════════════════════════════════════
+       ★★★  CLASSIFICATION SYSTEM DIAGRAM STYLES
+       ═══════════════════════════════════════════════════════ */
+
+    /* ── Gesture cards (問析記倡) ──────────────────────────── */
+    .gesture-grid {
+      display: grid; grid-template-columns: repeat(4, minmax(160px, 1fr));
+      gap: .9rem; margin: 2rem 0;
+    }
+    @media(max-width: 640px) { .gesture-grid { grid-template-columns: repeat(2,1fr); } }
+
+    .gesture-card {
+      border: 1px solid var(--border);
+      height: 100%;  /* stretch to tallest in row */
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      background: var(--bg-card);
+      box-shadow: 0 3px 10px rgba(0,0,0,.055), 0 1px 3px rgba(0,0,0,.04);
+      transition: transform .2s ease, box-shadow .2s ease;
+      cursor: default;
+    }
+    .gesture-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 20px rgba(0,0,0,.09), 0 2px 6px rgba(0,0,0,.05);
+    }
+
+    /* Each card has a colour-coded left accent border */
+    .gesture-card[data-g="ask"]  { border-left: 3px solid var(--ask); }
+    .gesture-card[data-g="ana"]  { border-left: 3px solid var(--ana); }
+    .gesture-card[data-g="rec"]  { border-left: 3px solid var(--rec); }
+    .gesture-card[data-g="adv"]  { border-left: 3px solid var(--adv); }
+
+    .gc-hanzi {
+      font-family: var(--zh); font-size: 1.6rem; font-weight: 600;
+      line-height: 1; margin-bottom: .5rem;
+    }
+    .gesture-card[data-g="ask"] .gc-hanzi { color: var(--ask); }
+    .gesture-card[data-g="ana"] .gc-hanzi { color: var(--ana); }
+    .gesture-card[data-g="rec"] .gc-hanzi { color: var(--rec); }
+    .gesture-card[data-g="adv"] .gc-hanzi { color: var(--adv); }
+
+    .gc-en  { font-family: var(--mono); font-size: .6rem; letter-spacing: .1em; color: var(--ink-lite); text-transform: uppercase; margin-bottom: .6rem; }
+    .gc-def { font-family: var(--zh); font-size: .78rem; color: var(--ink-mid); line-height: 1.55;
+      text-align: justify; text-justify: inter-character; hyphens: none;
+      overflow-wrap: break-word; word-break: normal; }
+
+    /* ── Dimension table ─────────────────────────────────── */
+    .dim-table-wrap {
+      overflow-x: auto; margin: 2rem 0; border-radius: 10px;
+      border: 1px solid var(--border); background: var(--bg-card);
+      box-shadow: 0 4px 16px rgba(0,0,0,.065), 0 1px 4px rgba(0,0,0,.045);
+    }
+    .dim-table {
+      width: 100%; border-collapse: collapse;
+      font-family: var(--zh); font-size: .80rem; min-width: 520px;
+    }
+    .dim-table th {
+      background: rgba(107,79,58,.07); font-weight: 600; font-size: .74rem;
+      letter-spacing: .03em; color: var(--ink);
+      padding: .6rem 1rem;
+      border-bottom: 1.5px solid rgba(107,79,58,.20);
+      border-right: none; text-align: left; vertical-align: middle;
+    }
+    .dim-table td {
+      padding: .6rem 1rem;
+      border-bottom: 1px solid rgba(0,0,0,.07);
+      border-right: none;
+      color: var(--ink-mid); vertical-align: top;
+      text-align: justify; text-justify: inter-character;
+    }
+    .dim-table tr:last-child td { border-bottom: none; }
+    .dim-table .num-cell {
+      font-family: var(--mono); font-size: .65rem; color: var(--accent);
+      letter-spacing: .08em; font-weight: 500; white-space: nowrap;
+    }
+    .dim-table .name-cell { font-weight: 600; color: var(--ink); }
+
+    /* ── Interactive tree diagram ────────────────────────── */
+    .tree-wrap {
+      margin: 2.5rem 0; overflow-x: auto;
+      border: 1px solid var(--border); border-radius: 12px;
+      background: var(--bg-card);
+      box-shadow: 0 4px 18px rgba(0,0,0,.07), 0 1px 4px rgba(0,0,0,.045);
+      padding: 2rem 1.5rem;
+    }
+    .tree-wrap svg { display: block; min-width: 580px; width: 100%; }
+
+    /* ── Knowledge domain grid ───────────────────────────── */
+    .domain-section {
+      border: 1px solid var(--border); border-radius: 12px;
+      background: var(--bg-card); margin: .8rem 0 2rem;
+      box-shadow: 0 3px 12px rgba(0,0,0,.055), 0 1px 3px rgba(0,0,0,.04);
+      overflow: hidden;
+    }
+    .domain-section-header {
+      display: flex; align-items: center; gap: .9rem;
+      padding: .75rem 1.2rem;
+      background: rgba(107,79,58,.05);
+      border-bottom: 1px solid var(--border);
+    }
+    .domain-num {
+      font-family: var(--mono); font-size: .6rem; color: var(--accent);
+      letter-spacing: .1em; font-weight: 500;
+    }
+    .domain-zh  { font-family: var(--zh); font-size: .88rem; font-weight: 600; color: var(--ink); }
+    .domain-en  { font-family: var(--sans-en); font-size: .72rem; color: var(--ink-lite); }
+    .domain-chips {
+      display: flex; flex-wrap: wrap; gap: .5rem; padding: .85rem 1.2rem;
+    }
+    .domain-chip {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .06em;
+      border: 1px solid var(--border); border-radius: 4px;
+      padding: .2rem .65rem; background: var(--bg);
+      color: var(--ink-mid);
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+      transition: border-color .2s, color .2s;
+      cursor: default;
+    }
+    .domain-chip:hover { border-color: var(--border-dk); color: var(--accent); }
+
+    /* ── Combination example cards ───────────────────────── */
+    .combo-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1rem; margin: 2rem 0;
+    }
+    @media(max-width: 540px) { .combo-grid { grid-template-columns: 1fr; } }
+    .combo-card {
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 1.1rem 1.2rem; background: var(--bg-card);
+      box-shadow: 0 3px 10px rgba(0,0,0,.055), 0 1px 3px rgba(0,0,0,.04);
+    }
+    .combo-title {
+      font-family: var(--zh); font-size: .88rem; font-weight: 600;
+      color: var(--ink); margin-bottom: .5rem;
+    }
+    .combo-tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: .6rem; }
+    .combo-tags .atag { font-size: .56rem; padding: .15rem .55rem; }
+    .combo-desc { font-family: var(--zh); font-size: .78rem; color: var(--ink-mid); line-height: 1.6;
+      text-align: justify; text-justify: inter-character; }
+
+    /* ── Footer / Author ─────────────────────────────────── */
+    .article-footer { padding: 3rem 0; border-top: 1px solid var(--border); }
+    .author-name { font-family: var(--serif-en), var(--zh); font-size: 1rem; font-weight: 400; letter-spacing: .04em; }
+    .author-bio  { font-family: var(--zh); font-size: .82rem; color: var(--ink-mid); line-height: 1.6; margin-top: .25rem; }
+    .author-home {
+      font-family: var(--mono); font-size: .65rem; letter-spacing: .1em;
+      color: var(--accent); text-decoration: none; text-transform: uppercase;
+      display: inline-block; margin-top: .5rem;
+      border-bottom: 1px solid var(--border); padding-bottom: 1px;
+      transition: border-color .2s;
+    }
+    .author-home:hover { border-color: var(--accent); }
+    .site-footer { padding: 2rem 0; border-top: 1px solid var(--border); }
+    .site-footer .inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; }
+    .ft { font-family: var(--mono); font-size: .62rem; color: var(--ink-lite); }
+
+    /* ── Share ───────────────────────────────────────────── */
+    .share-section {
+      padding: 2rem 0; border-top: 1px solid var(--border);
+      display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap;
+    }
+    .share-label { font-family: var(--mono); font-size: .65rem; letter-spacing: .12em; color: var(--ink-lite); text-transform: uppercase; }
+    .share-btn {
+      font-family: var(--mono); font-size: .63rem; letter-spacing: .07em; text-transform: uppercase;
+      color: var(--ink-mid); border: 1px solid var(--border); background: var(--bg);
+      border-radius: 8px; padding: .45rem 1rem; cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; gap: .5rem; line-height: 1;
+      transition: border-color .2s, color .2s; box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    }
+    .share-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .share-btn.copied { border-color: #16A34A; color: #16A34A; }
+
+    /* ── Related articles gallery ────────────────────────── */
+    .related-articles { padding: 3rem 0; border-top: 1px solid var(--border); }
+    .related-title {
+      font-family: var(--serif-en); font-size: 1.05rem; font-weight: 500;
+      color: var(--ink-mid); letter-spacing: .06em;
+      margin-bottom: 1.5rem; padding: 0 2rem;
+      max-width: var(--max-w); margin-left: auto; margin-right: auto;
+    }
+    .related-track-wrap { overflow: hidden; padding-bottom: .5rem; }
+    .related-track {
+      display: flex; gap: 1.25rem; overflow-x: auto;
+      scroll-snap-type: x mandatory; scroll-padding: 0 2rem;
+      padding: .5rem 2rem 1rem; scrollbar-width: none;
+    }
+    .related-track::-webkit-scrollbar { display: none; }
+    .related-card {
+      flex: 0 0 220px; scroll-snap-align: start; text-decoration: none; color: inherit;
+      border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+      background: var(--bg);
+      box-shadow: 0 3px 10px rgba(0,0,0,.055), 0 1px 3px rgba(0,0,0,.04);
+      transition: box-shadow .25s, transform .25s;
+    }
+    .related-card:hover { box-shadow: 0 7px 22px rgba(0,0,0,.09); transform: translateY(-3px); }
+    .related-card-img  { width: 100%; height: 115px; background: #E8E4DC; background-size: cover; background-position: center; }
+    .related-card-body { padding: .8rem .95rem; }
+    .related-card-cat  {
+      font-family: var(--zh); font-size: .62rem; font-weight: 500; color: #fff;
+      background: var(--accent); border-radius: 3px; padding: .1rem .4rem;
+      margin-bottom: .45rem; display: inline-block;
+    }
+    .related-card-title {
+      font-family: var(--zh); font-size: .82rem; font-weight: 500;
+      color: var(--ink); line-height: 1.4; margin-bottom: .4rem;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .related-card-date { font-family: var(--mono); font-size: .58rem; color: var(--ink-lite); letter-spacing: .05em; }
+
+    /* ============================================================
+       ★ 突破容器寬限（Breakout）工具類
+       ============================================================
+       原理說明（重要）：
+         單純的負 margin 只會位移元素，不會自動加寬 block 元素，
+         因為 block 元素的 width 繼承自父容器（container 的 inner width）。
+         必須同時設定 width: calc(100% + 兩側突破量) 才能真正拓寬。
+
+       .breakout   → 卡片組、表格等，向左右各突破 3rem
+       .breakout-xl → 圖表、全景圖等，向左右各突破 6rem（更大空間）
+
+       窄螢幕（<760px）自動取消，避免溢出產生橫向捲軸。
+    ============================================================ */
+    .breakout {
+      width: calc(100% + 6rem);           /* ★ 關鍵：明確設定更寬的 width */
+      margin-left:  -3rem;
+      margin-right: -3rem;
+    }
+    .breakout-xl {
+      width: calc(100% + 12rem);
+      margin-left:  -6rem;
+      margin-right: -6rem;
+    }
+    @media(max-width: 760px) {
+      .breakout    { width: 100%; margin-left: 0; margin-right: 0; }
+      .breakout-xl { width: 100%; margin-left: 0; margin-right: 0; }
+    }
+
+
+    /* ── Diagram toolbar ─────────────────────────────────────── */
+    .diagram-toolbar {
+      display: flex; align-items: center; gap: .6rem; flex-wrap: wrap;
+      margin-bottom: .75rem;
+    }
+    .diagram-toolbar-label {
+      font-family: var(--mono); font-size: .62rem; letter-spacing: .1em;
+      color: var(--ink-lite); text-transform: uppercase; margin-right: .2rem;
+    }
+    .diag-btn {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .06em;
+      color: var(--ink-mid); background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: 6px;
+      padding: .3rem .7rem; cursor: pointer;
+      transition: border-color .2s, color .2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,.05);
+    }
+    .diag-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .diag-btn-dl { border-color: rgba(107,79,58,.3); color: var(--accent); }
+    .diag-btn-dl:hover { background: rgba(107,79,58,.06); }
+    .diagram-hint {
+      font-family: var(--mono); font-size: .58rem;
+      color: var(--ink-lite); letter-spacing: .05em; margin-left: .4rem;
+    }
+
+    /* Ensure SVG inside tree-wrap is always tall enough to read */
+    .tree-wrap svg {
+      min-width: 720px;
+      min-height: 585px;
+      width: 100%;
+      /* overflow visible so dragged content outside viewBox isn't clipped */
+      overflow: visible;
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- Banner -->
+<div class="article-banner"></div>
+
+<!-- Nav -->
+<nav class="site-nav">
+  <div class="inner">
+    <a href="../index.html" class="nav-brand">
+      <svg class="nav-svg-logo" width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <circle cx="16" cy="16" r="13.5" stroke="#6B4F3A" stroke-width="1" opacity=".65"/>
+        <line x1="16" y1="25" x2="16" y2="16" stroke="#6B4F3A" stroke-width="1.4" stroke-linecap="round" opacity=".9"/>
+        <line x1="16" y1="25" x2="12" y2="27" stroke="#6B4F3A" stroke-width="1" stroke-linecap="round" opacity=".55"/>
+        <line x1="16" y1="25" x2="20" y2="27" stroke="#6B4F3A" stroke-width="1" stroke-linecap="round" opacity=".55"/>
+        <path d="M155 220 Q130 200 98 178" stroke="none"/>
+        <line x1="16" y1="16" x2="10.5" y2="12" stroke="#6B4F3A" stroke-width="1.3" stroke-linecap="round" opacity=".85"/>
+        <line x1="16" y1="16" x2="21.5" y2="12" stroke="#6B4F3A" stroke-width="1.3" stroke-linecap="round" opacity=".85"/>
+        <line x1="16" y1="16" x2="16"   y2="10" stroke="#6B4F3A" stroke-width="1.2" stroke-linecap="round" opacity=".85"/>
+        <line x1="10.5" y1="12" x2="8"  y2="9.5" stroke="#6B4F3A" stroke-width=".9" stroke-linecap="round" opacity=".7"/>
+        <line x1="10.5" y1="12" x2="12" y2="9"   stroke="#6B4F3A" stroke-width=".9" stroke-linecap="round" opacity=".7"/>
+        <line x1="21.5" y1="12" x2="20" y2="9"   stroke="#6B4F3A" stroke-width=".9" stroke-linecap="round" opacity=".7"/>
+        <line x1="21.5" y1="12" x2="24" y2="9.5" stroke="#6B4F3A" stroke-width=".9" stroke-linecap="round" opacity=".7"/>
+        <line x1="16"   y1="10" x2="14" y2="7.5" stroke="#6B4F3A" stroke-width=".9" stroke-linecap="round" opacity=".7"/>
+        <line x1="16"   y1="10" x2="18" y2="7.5" stroke="#6B4F3A" stroke-width=".9" stroke-linecap="round" opacity=".7"/>
+      </svg>
+      <span class="nav-name">Howard</span>
+    </a>
+    <a href="../index.html#writing" class="nav-back">&larr; All Writing</a>
+  </div>
+</nav>
+
+<!-- Floating TOC -->
+<div id="toc-container">
+  <p id="toc-title">目錄 Contents</p>
+  <ul id="toc-list"></ul>
+</div>
+
+<!-- Article Header -->
+<header class="article-header">
+  <div class="container">
+    <p class="article-cat">析 &middot; Analysis</p>
+    <h1 class="article-title">知識地圖：這個網站的分類邏輯體系</h1>
+    <p class="article-subtitle">四個維度如何交織運作，幫助你找到最相關的文本——以及幫助我思考更清楚地書寫</p>
+    <div class="article-meta">
+      <span>2026 &middot; Mar 20</span>
+      <span>約 10 分鐘閱讀</span>
+    </div>
+    <div class="article-tags">
+      <span class="atag atag-domain">知識創作</span>
+      <span class="atag atag-domain">分類系統</span>
+      <span class="atag atag-reader">網站導覽</span>
+    </div>
+  </div>
+</header>
+
+<!-- Article Body -->
+<main>
+<article class="article-body">
+<div class="container">
+
+  <!-- Abstract -->
+  <div class="article-abstract">
+    <p>
+      任何一個知識生產者遲早都會面對這個問題：<strong>當文章越積越多，怎麼讓讀者（也讓自己）找得到？</strong>
+      這篇文章是這個網站的「地圖說明書」——解釋我用哪四個維度來標記每一篇文本，
+      以及這套系統背後的思考邏輯。理解這個架構，能讓你在閱讀任何一篇文章之前，
+      就快速判斷「這篇適不適合我現在的需求」。
+    </p>
+  </div>
+
+  <!-- S1 -->
+  <h2 id="why">為什麼需要一套分類系統？</h2>
+
+  <p>
+    大多數知識型部落格的分類邏輯都是「主題分類」——精神健康、社會工作、讀書心得——
+    這很直觀，但有一個盲點：<mark class="hl-yellow">同一個主題下的文章可以有截然不同的用途。</mark>
+    一篇「關於心理衛生社工的文章」可以是：給完全不認識這個領域的人看的入門介紹；
+    也可以是一個實務工作者的田野觀察筆記；也可以是一篇論證某個政策改革方向的倡議文章。
+    光靠「主題」這一個維度，你無從得知這篇文章要帶你去哪裡。
+  </p>
+
+  <p>
+    這套四維度分類系統試圖解決這個問題。它不只告訴你「這篇在談什麼」，
+    還告訴你「作者用什麼姿態在思考」、「這篇適合什麼背景的讀者」、
+    以及「這篇的形式特徵有什麼特別之處」。
+    四個維度疊加在一起，讀者只需要掃一眼標籤組合，就能在幾秒內決定這篇文章現在適不適合自己。
+  </p>
+
+  <hr class="divider">
+
+  <!-- S2 -->
+  <h2 id="overview">四維度系統總覽</h2>
+
+  <p>在進入每個維度的細節之前，先看一下整體結構：</p>
+
+  <!-- OVERVIEW TABLE -->
+  <!--
+    表格欄寬設計說明：
+      維度  (8%)  → white-space:nowrap 確保「維度」不換行
+      名稱  (12%) → 四個漢字寬剛好
+      回答的問題 (44%) → 最寬，讓問句在一行內顯示
+      標籤樣式 (20%) → 標籤 chip 的空間
+      每篇文章 (16%) → 短描述
+    所有 <td> 皆 vertical-align:middle（垂直置中）+ text-align:left（左對齊）
+    rowspan 行高由 padding 控制，四列高度視覺上一致
+  -->
+  <div class="dim-table-wrap breakout" style="margin-top:.5rem">
+    <table class="dim-table" style="table-layout:fixed;">
+      <colgroup>
+        <col style="width:8%">
+        <col style="width:12%">
+        <col style="width:44%">
+        <col style="width:20%">
+        <col style="width:16%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th style="white-space:nowrap;text-align:center;vertical-align:middle">維度</th>
+          <th style="white-space:nowrap;text-align:left;vertical-align:middle">名稱</th>
+          <th style="white-space:nowrap;text-align:left;vertical-align:middle">回答的問題</th>
+          <th style="white-space:nowrap;text-align:left;vertical-align:middle">標籤樣式</th>
+          <th style="white-space:nowrap;text-align:left;vertical-align:middle">每篇文章</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="num-cell" style="white-space:nowrap;text-align:center;vertical-align:middle;padding:.75rem .6rem">Ⅰ</td>
+          <td class="name-cell" style="white-space:nowrap;text-align:left;vertical-align:middle;padding:.75rem .7rem">智識姿態</td>
+          <td style="white-space:nowrap;text-align:left;vertical-align:middle;padding:.75rem .8rem">作者是以什麼視角切入這個題材的？</td>
+          <td style="text-align:left;vertical-align:middle;padding:.75rem .7rem">
+            <span style="font-family:var(--mono);font-size:.72rem;background:rgba(107,79,58,.08);padding:.1rem .5rem;border-radius:3px;color:var(--accent)">倡</span>
+          </td>
+          <td style="white-space:nowrap;text-align:left;vertical-align:middle;padding:.75rem .7rem">必填・單選</td>
+        </tr>
+        <tr>
+          <td class="num-cell" style="white-space:nowrap;text-align:center;vertical-align:middle;padding:.75rem .6rem">Ⅱ</td>
+          <td class="name-cell" style="white-space:nowrap;text-align:left;vertical-align:middle;padding:.75rem .7rem">知識領域</td>
+          <td style="white-space:nowrap;text-align:left;vertical-align:middle;padding:.75rem .8rem">這篇文章屬於哪個知識地圖的座標？</td>
+          <td style="text-align:left;vertical-align:middle;padding:.75rem .7rem">
+            <span class="atag atag-domain" style="font-size:.6rem">心理衛生社工</span>
+          </td>
+          <td style="white-space:nowrap;text-align:left;vertical-align:middle;padding:.75rem .7rem">必填・1–3 個</td>
+        </tr>
+        <tr>
+          <td class="num-cell" style="white-space:nowrap;text-align:center;vertical-align:middle;padding:.75rem .6rem">Ⅲ</td>
+          <td class="name-cell" style="white-space:nowrap;text-align:left;vertical-align:middle;padding:.75rem .7rem">讀者適用性</td>
+          <td style="white-space:nowrap;text-align:left;vertical-align:middle;padding:.75rem .8rem">這篇文章適合什麼背景的讀者？</td>
+          <td style="text-align:left;vertical-align:middle;padding:.75rem .7rem">
+            <span class="atag atag-reader" style="font-size:.6rem">實務取向</span>
+          </td>
+          <td style="white-space:nowrap;text-align:left;vertical-align:middle;padding:.75rem .7rem">必填・1–2 個</td>
+        </tr>
+        <tr>
+          <td class="num-cell" style="white-space:nowrap;text-align:center;vertical-align:middle;padding:.75rem .6rem">Ⅳ</td>
+          <td class="name-cell" style="white-space:nowrap;text-align:left;vertical-align:middle;padding:.75rem .7rem">形式特徵</td>
+          <td style="white-space:nowrap;text-align:left;vertical-align:middle;padding:.75rem .8rem">這篇文章有什麼特殊的形式資訊？</td>
+          <td style="text-align:left;vertical-align:middle;padding:.75rem .7rem">
+            <span class="atag" style="font-size:.6rem;border:1px solid var(--border);color:var(--ink-lite)">含圖解</span>
+          </td>
+          <td style="white-space:nowrap;text-align:left;vertical-align:middle;padding:.75rem .7rem">選填・有才加</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <!-- S3 -->
+  <h2 id="dimension-1">維度一：智識姿態（四種切入方式）</h2>
+
+  <p>
+    每一篇文章的誕生，都來自作者和某個題材之間的某種「關係」。
+    我把這種關係分成四種姿態，借用漢字的精準性來命名。
+    這不只是分類標籤，更是一種對寫作目的的誠實宣告——
+    <strong>讓讀者在閱讀之前就知道這篇文章要帶他們去哪裡。</strong>
+  </p>
+
+  <!-- GESTURE CARDS -->
+  <div class="gesture-grid breakout">
+    <div class="gesture-card" data-g="ask">
+      <div class="gc-hanzi">問</div>
+      <div class="gc-en">Question</div>
+      <div class="gc-def">從一個真實的困惑出發。文章的核心是一個我自己還沒有完整答案的問題，終點是「更好的問題」或「暫時的理解」，而不是結論。</div>
+    </div>
+    <div class="gesture-card" data-g="ana">
+      <div class="gc-hanzi">析</div>
+      <div class="gc-en">Analyze</div>
+      <div class="gc-def">對一個現象或概念進行有系統的拆解與重建。有清晰的分析框架，試圖說明「為什麼是這樣」，而不只是「是什麼」。</div>
+    </div>
+    <div class="gesture-card" data-g="rec">
+      <div class="gc-hanzi">記</div>
+      <div class="gc-en">Record</div>
+      <div class="gc-def">忠實地保存一段經歷、觀察或田野現場。重點是真實性和細節，而非論證。適合實習日誌、田野筆記、讀書摘要。</div>
+    </div>
+    <div class="gesture-card" data-g="adv">
+      <div class="gc-hanzi">倡</div>
+      <div class="gc-en">Advocate</div>
+      <div class="gc-def">持有一個明確立場，目的是說服讀者。文章結構以論證為主，有清晰的核心主張和反駁潛在異議的努力。</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><strong>給讀者的閱讀提示：</strong>如果你現在需要的是「快速獲得確定答案」，「問」字文章可能不適合你——它讓你和困惑一起坐著思考。如果你想理解一個議題的來龍去脈，找「析」；如果你想知道現場是什麼感覺，找「記」；如果你想要被一個觀點說服（或反駁），找「倡」。</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- S4 -->
+  <h2 id="dimension-2">維度二：知識領域（四層同心圓）</h2>
+
+  <p>
+    知識領域的分類採用<strong>四層同心圓架構</strong>：從最核心的雙軌專業實踐，
+    向外延伸到跨議題交織領域、學術思想涵養，最外層則是創造與生活實踐。
+    這個架構不是「哪個比較重要」的價值判斷，而是描述各領域和
+    <mark class="hl-green">「助人×知識生產」這個核心交叉點</mark>的距離關係。
+  </p>
+
+  <!-- DOMAIN SECTIONS -->
+  <div class="domain-section">
+    <div class="domain-section-header">
+      <span class="domain-num">01</span>
+      <span class="domain-zh">實務核心專業</span>
+      <span class="domain-en">Core Practice Disciplines</span>
+    </div>
+    <div class="domain-chips">
+      <span class="domain-chip">社會工作學</span>
+      <span class="domain-chip">諮商心理學</span>
+      <span class="domain-chip">心理衛生社會工作</span>
+    </div>
+  </div>
+
+  <div class="domain-section">
+    <div class="domain-section-header">
+      <span class="domain-num">02</span>
+      <span class="domain-zh">議題交織領域</span>
+      <span class="domain-en">Intersecting Issue Domains</span>
+    </div>
+    <div class="domain-chips">
+      <span class="domain-chip">精神疾患與物質濫用</span>
+      <span class="domain-chip">自殺防治</span>
+      <span class="domain-chip">司法矯治</span>
+      <span class="domain-chip">暴力保護與社安網</span>
+      <span class="domain-chip">身心障礙與脆弱家庭</span>
+    </div>
+  </div>
+
+  <div class="domain-section">
+    <div class="domain-section-header">
+      <span class="domain-num">03</span>
+      <span class="domain-zh">學術思想涵養</span>
+      <span class="domain-en">Academic &amp; Intellectual Foundations</span>
+    </div>
+    <div class="domain-chips">
+      <span class="domain-chip">哲學・存在主義</span>
+      <span class="domain-chip">社會學・人類學</span>
+      <span class="domain-chip">心理學・神經科學</span>
+      <span class="domain-chip">法律・歷史學</span>
+      <span class="domain-chip">經濟學・社會福利</span>
+    </div>
+  </div>
+
+  <div class="domain-section">
+    <div class="domain-section-header">
+      <span class="domain-num">04</span>
+      <span class="domain-zh">創造與生活實踐</span>
+      <span class="domain-en">Creation &amp; Life Practice</span>
+    </div>
+    <div class="domain-chips">
+      <span class="domain-chip">知識生產・自媒體</span>
+      <span class="domain-chip">個人財務・財富自由</span>
+      <span class="domain-chip">創新與創投思維</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- S5 -->
+  <h2 id="dimension-3-4">維度三與四：讀者適用性與形式特徵</h2>
+
+  <h3 id="dim3">維度三：讀者適用性</h3>
+  <p>這個維度回答的問題是：「這篇文章預設讀者有多少背景知識？」目前有三個選項。</p>
+
+  <div class="dim-table-wrap">
+    <table class="dim-table">
+      <thead>
+        <tr><th>標籤</th><th>適合的讀者</th><th>文章的特徵</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>入門引介</strong></td>
+          <td>完全沒有相關背景也能讀</td>
+          <td>大量解釋術語，強調脈絡，不預設先備知識</td>
+        </tr>
+        <tr>
+          <td><strong>實務取向</strong></td>
+          <td>有實務工作或實習經驗的讀者</td>
+          <td>強調現場應用、具體案例，術語不會特別解釋</td>
+        </tr>
+        <tr>
+          <td><strong>學術討論</strong></td>
+          <td>熟悉相關學術文獻的讀者</td>
+          <td>有引用、有論證、有對話既有文獻的意圖</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="dim4">維度四：形式特徵（選填）</h3>
+  <p>
+    這個維度是選填的附加資訊，只有在特定形式特徵「對讀者有決策意義」時才加。
+    目前設計了以下幾種：
+  </p>
+  <ul class="article-list">
+    <li><strong>附有圖解</strong>——文章包含自製的概念圖、流程圖或視覺化圖解</li>
+    <li><strong>含資源連結</strong>——文章末尾有整理好的延伸閱讀或外部資源清單</li>
+    <li><strong>系列文章</strong>——這篇是某個主題系列的一部分，建議依序閱讀</li>
+    <li><strong>國考相關</strong>——內容和社工師或心理師國家考試有直接關聯</li>
+  </ul>
+
+  <hr class="divider">
+
+  <!-- S6 – SYSTEM DIAGRAM -->
+  <h2 id="system-diagram">系統全景圖：四維度如何交織運作</h2>
+
+  <p>下面這張圖把四個維度的關係視覺化。每一篇文章都可以被理解為從這個三維空間裡的一個「座標點」——由姿態（縱深）、領域（橫軸）、適用性（高度）三個主要維度定位，再加上形式特徵作為附屬標記。</p>
+
+  <!-- 圖表工具列 -->
+  <div class="diagram-toolbar">
+    <span class="diagram-toolbar-label">互動操作</span>
+    <button class="diag-btn" onclick="zoomIn()">＋ 放大</button>
+    <button class="diag-btn" onclick="zoomOut()">－ 縮小</button>
+    <button class="diag-btn" onclick="resetZoom()">↺ 重置</button>
+    <button class="diag-btn diag-btn-dl" onclick="downloadSVG()">↓ 下載圖表</button>
+    <span class="diagram-hint">可拖曳・滾輪縮放</span>
+  </div>
+
+  <!-- INTERACTIVE TREE DIAGRAM -->
+  <div class="tree-wrap breakout-xl" id="diagram-wrap">
+    <svg id="main-diagram-svg"
+      viewBox="0 0 760 585"
+      xmlns="http://www.w3.org/2000/svg"
+      style="cursor:grab;touch-action:none;">
+
+      <defs>
+        <marker id="m-main" markerWidth="8" markerHeight="8"
+          refX="7" refY="4" orient="auto">
+          <path d="M0,1 L7,4 L0,7 Z" fill="rgba(107,79,58,.65)"/>
+        </marker>
+        <marker id="m-sub" markerWidth="8" markerHeight="8"
+          refX="7" refY="4" orient="auto">
+          <path d="M0,1 L7,4 L0,7 Z" fill="rgba(107,79,58,.42)"/>
+        </marker>
+        <marker id="m-dash" markerWidth="8" markerHeight="8"
+          refX="7" refY="4" orient="auto">
+          <path d="M0,1 L7,4 L0,7 Z" fill="rgba(140,137,130,.52)"/>
+        </marker>
+      </defs>
+
+      <!-- ═══════════════════════════════════════════════════
+           CONCENTRIC CIRCLES
+           cx=125, cy=268
+           Ring 1 (r=16)  = 智識姿態  ← innermost
+           Ring 2 (r=30)  = 知識領域
+           Ring 3 (r=46)  = 適讀性質
+           Ring 4 (r=62)  = 形式特徵
+           Ring 5 (r=78)  = decorative outer, no arm
+           Centre dot     = 專論文本 (the artifact itself)
+      ═══════════════════════════════════════════════════ -->
+      <circle cx="125" cy="268" r="78" fill="none"
+        stroke="rgba(107,79,58,.11)" stroke-width="1.2"/>
+      <circle cx="125" cy="268" r="62" fill="none"
+        stroke="rgba(107,79,58,.22)" stroke-width="1.3"/>
+      <circle cx="125" cy="268" r="46" fill="none"
+        stroke="rgba(107,79,58,.30)" stroke-width="1.3"/>
+      <circle cx="125" cy="268" r="30" fill="none"
+        stroke="rgba(107,79,58,.40)" stroke-width="1.4"/>
+      <circle cx="125" cy="268" r="16" fill="none"
+        stroke="rgba(107,79,58,.54)" stroke-width="1.5"/>
+      <circle cx="125" cy="268" r="6"  fill="rgba(107,79,58,.80)"/>
+
+      <!-- Label: 專論文本 / Artifact — outside circles, left side -->
+      <text x="18" y="228"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="14" font-weight="600" fill="rgba(107,79,58,.88)">專論文本</text>
+      <text x="18" y="246"
+        font-family="'DM Mono','Courier New',monospace"
+        font-size="9.5" font-style="italic"
+        fill="rgba(107,79,58,.52)" letter-spacing="0.04em">Artifact</text>
+
+      <!-- ═══════════════════════════════════════════════════
+           BEZIER ARMS — each departs from its OWN ring
+           Departure points (computed from angle cx→dim-box-centre):
+             Ring1 (r=16): (136, 257)  → Row1 dim-box at y=88
+             Ring2 (r=30): (153, 257)  → Row2 dim-box at y=197
+             Ring3 (r=46): (168, 283)  → Row3 dim-box at y=329
+             Ring4 (r=62): (169, 312)  → Row4 dim-box at y=443
+      ═══════════════════════════════════════════════════ -->
+
+      <!-- Arm 1: Ring1 → 智識姿態 (upward-right) -->
+      <path d="M136,257 C168,195 208,125 238,88"
+        stroke="rgba(107,79,58,.48)" stroke-width="1.3" fill="none"
+        marker-end="url(#m-main)"/>
+
+      <!-- Arm 2: Ring2 → 知識領域 (gently upward-right) -->
+      <path d="M153,257 C183,232 215,210 238,197"
+        stroke="rgba(107,79,58,.48)" stroke-width="1.3" fill="none"
+        marker-end="url(#m-main)"/>
+
+      <!-- Arm 3: Ring3 → 適讀性質 (slightly downward-right) -->
+      <path d="M168,283 C198,305 220,320 238,329"
+        stroke="rgba(107,79,58,.48)" stroke-width="1.3" fill="none"
+        marker-end="url(#m-main)"/>
+
+      <!-- Arm 4: Ring4 → 形式特徵 (downward-right, dashed) -->
+      <path d="M169,312 C198,365 220,420 238,443"
+        stroke="rgba(140,137,130,.48)" stroke-width="1.3" fill="none"
+        stroke-dasharray="5 3" marker-end="url(#m-dash)"/>
+
+      <!-- ═══════════════════════════════════════════════════
+           ROW 1 — 智識姿態   dim-box top y=65, cy=88
+      ═══════════════════════════════════════════════════ -->
+      <rect x="238" y="65" width="124" height="46" rx="8"
+        fill="#FDFCF9" stroke="rgba(107,79,58,.50)" stroke-width="1.3"/>
+      <text x="300" y="84" text-anchor="middle"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="12.5" font-weight="600" fill="rgba(26,25,22,.86)">智識姿態</text>
+      <text x="300" y="101" text-anchor="middle"
+        font-family="'DM Mono','Courier New',monospace"
+        font-size="8" fill="rgba(140,137,130,.88)" letter-spacing="0.03em">Intellectual Gesture</text>
+      <text x="300" y="124" text-anchor="middle"
+        font-family="'DM Mono','Courier New',monospace"
+        font-size="7.5" fill="rgba(107,79,58,.62)" letter-spacing="0.04em">必填・只能單選</text>
+
+      <!-- arm dim→content -->
+      <line x1="362" y1="88" x2="370" y2="88"
+        stroke="rgba(107,79,58,.55)" stroke-width="1.3"
+        marker-end="url(#m-main)"/>
+
+      <!-- Content box: 2×2 gesture tags
+           outer: x=370, y=50, w=148, h=76
+           inner padding 12px; tags 58×22, gap 8
+      -->
+      <rect x="370" y="50" width="148" height="76" rx="8"
+        fill="#FDFCF9" stroke="rgba(107,79,58,.28)" stroke-width="1.2"/>
+
+      <!-- 問 Q  (col1, row1): x=382, y=62 -->
+      <rect x="382" y="62" width="58" height="22" rx="5"
+        fill="rgba(124,106,91,.12)" stroke="rgba(124,106,91,.44)" stroke-width="1"/>
+      <text x="398" y="77"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="12" font-weight="600" fill="#7C6A5B">問</text>
+      <text x="419" y="77"
+        font-family="'DM Mono','Courier New',monospace"
+        font-size="8.5" fill="rgba(124,106,91,.64)">Q</text>
+
+      <!-- 析 A  (col2, row1): x=448, y=62 -->
+      <rect x="448" y="62" width="58" height="22" rx="5"
+        fill="rgba(91,112,128,.10)" stroke="rgba(91,112,128,.44)" stroke-width="1"/>
+      <text x="461" y="77"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="12" font-weight="600" fill="#5B7080">析</text>
+      <text x="483" y="77"
+        font-family="'DM Mono','Courier New',monospace"
+        font-size="8.5" fill="rgba(91,112,128,.64)">A</text>
+
+      <!-- 記 R  (col1, row2): x=382, y=92 -->
+      <rect x="382" y="92" width="58" height="22" rx="5"
+        fill="rgba(91,112,101,.10)" stroke="rgba(91,112,101,.44)" stroke-width="1"/>
+      <text x="398" y="107"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="12" font-weight="600" fill="#5B7065">記</text>
+      <text x="419" y="107"
+        font-family="'DM Mono','Courier New',monospace"
+        font-size="8.5" fill="rgba(91,112,101,.64)">R</text>
+
+      <!-- 倡 A  (col2, row2): x=448, y=92 -->
+      <rect x="448" y="92" width="58" height="22" rx="5"
+        fill="rgba(122,91,120,.10)" stroke="rgba(122,91,120,.44)" stroke-width="1"/>
+      <text x="461" y="107"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="12" font-weight="600" fill="#7A5B78">倡</text>
+      <text x="483" y="107"
+        font-family="'DM Mono','Courier New',monospace"
+        font-size="8.5" fill="rgba(122,91,120,.64)">A</text>
+
+      <!-- ═══════════════════════════════════════════════════
+           ROW 2 — 知識領域   dim-box top y=174, cy=197
+      ═══════════════════════════════════════════════════ -->
+      <rect x="238" y="174" width="124" height="46" rx="8"
+        fill="#FDFCF9" stroke="rgba(107,79,58,.50)" stroke-width="1.3"/>
+      <text x="300" y="193" text-anchor="middle"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="12.5" font-weight="600" fill="rgba(26,25,22,.86)">知識領域</text>
+      <text x="300" y="210" text-anchor="middle"
+        font-family="'DM Mono','Courier New',monospace"
+        font-size="8" fill="rgba(140,137,130,.88)" letter-spacing="0.03em">Knowledge Domain</text>
+      <text x="300" y="233" text-anchor="middle"
+        font-family="'DM Mono','Courier New',monospace"
+        font-size="7.5" fill="rgba(107,79,58,.62)" letter-spacing="0.04em">必填・1～3 個</text>
+
+      <line x1="362" y1="197" x2="370" y2="197"
+        stroke="rgba(107,79,58,.55)" stroke-width="1.3"
+        marker-end="url(#m-main)"/>
+
+      <!-- Content: 2×2 domain cells  outer: x=370, y=161, w=264, h=72 -->
+      <rect x="370" y="161" width="264" height="72" rx="8"
+        fill="#FDFCF9" stroke="rgba(107,79,58,.28)" stroke-width="1.2"/>
+      <rect x="382" y="173" width="116" height="20" rx="4"
+        fill="rgba(107,79,58,.08)" stroke="none"/>
+      <text x="440" y="187" text-anchor="middle"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="10.5" fill="rgba(26,25,22,.80)">01 實務核心</text>
+      <rect x="506" y="173" width="116" height="20" rx="4"
+        fill="rgba(107,79,58,.04)" stroke="none"/>
+      <text x="564" y="187" text-anchor="middle"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="10.5" fill="rgba(26,25,22,.80)">03 學思涵養</text>
+      <rect x="382" y="201" width="116" height="20" rx="4"
+        fill="rgba(107,79,58,.04)" stroke="none"/>
+      <text x="440" y="215" text-anchor="middle"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="10.5" fill="rgba(26,25,22,.80)">02 議題交織</text>
+      <rect x="506" y="201" width="116" height="20" rx="4"
+        fill="rgba(107,79,58,.04)" stroke="none"/>
+      <text x="564" y="215" text-anchor="middle"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="10.5" fill="rgba(26,25,22,.80)">04 創造生活</text>
+
+      <!-- ═══════════════════════════════════════════════════
+           ROW 3 — 適讀性質   dim-box top y=306, cy=329
+      ═══════════════════════════════════════════════════ -->
+      <rect x="238" y="306" width="124" height="46" rx="8"
+        fill="#FDFCF9" stroke="rgba(107,79,58,.50)" stroke-width="1.3"/>
+      <text x="300" y="325" text-anchor="middle"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="12.5" font-weight="600" fill="rgba(26,25,22,.86)">適讀性質</text>
+      <text x="300" y="342" text-anchor="middle"
+        font-family="'DM Mono','Courier New',monospace"
+        font-size="8" fill="rgba(140,137,130,.88)" letter-spacing="0.03em">Reader Suitability</text>
+      <text x="300" y="365" text-anchor="middle"
+        font-family="'DM Mono','Courier New',monospace"
+        font-size="7.5" fill="rgba(107,79,58,.62)" letter-spacing="0.04em">必填・1～2 個</text>
+
+      <line x1="362" y1="329" x2="370" y2="329"
+        stroke="rgba(107,79,58,.55)" stroke-width="1.3"
+        marker-end="url(#m-main)"/>
+
+      <!-- Content: triangle layout
+           outer box: x=370, y=277, w=264, h=96
+           outer cx=502
+           入門引介: x=444, y=289, w=116, h=22  (cx=502 ✓)
+           實務取向: x=384, y=331, w=108, h=22  (cx=438)
+           學術探討: x=512, y=331, w=108, h=22  (cx=566)
+      -->
+      <rect x="370" y="277" width="264" height="96" rx="8"
+        fill="#FDFCF9" stroke="rgba(107,79,58,.28)" stroke-width="1.2"/>
+
+      <rect x="444" y="289" width="116" height="22" rx="5"
+        fill="none" stroke="rgba(107,79,58,.40)" stroke-width="1.1"/>
+      <text x="502" y="304" text-anchor="middle"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="11.5" fill="rgba(26,25,22,.80)">入門引介</text>
+
+      <rect x="384" y="331" width="108" height="22" rx="5"
+        fill="none" stroke="rgba(107,79,58,.35)" stroke-width="1.1"/>
+      <text x="438" y="346" text-anchor="middle"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="11.5" fill="rgba(26,25,22,.80)">實務取向</text>
+
+      <rect x="512" y="331" width="108" height="22" rx="5"
+        fill="none" stroke="rgba(107,79,58,.35)" stroke-width="1.1"/>
+      <text x="566" y="346" text-anchor="middle"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="11.5" fill="rgba(26,25,22,.80)">學術探討</text>
+
+      <!-- Triangle arrows:
+           ① 入門引介 bottom-left → 實務取向 top  -->
+      <path d="M448,311 Q430,324 438,331"
+        stroke="rgba(107,79,58,.42)" stroke-width="1.1" fill="none"
+        marker-end="url(#m-sub)"/>
+      <!-- ② 實務取向 right → 學術探討 left -->
+      <path d="M492,342 Q502,351 512,342"
+        stroke="rgba(107,79,58,.42)" stroke-width="1.1" fill="none"
+        marker-end="url(#m-sub)"/>
+      <!-- ③ 學術探討 top-right → 入門引介 right -->
+      <path d="M566,331 Q592,314 560,304"
+        stroke="rgba(107,79,58,.42)" stroke-width="1.1" fill="none"
+        marker-end="url(#m-sub)"/>
+
+      <!-- ═══════════════════════════════════════════════════
+           ROW 4 — 形式特徵   dim-box top y=420, cy=443  DASHED
+      ═══════════════════════════════════════════════════ -->
+      <rect x="238" y="420" width="124" height="46" rx="8"
+        fill="#FDFCF9" stroke="rgba(140,137,130,.46)" stroke-width="1.2"
+        stroke-dasharray="5 3"/>
+      <text x="300" y="439" text-anchor="middle"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="12.5" font-weight="600" fill="rgba(74,72,67,.78)">形式特徵</text>
+      <text x="300" y="456" text-anchor="middle"
+        font-family="'DM Mono','Courier New',monospace"
+        font-size="8" fill="rgba(140,137,130,.84)" letter-spacing="0.03em">Format Features</text>
+      <text x="300" y="479" text-anchor="middle"
+        font-family="'DM Mono','Courier New',monospace"
+        font-size="7.5" fill="rgba(140,137,130,.62)" letter-spacing="0.04em">選填・能夠多選</text>
+
+      <line x1="362" y1="443" x2="370" y2="443"
+        stroke="rgba(140,137,130,.48)" stroke-width="1.3"
+        stroke-dasharray="3 2" marker-end="url(#m-dash)"/>
+
+      <!-- Content: 2×2 dashed cells  outer: x=370, y=407, w=264, h=72 -->
+      <rect x="370" y="407" width="264" height="72" rx="8"
+        fill="#FDFCF9" stroke="rgba(140,137,130,.28)" stroke-width="1.1"
+        stroke-dasharray="5 3"/>
+      <rect x="382" y="419" width="116" height="20" rx="4"
+        fill="rgba(140,137,130,.07)" stroke="none"/>
+      <text x="440" y="433" text-anchor="middle"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="10.5" fill="rgba(74,72,67,.78)">附含圖解</text>
+      <rect x="506" y="419" width="116" height="20" rx="4"
+        fill="rgba(140,137,130,.07)" stroke="none"/>
+      <text x="564" y="433" text-anchor="middle"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="10.5" fill="rgba(74,72,67,.78)">國考相關</text>
+      <rect x="382" y="447" width="116" height="20" rx="4"
+        fill="rgba(140,137,130,.07)" stroke="none"/>
+      <text x="440" y="461" text-anchor="middle"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="10.5" fill="rgba(74,72,67,.78)">資源連結</text>
+      <rect x="506" y="447" width="116" height="20" rx="4"
+        fill="rgba(140,137,130,.07)" stroke="none"/>
+      <text x="564" y="461" text-anchor="middle"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif"
+        font-size="10.5" fill="rgba(74,72,67,.78)">系列文章</text>
+
+      <!-- ═══════════════════════════════════════════════════
+           BOTTOM: 標籤組合範例 (preserved)
+      ═══════════════════════════════════════════════════ -->
+      <rect x="80" y="497" width="618" height="80" rx="10"
+        fill="rgba(248,246,241,.92)" stroke="#DEDAD3" stroke-width="1"/>
+      <text x="389" y="515" text-anchor="middle"
+        font-family="'DM Mono','Courier New',monospace"
+        font-size="8" fill="#8C8982" letter-spacing="1">標籤組合範例</text>
+
+      <rect x="96" y="523" width="36" height="18" rx="4"
+        fill="rgba(122,91,120,.12)" stroke="rgba(122,91,120,.4)" stroke-width="1"/>
+      <text x="114" y="536" text-anchor="middle" font-size="9" font-weight="600"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif" fill="#7A5B78">倡</text>
+      <rect x="138" y="523" width="72" height="18" rx="4"
+        fill="rgba(107,79,58,.08)" stroke="rgba(107,79,58,.35)" stroke-width="1.2"/>
+      <text x="174" y="536" text-anchor="middle" font-size="7.5"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif" fill="#6B4F3A">心理衛生社工</text>
+      <rect x="216" y="523" width="56" height="18" rx="4"
+        fill="none" stroke="rgba(107,79,58,.20)" stroke-width="1"/>
+      <text x="244" y="536" text-anchor="middle" font-size="7.5"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif" fill="#4A4843">實務取向</text>
+      <text x="282" y="536" font-size="7.5"
+        font-family="'DM Mono','Courier New',monospace" fill="#8C8982">→ 你看這篇文章</text>
+
+      <rect x="96" y="548" width="36" height="18" rx="4"
+        fill="rgba(91,112,128,.10)" stroke="rgba(91,112,128,.4)" stroke-width="1"/>
+      <text x="114" y="561" text-anchor="middle" font-size="9" font-weight="600"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif" fill="#5B7080">析</text>
+      <rect x="138" y="548" width="70" height="18" rx="4"
+        fill="rgba(107,79,58,.08)" stroke="rgba(107,79,58,.35)" stroke-width="1.2"/>
+      <text x="173" y="561" text-anchor="middle" font-size="7.5"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif" fill="#6B4F3A">哲學・存在主義</text>
+      <rect x="214" y="548" width="56" height="18" rx="4"
+        fill="none" stroke="rgba(107,79,58,.20)" stroke-width="1"/>
+      <text x="242" y="561" text-anchor="middle" font-size="7.5"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif" fill="#4A4843">入門引介</text>
+      <rect x="276" y="548" width="48" height="18" rx="4"
+        fill="rgba(140,137,130,.08)" stroke="rgba(140,137,130,.25)" stroke-width="1"/>
+      <text x="300" y="561" text-anchor="middle" font-size="7.5"
+        font-family="'Microsoft JhengHei','PingFang TC',sans-serif" fill="#8C8982">附圖解</text>
+      <text x="332" y="561" font-size="7.5"
+        font-family="'DM Mono','Courier New',monospace" fill="#8C8982">→ 認識存在主義入門文</text>
+    </svg>
+  </div>
+
+  <hr class="divider">
+
+  <!-- S7 -->
+  <h2 id="how-to-use">如何用這套系統找文章</h2>
+
+  <p>有兩種使用情境，對應兩種不同的查找策略：</p>
+
+  <h3 id="use-by-need">第一種：你有明確的當下需求</h3>
+  <p>
+    先想清楚你現在需要的是「什麼類型的輸入」，而不是「什麼主題」。
+    例如：你今天在實習現場遇到一個困惑，想要有人陪你一起思考——找<strong>「問」</strong>字文章，
+    配上<strong>「實務取向」</strong>，最符合你的情境。
+    如果你是個對助人領域完全陌生的人，想先有個地圖輪廓——
+    找<strong>「析」</strong>字文章，配上<strong>「入門引介」</strong>，效率最高。
+  </p>
+
+  <!-- COMBO EXAMPLES -->
+  <div class="combo-grid">
+    <div class="combo-card">
+      <div class="combo-title">「我在實務現場有個困惑」</div>
+      <div class="combo-tags">
+        <span class="atag atag-domain">問</span>
+        <span class="atag atag-reader">實務取向</span>
+      </div>
+      <div class="combo-desc">尋找「問」字 + 「實務取向」標籤的文章，這類文章從第一線的真實困惑出發，不會給你教科書式的標準答案。</div>
+    </div>
+    <div class="combo-card">
+      <div class="combo-title">「我想系統理解某個議題」</div>
+      <div class="combo-tags">
+        <span class="atag atag-domain">析</span>
+        <span class="atag atag-reader">入門引介</span>
+      </div>
+      <div class="combo-desc">尋找「析」字 + 「入門引介」標籤，這類文章有完整的架構，會從零開始解釋，不預設先備知識。</div>
+    </div>
+    <div class="combo-card">
+      <div class="combo-title">「我想感受現場的質感」</div>
+      <div class="combo-tags">
+        <span class="atag atag-domain">記</span>
+        <span class="atag atag-reader">實務取向</span>
+      </div>
+      <div class="combo-desc">「記」字文章是最接近實況的一種書寫，不試圖說服你任何事，只是忠實還原觀察與感受。</div>
+    </div>
+    <div class="combo-card">
+      <div class="combo-title">「我想被一個觀點挑戰」</div>
+      <div class="combo-tags">
+        <span class="atag atag-domain">倡</span>
+        <span class="atag atag-reader">學術討論</span>
+      </div>
+      <div class="combo-desc">「倡」字文章有清楚的核心主張，「學術討論」標籤代表它會和既有的學術或實務論述對話。</div>
+    </div>
+  </div>
+
+  <h3 id="use-by-map">第二種：你想探索，沒有特定目標</h3>
+  <p>
+    從知識版圖的四層同心圓出發。每一層對應不同的「知識距離」——
+    01 實務核心最貼近助人現場，04 創造生活最貼近日常生命。
+    如果你剛認識這個網站，我建議先從 01 和 04 各找一篇讀，
+    會讓你對「這個網站在做什麼」有最快的輪廓感。
+  </p>
+
+  <hr class="divider">
+
+  <!-- S8 -->
+  <h2 id="notes">幾個值得說明的設計決定</h2>
+
+  <p>
+    <strong>為什麼智識姿態只能選一個？</strong>
+    因為「用什麼姿態切入」是一篇文章最核心的寫作決策，強迫自己只選一個，
+    反而幫助我在寫作前先想清楚「我現在和這個題材的關係是什麼」。
+    一篇文章同時是「問」也是「析」，通常意味著它的目的還沒想清楚。
+  </p>
+
+  <p>
+    <strong>為什麼知識領域可以選三個？</strong>
+    助人領域的現實是多重問題交織（multi-problem intersection），
+    一個處理自殺議題的文章幾乎一定也觸及精神疾患、家庭系統、
+    甚至法律框架。強迫只選一個，反而會讓分類失真。
+    選三個是個上限，避免讓標籤失去指向性。
+  </p>
+
+  <p>
+    <strong>這套系統會變嗎？</strong>
+    會。這是一個活的系統，隨著文章累積和思考深化，
+    維度的定義和選項都可能調整。每次重大調整，我會在這篇文章裡更新並說明原因。
+    <mark class="hl-blue">這篇文章本身就是這個網站的版本日誌。</mark>
+  </p>
+
+</div>
+</article>
+</main>
+
+<!-- Share -->
+<section class="share-section container">
+  <span class="share-label">分享這篇文章</span>
+  <button class="share-btn" id="copy-link-btn" onclick="copyLink(this)">
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style="flex-shrink:0">
+      <rect x="5" y="5" width="9" height="9" rx="2" stroke="currentColor" stroke-width="1.4" fill="none"/>
+      <path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    </svg>
+    複製連結
+  </button>
+  <a class="share-btn" id="share-line" href="#" target="_blank" rel="noopener">
+    <svg width="14" height="14" viewBox="0 0 36 36" style="flex-shrink:0">
+      <rect width="36" height="36" rx="8" fill="currentColor" opacity=".15"/>
+      <path d="M18 7C11.373 7 6 11.477 6 17c0 4.01 2.627 7.502 6.518 9.297-.254.949-.81 3.03-.93 3.499-.145.574.21.567.442.413.18-.12 2.9-1.917 4.073-2.69.615.089 1.248.135 1.897.135 6.627 0 12-4.477 12-10S24.627 7 18 7z" fill="currentColor"/>
+    </svg>LINE
+  </a>
+  <a class="share-btn" id="share-fb" href="#" target="_blank" rel="noopener">
+    <svg width="13" height="13" viewBox="0 0 24 24" style="flex-shrink:0">
+      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="currentColor"/>
+    </svg>Facebook
+  </a>
+  <a class="share-btn" id="share-x" href="#" target="_blank" rel="noopener">
+    <svg width="13" height="13" viewBox="0 0 24 24" style="flex-shrink:0">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="currentColor"/>
+    </svg>X
+  </a>
+</section>
+
+<!-- Related -->
+<section class="related-articles">
+  <h2 class="related-title">延伸閱讀</h2>
+  <div class="related-track-wrap">
+    <div class="related-track">
+      <a href="why-helpers-need-to-build.html" class="related-card">
+        <div class="related-card-img"></div>
+        <div class="related-card-body">
+          <span class="related-card-cat">倡</span>
+          <p class="related-card-title">Why Helpers Also Need to Build</p>
+          <p class="related-card-date">2026 &middot; March</p>
+        </div>
+      </a>
+      <a href="#" class="related-card">
+        <div class="related-card-img"></div>
+        <div class="related-card-body">
+          <span class="related-card-cat">記</span>
+          <p class="related-card-title">社區心理衛生社工的第一線觀察</p>
+          <p class="related-card-date">即將發布</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Author Footer -->
+<section class="article-footer">
+  <div class="container">
+    <p class="author-name">Howard &vert; 豪</p>
+    <p class="author-bio">社會工作與諮商心理的實務實踐者・知識型創作者。致力將助人實踐與學術思考轉化為可被傳遞的知識。</p>
+    <a href="../index.html" class="author-home">Back to homepage &rarr;</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="inner">
+    <p class="ft">&copy; 2026 Howard. All rights reserved.</p>
+    <p class="ft">Hosted on GitHub Pages</p>
+  </div>
+</footer>
+
+<script>
+/* Scroll-aware nav */
+(function(){
+  var nav = document.querySelector('.site-nav');
+  if(!nav) return;
+  window.addEventListener('scroll', function(){
+    nav.classList.toggle('nav-scrolled', window.scrollY > 60);
+  }, {passive:true});
+})();
+
+/* Share buttons */
+(function(){
+  var u = encodeURIComponent(window.location.href);
+  var t = encodeURIComponent(document.title);
+  var l = document.getElementById('share-line');
+  var f = document.getElementById('share-fb');
+  var x = document.getElementById('share-x');
+  if(l) l.href = 'https://social-plugins.line.me/lineit/share?url='+u;
+  if(f) f.href = 'https://www.facebook.com/sharer/sharer.php?u='+u;
+  if(x) x.href = 'https://twitter.com/intent/tweet?url='+u+'&text='+t;
+})();
+
+function copyLink(btn){
+  var orig = btn.innerHTML;
+  navigator.clipboard.writeText(window.location.href).then(function(){
+    btn.innerHTML='&#10003; 已複製'; btn.classList.add('copied');
+    setTimeout(function(){ btn.innerHTML=orig; btn.classList.remove('copied'); },2000);
+  });
+}
+
+/* TOC auto-generate */
+document.addEventListener('DOMContentLoaded', function(){
+  var article  = document.querySelector('.article-body');
+  if(!article) return;
+  var headings = article.querySelectorAll('h2[id], h3[id]');
+  var tocList  = document.getElementById('toc-list');
+  if(!tocList || !headings.length) return;
+
+  headings.forEach(function(h){
+    var li = document.createElement('li');
+    li.className = h.tagName==='H3' ? 'toc-h3' : 'toc-h2';
+    var a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent.trim();
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      document.getElementById(h.id).scrollIntoView({behavior:'smooth'});
+    });
+    li.appendChild(a);
+    tocList.appendChild(li);
+  });
+
+  var links = tocList.querySelectorAll('a');
+  var obs   = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        links.forEach(function(a){
+          a.classList.toggle('active', a.getAttribute('href')==='#'+e.target.id);
+        });
+      }
+    });
+  }, {rootMargin:'-56px 0px -75% 0px'});
+  headings.forEach(function(h){ obs.observe(h); });
+});
+</script>
+<script>
+/* ============================================================
+   互動式圖表：縮放、拖曳、下載
+   ============================================================ */
+(function() {
+  var svg   = document.getElementById('main-diagram-svg');
+  var wrap  = document.getElementById('diagram-wrap');
+  if (!svg || !wrap) return;
+
+  /* Current transform state */
+  var scale  = 1;
+  var tx     = 0;
+  var ty     = 0;
+  var minS   = 0.4;
+  var maxS   = 4.0;
+
+  function applyTransform() {
+    /* Apply zoom + pan by modifying the viewBox */
+    /* We achieve zoom by scaling the viewBox dimensions,
+       pan by offsetting the origin */
+    var baseW = 620, baseH = 400;
+    var w = baseW / scale;
+    var h = baseH / scale;
+    var ox = -tx / scale;
+    var oy = -ty / scale;
+    svg.setAttribute('viewBox', ox + ' ' + oy + ' ' + w + ' ' + h);
+  }
+
+  /* ── Zoom controls ─────────────────────────────────────── */
+  window.zoomIn = function() {
+    scale = Math.min(maxS, scale * 1.25);
+    applyTransform();
+  };
+  window.zoomOut = function() {
+    scale = Math.max(minS, scale / 1.25);
+    applyTransform();
+  };
+  window.resetZoom = function() {
+    scale = 1; tx = 0; ty = 0;
+    svg.setAttribute('viewBox', '0 0 620 400');
+  };
+
+  /* ── Mouse wheel zoom ──────────────────────────────────── */
+  wrap.addEventListener('wheel', function(e) {
+    e.preventDefault();
+    var delta = e.deltaY < 0 ? 1.12 : 0.89;
+    scale = Math.min(maxS, Math.max(minS, scale * delta));
+    applyTransform();
+  }, { passive: false });
+
+  /* ── Drag to pan ───────────────────────────────────────── */
+  var dragging = false;
+  var lastX = 0, lastY = 0;
+
+  svg.addEventListener('mousedown', function(e) {
+    dragging = true;
+    lastX = e.clientX; lastY = e.clientY;
+    svg.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+  window.addEventListener('mousemove', function(e) {
+    if (!dragging) return;
+    var dx = e.clientX - lastX;
+    var dy = e.clientY - lastY;
+    lastX = e.clientX; lastY = e.clientY;
+    tx += dx; ty += dy;
+    applyTransform();
+  });
+  window.addEventListener('mouseup', function() {
+    dragging = false;
+    svg.style.cursor = 'grab';
+  });
+
+  /* ── Touch drag (mobile) ───────────────────────────────── */
+  var lastTX = 0, lastTY = 0;
+  svg.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 1) {
+      lastTX = e.touches[0].clientX;
+      lastTY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+  svg.addEventListener('touchmove', function(e) {
+    if (e.touches.length === 1) {
+      var dx = e.touches[0].clientX - lastTX;
+      var dy = e.touches[0].clientY - lastTY;
+      lastTX = e.touches[0].clientX;
+      lastTY = e.touches[0].clientY;
+      tx += dx; ty += dy;
+      applyTransform();
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  /* ── Download SVG ──────────────────────────────────────── */
+  window.downloadSVG = function() {
+    /* Capture current state and include embedded fonts/styles */
+    var clone = svg.cloneNode(true);
+    /* Reset viewBox to full diagram for the download */
+    clone.setAttribute('viewBox', '0 0 620 400');
+    clone.setAttribute('width',  '1240');
+    clone.setAttribute('height', '800');
+    /* Inject the page CSS variables as a <style> block inside SVG
+       so the downloaded file is self-contained */
+    var styleEl = document.createElement('style');
+    styleEl.textContent = "svg { font-family: 'DM Mono', 'Courier New', monospace; }";
+    clone.insertBefore(styleEl, clone.firstChild);
+
+    var serializer = new XMLSerializer();
+    var svgStr = serializer.serializeToString(clone);
+    var blob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' });
+    var url  = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href     = url;
+    link.download = 'howard-classification-system.svg';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+  };
+
+  /* ── Hover: show cursor grab affordance ─────────────────── */
+  svg.addEventListener('mouseenter', function() {
+    if (!dragging) svg.style.cursor = 'grab';
+  });
+
+})();
+</script>
+
+</body>
+</html>
