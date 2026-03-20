@@ -1796,34 +1796,29 @@
 
 <!-- ============================================================
      留言區（Giscus）
-     啟用步驟：
-       1. GitHub Repository Settings → Discussions 已啟用
-       2. 前往 https://giscus.app/zh-TW
-       3. Repository 填入：howard-social-work/howard-social-work.github.io
-       4. Discussion Category 選 "General"
-       5. 複製生成的 <script> 標簽，貼到下方 .giscus-wrap 裡
+     ✅ 結構已修正。唯一待填項目：
+        將下方 data-category-id 的值換成你從 giscus.app 取得的真實 ID
+        步驟：前往 https://giscus.app/zh-TW → 選 General → 複製 data-category-id 的值
      ============================================================ -->
 <section class="comments-section container">
   <h2 class="comments-title">留言與討論</h2>
   <div class="giscus-wrap">
-    <div class="giscus-placeholder">
-      <p>留言功能由 Giscus 提供（需 GitHub 帳號）<br>
-      前往 giscus.app 取得設定碼後貼入此處即可啟用</p>
-      <script src="https://giscus.app/client.js"
-          data-repo="howard-social-work/howard-social-work.github.io"
-          data-repo-id="R_kgDORre7fQ"
-          data-category="[在此輸入分類名稱]"
-          data-category-id="[在此輸入分類 ID]"
-          data-mapping="pathname"
-          data-strict="0"
-          data-reactions-enabled="0"
-          data-emit-metadata="0"
-          data-input-position="bottom"
-          data-theme="preferred_color_scheme"
-          data-lang="zh-TW"
-          crossorigin="anonymous"
-          async>
-  </script>
+    <script src="https://giscus.app/client.js"
+        data-repo="howard-social-work/howard-social-work.github.io"
+        data-repo-id="R_kgDORre7fQ"
+        data-category="General"
+        data-category-id="DIC_kwDORre7fc4C4333"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-TW"
+        crossorigin="anonymous"
+        async>
+    </script>
+  </div>
 </section>
 
 <section class="article-footer">
