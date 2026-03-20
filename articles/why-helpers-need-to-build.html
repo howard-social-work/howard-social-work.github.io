@@ -449,19 +449,112 @@
     /* ============================================================
        表格
        ============================================================ */
-    .article-table-wrap { overflow-x: auto; margin: 2rem 0; border-radius: 8px; border: 1px solid var(--border); }
-    .article-table { width: 100%; border-collapse: collapse; font-family: var(--zh); font-size: .88rem; min-width: 400px; }
-    .article-table th { background: rgba(107,79,58,.08); font-weight: 600; color: var(--ink); padding: .7rem 1rem; border-bottom: 2px solid var(--border); text-align: left; vertical-align: middle; }
-    .article-table td { padding: .65rem 1rem; border-bottom: 1px solid var(--border); color: var(--ink-mid); vertical-align: middle; }
+    /* ============================================================
+       表格系統（重新設計版）
+       ============================================================
+       設計邏輯：
+         1. 外層容器（.article-table-wrap）：保留外框線 + 柔和陰影
+            → 讓整張表格「懸浮」在頁面上，和 grid-card 視覺語言一致
+         2. 欄與欄之間：移除豎向格線（border-right / border-left 全部不用）
+            → 減少視覺噪音，讓視線可以自由水平掃描
+         3. 列與列之間：保留橫向分隔，但改為淡色虛線
+            → 虛線的節奏感比實線更輕盈，引導視線向右移動而不切斷流動感
+         4. 字體縮小：.82rem（比正文 1rem 小 18%）
+            → 表格是資訊密集型元素，字體稍小讓欄距和行距的比例更自然
+    ============================================================ */
+
+    /* 外層容器：保留外框線 + 柔和陰影（和 grid-card 相同的兩層陰影語法） */
+    .article-table-wrap {
+      overflow-x: auto;
+      margin: 2rem 0;
+      border-radius: 10px;
+      border: 1px solid var(--border);     /* 外框線保留：提供清晰的邊界感 */
+      background: var(--bg);
+      /* 柔和單向陰影：讓表格「漂浮」在頁面上方一層 */
+      box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.065),
+        0 1px 4px  rgba(0, 0, 0, 0.045);
+    }
+
+    /* 表格本體：字體縮小 + 移除 border-collapse 的邊框（改由下方規則精確控制） */
+    .article-table {
+      width: 100%;
+      border-collapse: collapse;   /* 仍需 collapse，否則格子之間會有雙重邊框 */
+      font-family: var(--zh);
+      font-size: .80rem;           /* ★ 比正文縮小約 20%，表格字體的最佳實踐 */
+      min-width: 400px;
+    }
+
+    /* 表頭：淡棕底色 + 只有底部有一條稍深的虛線分隔（比列分隔線深一點，強調表頭） */
+    .article-table th {
+      background: rgba(107,79,58,.07);
+      font-weight: 600;
+      font-size: .75rem;           /* 表頭比資料格稍小，讓標題顯得精緻 */
+      letter-spacing: .03em;
+      color: var(--ink);
+      padding: .6rem .9rem;
+      border-bottom: 1.5px solid rgba(107,79,58,.20);  /* ★ 稍深的棕色實線，區分表頭與資料 */
+      border-right: none;          /* ★ 移除豎格線 */
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    /* 資料格：只有底部有淡色虛線，無豎格線 */
+    .article-table td {
+      padding: .6rem .9rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.075);  /* ★ 淡色實線橫軸分隔 */
+      border-right: none;          /* ★ 移除豎格線 */
+      color: var(--ink-mid);
+      font-size: .80rem;
+      vertical-align: middle;
+    }
+
+    /* 最後一列：底部無分隔線（已有外框線，不需要再加）*/
     .article-table tr:last-child td { border-bottom: none; }
-    .article-table.striped tbody tr:nth-child(even) td { background: rgba(0,0,0,.025); }
+
+    /* Striped 交替色：極淡，只是輔助視線追蹤，不喧賓奪主 */
+    .article-table.striped tbody tr:nth-child(even) td {
+      background: rgba(107,79,58,.025);
+    }
+    /* 表格內的 article-list 繼承格子的較小字體 */
+    .article-table td .article-list {
+      font-size: .78rem !important;
+      line-height: 1.65 !important;
+      margin-bottom: 0 !important;
+    }
+    .article-table td .article-list li { margin-bottom: .2rem; }
+    /* ★ cell-plain：米白色底格（用於總結列、備注列）
+       不使用任何彩色，讓這列視覺上融入背景，作為表格的「收尾」
+       使用方式：<td class="cell-plain"> */
+    .cell-plain {
+      background: var(--bg) !important;
+      color: var(--ink-mid) !important;
+      border-top: 1px solid rgba(107,79,58,.15) !important;  /* 和正文分隔的細棕線 */
+    }
+
+    /* ★ 無交替色表格（all-plain）：所有列背景都是米白色
+       用於需要「統一底色」的表格，視覺上更安靜、更整潔
+       使用方式：<table class="article-table all-plain"> */
+    .article-table.all-plain tbody tr td {
+      background: var(--bg) !important;
+    }
+
+
     .t-left { text-align: left; } .t-center { text-align: center; } .t-right { text-align: right; }
     .v-top { vertical-align: top; } .v-middle { vertical-align: middle; } .v-bottom { vertical-align: bottom; }
     .cell-accent { background: rgba(107,79,58,.08) !important; }
     .cell-yellow { background: rgba(250,199,117,.25) !important; }
     .cell-green  { background: rgba(151,196,89,.18) !important; }
     .cell-blue   { background: rgba(55,138,221,.12) !important; }
-    .cell-header { background: rgba(26,25,22,.07) !important; font-weight: 500; color: var(--ink) !important; }
+    /* ★ cell-header：第一欄 Y 軸標題格，使用米白色底（頁面主視覺色）
+       這樣 Y 軸標籤視覺上退到「背景」，讓讀者專注在資料格的內容 */
+    .cell-header {
+      background: var(--bg) !important;   /* 米白色 = 頁面底色，無彩色干擾 */
+      font-weight: 600;
+      font-size: .76rem;
+      color: var(--ink-mid) !important;   /* 稍淡的墨色，和資料格有層次感 */
+      letter-spacing: .02em;
+    }
 
     /* ============================================================
        附件下載卡片
@@ -1118,7 +1211,7 @@
     <h1 class="article-title">Why Helpers Also Need to Build</h1>
     <p class="article-subtitle">從 Naval Ravikant 的財富自由哲學，重新理解助人者的知識生產使命</p>
     <div class="article-meta">
-      <span>2026 &middot; March</span>
+      <span>2026 &middot; Mar 20</span>
       <span>約 8 分鐘閱讀</span>
     </div>
 
@@ -1322,6 +1415,13 @@
           3. <colgroup> 可以預先設定各欄的寬度比例，
              這樣不論內容多少，欄寬都固定，視覺更整齊。
       -->
+      <hr class="divider divider-dot">
+
+      <p>以下將同一張表格以兩種排版方式對比呈現，讓你直觀感受 <code>striped</code> class 的視覺差異，以便日後書寫新表格時做出選擇。</p>
+
+      <p style="margin-bottom:.8rem; font-size:.82rem; color:var(--ink-lite); font-family:var(--mono); letter-spacing:.08em; text-transform:uppercase;">
+        ▲ 版本 A ── Striped 交替行色（偶數列有淡底色）
+      </p>
       <div class="article-table-wrap">
         <table class="article-table striped">
 
@@ -1480,8 +1580,9 @@
                  注意：一旦某格用了 colspan="4"，這一列就只需要寫這一個 <td>
             -->
             <tr>
-              <td colspan="4" class="t-center cell-accent"
-                  style="font-size: .83rem; color: var(--ink-mid); padding: .6rem 1.2rem; font-style: italic;">
+              <!-- ★ 最後總結列：cell-plain（米白色底），讓它視覺上作為表格的「收尾語」 -->
+              <td colspan="4" class="t-center cell-plain"
+                  style="font-size: .78rem; padding: .65rem 1.2rem; font-style: italic;">
                 三條路徑並非互斥——最理想的狀態是以實務為原料、以學術為校驗、以自媒體為傳播媒介，三者相輔相成。
               </td>
             </tr>
@@ -1489,6 +1590,77 @@
           </tbody>
         </table>
       </div>
+
+      <!-- ============================================================
+           ★ 表格二：「全米白色」版本（all-plain，無交替色）
+           ============================================================
+           和上方表格內容完全相同，用於對比兩種「行底色」設計的視覺差異：
+             表格一（striped）：偶數列（2、4、6...）有極淡底色，奇數列無底色
+             表格二（all-plain）：所有列底色統一為米白色，無交替
+           設計邏輯：
+             striped → 行數多時，交替色幫助視線追蹤，不容易讀錯行
+             all-plain → 行數少或追求「安靜感」時，統一底色更整潔
+           ============================================================ -->
+      <p style="margin-top:2.5rem; margin-bottom:.8rem; font-size:.82rem; color:var(--ink-lite); font-family:var(--mono); letter-spacing:.08em; text-transform:uppercase;">
+        ▼ 對照版：全米白色底色（all-plain，無交替行色）
+      </p>
+      <div class="article-table-wrap">
+        <table class="article-table all-plain">
+          <colgroup>
+            <col style="width: 18%">
+            <col style="width: 27%">
+            <col style="width: 27%">
+            <col style="width: 28%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="t-center"></th>
+              <th class="t-center">純實務積累</th>
+              <th class="t-center">學術寫作</th>
+              <th class="t-center cell-accent">知識型自媒體</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="cell-header t-center v-middle">影響範圍</td>
+              <td><ul class="article-list"><li>服務現有案主</li><li>知識停留在個人</li></ul></td>
+              <td><ul class="article-list"><li>同領域學術社群</li><li>發表後才有影響力</li></ul></td>
+              <td class="cell-green"><ul class="article-list"><li><mark class="hl-green">任何有網路的人</mark></li><li>發布後立即可觸及</li></ul></td>
+            </tr>
+            <tr>
+              <td class="cell-header t-center v-middle">門檻</td>
+              <td class="v-top">需要機構聘用、實習資格、督導關係</td>
+              <td class="v-top">需要學術訓練、機構認可、同儕審查</td>
+              <td class="cell-accent v-top"><strong>今天就可以開始</strong>——只需要一個可以寫字的地方</td>
+            </tr>
+            <tr>
+              <td class="cell-header t-center v-middle">回饋速度</td>
+              <td>即時，但僅限現場的案主與督導</td>
+              <td class="cell-yellow"><em>數月至數年</em>（審稿週期漫長）</td>
+              <td>發布後<mark class="hl-yellow">數小時至數天</mark>內即可獲得讀者反應</td>
+            </tr>
+            <tr>
+              <td class="cell-header t-center v-middle">倫理風險</td>
+              <td class="cell-yellow v-top">高——直接接觸脆弱個案，規範複雜，每個決策都影響真實的人</td>
+              <td class="v-top">中——需要引用倫理、研究同意書，但不涉及直接服務</td>
+              <td class="v-top">低——只要遵守<strong>不書寫可識別個案資訊</strong>的原則，風險幾乎可以管控</td>
+            </tr>
+            <tr>
+              <td class="cell-header t-center v-middle">可累積性</td>
+              <td class="t-center">低<br><span style="font-size:.78rem; color:var(--ink-lite)">經驗在腦中，難以傳遞</span></td>
+              <td class="t-center">中<br><span style="font-size:.78rem; color:var(--ink-lite)">論文可被引用，但觸及有限</span></td>
+              <td class="t-center cell-green"><strong>高</strong><br><span style="font-size:.78rem; color:var(--ink-lite)">文章永久存在，持續被搜尋</span></td>
+            </tr>
+            <tr>
+              <td colspan="4" class="t-center cell-plain"
+                  style="font-size: .78rem; padding: .65rem 1.2rem; font-style: italic;">
+                三條路徑並非互斥——最理想的狀態是以實務為原料、以學術為校驗、以自媒體為傳播媒介，三者相輔相成。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
 
       <hr class="divider">
 
