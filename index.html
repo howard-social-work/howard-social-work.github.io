@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Howard Chang｜知識・實踐・助人</title>
+  <title>Howard｜知識・實踐・助人</title>
   <meta name="description" content="社會工作與諦商心理的實務科學家，知識型創作者。">
   <meta name="author" content="Howard Chang">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -79,7 +79,7 @@
     .work-item { display: grid; grid-template-columns: 80px 1fr; gap: 2rem; padding: 2rem 0; border-top: 1px solid var(--border); text-decoration: none; color: inherit; transition: opacity .2s; }
     .work-item:first-child { border-top: none; }
     .work-item:hover { opacity: .6; }
-    .work-meta { display: flex; flex-direction: column; align-items: flex-end; padding-top: .15rem; }
+    .work-meta { display: flex; flex-direction: column; align-items: flex-end; padding-top: .1rem; gap: .4rem; }
     .work-date { font-family: var(--mono); font-size: .62rem; color: var(--ink-lite); }
     .work-cat { font-family: var(--mono); font-size: .58rem; color: var(--accent); text-transform: uppercase; margin-top: .4rem; }
     .work-title { font-family: var(--zh); font-size: 1rem; font-weight: 500; line-height: 1.4; margin-bottom: .4rem; }
@@ -135,16 +135,25 @@
       footer .container{flex-direction:column;gap:.5rem;align-items:flex-start}
     }
     @media(max-width:420px){ .dtiles{grid-template-columns:1fr} }
+
+    /* === 智識姿態標簽 === */
+    .gesture-tag{font-family:var(--zh);font-size:.72rem;font-weight:500;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:4px;flex-shrink:0;}
+    .gesture-tag.ask     {background:rgba(107,79,58,.11); color:#6B4F3A;}
+    .gesture-tag.analyze {background:rgba(52,85,100,.11); color:#345564;}
+    .gesture-tag.record  {background:rgba(55,90,60,.11);  color:#375A3C;}
+    .gesture-tag.advocate{background:rgba(90,70,130,.11); color:#5A4682;}
+    .domain-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem;}
+    .domain-tag{font-family:var(--mono);font-size:.58rem;letter-spacing:.07em;color:var(--ink-lite);border:1px solid var(--border);padding:.15rem .5rem;border-radius:2px;}
   </style>
 </head>
 <body>
 
 <nav>
   <div class="container">
-    <a href="#hero" class="nav-name">Howard Chang</a>
+    <a href="#hero" class="nav-name">Howard</a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
-      <li><a href="#works">Writing</a></li>
+      <li><a href="#writing">Writing</a></li>
       <li><a href="#domains">Domains</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -209,7 +218,7 @@
 </section>
 
 <!-- ====== Works ====== -->
-<section id="works">
+<section id="writing">
   <div class="container">
     <p class="sec-label">Writing &amp; Works</p>
     <h2 class="sec-title">文章&middot;作品</h2>
@@ -225,33 +234,36 @@
     <a href="articles/why-helpers-need-to-build.html" class="work-item">
       <div class="work-meta">
         <span class="work-date">2026</span>
-        <span class="work-cat">Essay</span>
+        <span class="gesture-tag advocate">唱</span>
       </div>
       <div>
         <p class="work-title">為什麼助人工作者也需要「建造」的能力？</p>
         <p class="work-exc">從 Naval Ravikant 的財富自由哲學，重新理解助人者的知識生產使命。</p>
+        <div class="domain-tags"><span class="domain-tag">知識創作</span><span class="domain-tag">創投思維</span></div>
       </div>
     </a>
 
     <a href="#" class="work-item">
       <div class="work-meta">
         <span class="work-date">2026</span>
-        <span class="work-cat">Practice Note</span>
+        <span class="gesture-tag record">記</span>
       </div>
       <div>
         <p class="work-title">社區心理衛生社工的第一線觀察</p>
         <p class="work-exc">實習期間的田野筆記：精神疾患、物質濫用與脆弱家庭的交織現場。</p>
+        <div class="domain-tags"><span class="domain-tag">心理衛生社工</span><span class="domain-tag">社區實踐</span></div>
       </div>
     </a>
 
     <a href="#" class="work-item">
       <div class="work-meta">
         <span class="work-date">2025</span>
-        <span class="work-cat">Reflection</span>
+        <span class="gesture-tag ask">問</span>
       </div>
       <div>
         <p class="work-title">休學兩年，我學到了什麼？</p>
         <p class="work-exc">存在性焦慮、生命無意義感，與重新找到使命的漫長過程。</p>
+        <div class="domain-tags"><span class="domain-tag">哲學存在主義</span><span class="domain-tag">知識創作</span></div>
       </div>
     </a>
 
@@ -346,7 +358,7 @@
     </p>
     <div class="clinks">
       <!-- ★ 請替換成你真實的联絡方式，沒有的平台就削除對應 <a> 區塊 -->
-      <a href="mailto:your@email.com" class="clink"><span class="clink-label">Email</span><span class="clink-val">your@email.com</span></a>
+      <a href="/cdn-cgi/l/email-protection#156c7a6067557078747c793b767a78" class="clink"><span class="clink-label">Email</span><span class="clink-val"><span class="__cf_email__" data-cfemail="423b2d373002272f232b2e6c212d2f">[email&#160;protected]</span></span></a>
       <a href="https://threads.net/@yourhandle" target="_blank" rel="noopener" class="clink"><span class="clink-label">Threads</span><span class="clink-val">@yourhandle</span></a>
       <a href="https://instagram.com/yourhandle" target="_blank" rel="noopener" class="clink"><span class="clink-label">Instagram</span><span class="clink-val">@yourhandle</span></a>
     </div>
@@ -361,9 +373,4 @@
 </footer>
 
 <a href="#hero" class="btt" id="btt">&uarr;</a>
-<script>
-  const b = document.getElementById('btt');
-  window.addEventListener('scroll', () => b.classList.toggle('visible', scrollY > 300));
-</script>
-</body>
-</html>
+<script data-cfasync="false" src="/cdn-cgi/
