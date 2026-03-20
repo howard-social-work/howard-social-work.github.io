@@ -462,7 +462,8 @@
        這樣和整體米棕色系視覺語言保持一致。 */
     .file-card {
       display: flex;
-      align-items: center;        /* ★ 關鍵：確保圖示和文字垂直置中對齊 */
+      align-items: center;
+      flex-wrap: nowrap;          /* ★ 絕不換行，所有元素保持在同一列 */
       gap: .85rem;
       padding: .75rem 1rem;
       border: 1px solid var(--border);
@@ -498,8 +499,24 @@
       justify-content: center;    /* 垂直置中檔名和 meta */
       gap: .2rem;
     }
-    .file-name { font-family: var(--zh); font-size: .84rem; font-weight: 500; color: var(--ink); line-height: 1.3; margin: 0; }
-    .file-meta { font-family: var(--mono); font-size: .60rem; color: var(--ink-lite); line-height: 1.3; margin: 0; }
+    /* ★ 使用 .file-card 作為父選擇器，提升優先權以覆蓋 .article-body p 的規則
+       .article-body p 設了 margin-bottom: 1.8rem 和 line-height: 2.0，
+       如果不覆蓋，卡片裡的 <p> 標籤會繼承這些值，導致間距爆炸。 */
+    .file-card .file-name {
+      font-family: var(--zh);
+      font-size: .86rem;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.35 !important;
+      margin: 0 !important;
+    }
+    .file-card .file-meta {
+      font-family: var(--mono);
+      font-size: .62rem;
+      color: var(--ink-lite);
+      line-height: 1.35 !important;
+      margin: 0 !important;
+    }
     .file-btn { font-family: var(--mono); font-size: .60rem; letter-spacing: .08em; color: var(--accent); text-decoration: none; text-transform: uppercase; border: 1px solid var(--accent); padding: .3rem .7rem; border-radius: 4px; white-space: nowrap; transition: background .15s, color .15s; }
     .file-btn:hover { background: var(--accent); color: var(--bg); }
 
