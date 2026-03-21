@@ -1,0 +1,248 @@
+/* ============================================================
+   Howard's Custom Giscus Theme
+   ——————————————————————————————————————————————————————————
+   此檔案需上傳至 GitHub Pages 根目錄，路徑如下：
+   howard-social-work.github.io/giscus-theme.css
+   完整公開網址：https://howard-social-work.github.io/giscus-theme.css
+
+   設計系統對應：
+     背景   #F8F6F1  →  --color-canvas-default
+     主文字 #1A1916  →  --color-fg-default
+     強調棕 #6B4F3A  →  --color-accent-fg / 按鈕
+     邊框   #DEDAD3  →  --color-border-default
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap');
+
+/* ── CSS 變數：覆寫 GitHub Primer 的色系 ───────────── */
+:root {
+  /* 背景層 */
+  --color-canvas-default:    #F8F6F1;
+  --color-canvas-subtle:     #F0EDE7;
+  --color-canvas-inset:      #EDE9E2;
+  --color-canvas-overlay:    #F8F6F1;
+
+  /* 文字 */
+  --color-fg-default:        #1A1916;
+  --color-fg-muted:          #4A4843;
+  --color-fg-subtle:         #8C8982;
+  --color-fg-on-emphasis:    #FFFFFF;
+
+  /* 邊框 */
+  --color-border-default:    #DEDAD3;
+  --color-border-muted:      rgba(222, 218, 211, 0.6);
+  --color-border-subtle:     rgba(222, 218, 211, 0.4);
+
+  /* 強調色（連結、焦點環） */
+  --color-accent-fg:         #6B4F3A;
+  --color-accent-emphasis:   #6B4F3A;
+  --color-accent-muted:      rgba(107, 79, 58, 0.15);
+  --color-accent-subtle:     rgba(107, 79, 58, 0.08);
+
+  /* 中性色 */
+  --color-neutral-emphasis-plus: #4A4843;
+  --color-neutral-emphasis:  #8C8982;
+  --color-neutral-muted:     rgba(140, 137, 130, 0.20);
+  --color-neutral-subtle:    rgba(140, 137, 130, 0.10);
+
+  /* 普通按鈕 */
+  --color-btn-text:          #1A1916;
+  --color-btn-bg:            #F8F6F1;
+  --color-btn-border:        #DEDAD3;
+  --color-btn-shadow:        0 1px 0 rgba(0, 0, 0, 0.06);
+  --color-btn-inset-shadow:  inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  --color-btn-hover-bg:      #F0EDE7;
+  --color-btn-hover-border:  #C8C4BD;
+  --color-btn-active-bg:     #EAE6DF;
+  --color-btn-selected-bg:   rgba(107, 79, 58, 0.06);
+  --color-btn-counter-bg:    rgba(107, 79, 58, 0.08);
+
+  /* 主要按鈕（「用 GitHub 登入」按鈕） */
+  --color-btn-primary-text:                 #FFFFFF;
+  --color-btn-primary-bg:                   #6B4F3A;
+  --color-btn-primary-border:               rgba(107, 79, 58, 0.85);
+  --color-btn-primary-shadow:               0 1px 0 rgba(107, 79, 58, 0.25);
+  --color-btn-primary-inset-shadow:         inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --color-btn-primary-hover-bg:             #5A4130;
+  --color-btn-primary-hover-border:         rgba(107, 79, 58, 0.95);
+  --color-btn-primary-selected-bg:          #4E3828;
+  --color-btn-primary-counter-bg:           rgba(255, 255, 255, 0.15);
+  --color-btn-primary-disabled-text:        rgba(255, 255, 255, 0.45);
+  --color-btn-primary-disabled-bg:          rgba(107, 79, 58, 0.45);
+  --color-btn-primary-disabled-border:      rgba(107, 79, 58, 0.40);
+
+  /* 輸入框 */
+  --color-input-bg:           #FFFFFF;
+  --color-input-disabled-bg:  #F0EDE7;
+  --color-input-border:       #DEDAD3;
+  --color-input-checked-bg:   #6B4F3A;
+  --color-input-checked-border: #6B4F3A;
+
+  /* 反應按鈕（已關閉，但保留定義以防萬一） */
+  --color-social-reaction-bg-reacted-hover: rgba(107, 79, 58, 0.10);
+  --color-social-reaction-bg-hover:         rgba(107, 79, 58, 0.06);
+
+  /* Header 列 */
+  --color-header-bg:         #F8F6F1;
+  --color-header-divider:    #DEDAD3;
+  --color-header-text:       #1A1916;
+}
+
+/* ── Body：字型與底色 ──────────────────────────────── */
+body {
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: #F8F6F1;
+  color: #1A1916;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+main {
+  background-color: #F8F6F1;
+}
+
+/* ── 超連結 ────────────────────────────────────────── */
+a {
+  color: #6B4F3A;
+  text-underline-offset: 2px;
+}
+a:hover {
+  color: #4E3828;
+}
+
+/* ── Markdown 內文 ─────────────────────────────────── */
+.markdown-body {
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: transparent;
+  color: #1A1916;
+}
+.markdown-body code,
+.markdown-body pre {
+  background-color: #F0EDE7;
+  border-color: #DEDAD3;
+  color: #4A4843;
+  border-radius: 4px;
+  font-size: 0.82em;
+}
+.markdown-body blockquote {
+  border-left-color: #6B4F3A;
+  color: #4A4843;
+}
+.markdown-body hr {
+  border-color: #DEDAD3;
+}
+
+/* ── 輸入框（留言撰寫區域）────────────────────────── */
+.form-control {
+  background-color: #FFFFFF;
+  border-color: #DEDAD3;
+  color: #1A1916;
+  border-radius: 6px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 13.5px;
+}
+.form-control:focus {
+  border-color: #6B4F3A;
+  box-shadow: 0 0 0 3px rgba(107, 79, 58, 0.14);
+  outline: none;
+}
+textarea.form-control {
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* ── 登入按鈕（把 GitHub 預設綠色改成棕色）─────────── */
+.btn-primary {
+  background-color: #6B4F3A !important;
+  background-image: none !important;
+  border-color: rgba(107, 79, 58, 0.8) !important;
+  color: #FFFFFF !important;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  box-shadow: 0 1px 0 rgba(107, 79, 58, 0.25);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.btn-primary:hover {
+  background-color: #5A4130 !important;
+  border-color: rgba(107, 79, 58, 0.95) !important;
+}
+.btn-primary:active {
+  background-color: #4E3828 !important;
+}
+
+/* ── 普通按鈕（取消、次要操作）────────────────────── */
+.btn {
+  background-color: #F8F6F1;
+  border-color: #DEDAD3;
+  color: #1A1916;
+  font-family: 'Manrope', sans-serif;
+  border-radius: 6px;
+  transition: background-color 0.12s ease, border-color 0.12s ease;
+}
+.btn:hover {
+  background-color: #F0EDE7;
+  border-color: #C8C4BD;
+}
+
+/* ── Tab 切換（輸入 / 預覽）───────────────────────── */
+.tabnav-tab {
+  color: #4A4843;
+  font-family: 'Manrope', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+}
+.tabnav-tab.selected,
+.tabnav-tab[aria-selected="true"] {
+  color: #1A1916;
+  font-weight: 500;
+  border-color: #DEDAD3 #DEDAD3 #F8F6F1;
+  background-color: #F8F6F1;
+}
+
+/* ── 標題（留言計數「0 則留言」等）────────────────── */
+h1, h2, h3, h4 {
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 500;
+  color: #1A1916;
+  letter-spacing: 0.01em;
+}
+
+/* ── 分隔線 ────────────────────────────────────────── */
+hr {
+  border-color: #DEDAD3;
+  opacity: 0.8;
+}
+
+/* ── 留言卡片 ──────────────────────────────────────── */
+.timeline-comment {
+  border-color: #DEDAD3 !important;
+  background-color: #F8F6F1;
+  border-radius: 8px !important;
+}
+.timeline-comment-header {
+  background-color: #F0EDE7 !important;
+  border-bottom-color: #DEDAD3 !important;
+  border-radius: 8px 8px 0 0;
+}
+
+/* ── 標籤（Label）──────────────────────────────────── */
+.label {
+  border-radius: 4px;
+}
+
+/* ── 捲軸美化（WebKit）────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #DEDAD3;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C8C4BD;
+}
