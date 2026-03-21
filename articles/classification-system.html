@@ -339,6 +339,18 @@
     .combo-desc { font-family: var(--zh); font-size: .78rem; color: var(--ink-mid); line-height: 1.6;
       text-align: justify; text-justify: inter-character; }
 
+    /* ── Comments（Giscus 留言區）──────────────────────── */
+    .comments-section {
+      padding: 3rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .comments-title {
+      font-family: var(--serif-en), var(--zh);
+      font-size: 1.1rem; font-weight: 500;
+      color: var(--ink-mid); letter-spacing: .06em;
+      margin-bottom: 1.5rem;
+    }
+
     /* ── Footer / Author ─────────────────────────────────── */
     .article-footer { padding: 3rem 0; border-top: 1px solid var(--border); }
     .author-name { font-family: var(--serif-en), var(--zh); font-size: 1rem; font-weight: 400; letter-spacing: .04em; }
@@ -1293,6 +1305,30 @@
         </div>
       </a>
     </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     留言區（Giscus）✅ 已完整啟用
+     ============================================================ -->
+<section class="comments-section container">
+  <h2 class="comments-title">留言與討論</h2>
+  <div class="giscus-wrap">
+    <script src="https://giscus.app/client.js"
+        data-repo="howard-social-work/howard-social-work.github.io"
+        data-repo-id="R_kgDORre7fQ"
+        data-category="General"
+        data-category-id="DIC_kwDORre7fc4C4333"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="https://howard-social-work.github.io/giscus-theme.css"
+        data-lang="zh-TW"
+        crossorigin="anonymous"
+        async>
+    </script>
   </div>
 </section>
 
